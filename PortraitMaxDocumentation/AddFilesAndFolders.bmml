@@ -1,0 +1,29 @@
+<mockup version="1.0" skin="sketch" fontFace="Balsamiq Sans" measuredW="686" measuredH="520" mockupW="450" mockupH="400">
+  <controls>
+    <control controlID="0" controlTypeID="com.balsamiq.mockups::TitleWindow" x="236" y="120" w="-1" h="-1" measuredW="450" measuredH="400" zOrder="0" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Add%20File%28s%29%20and%20Folder%28s%29%20to%20Sales%20Presentation</text>
+      </controlProperties>
+    </control>
+    <control controlID="1" controlTypeID="com.balsamiq.mockups::List" x="251" y="154" w="100" h="302" measuredW="100" measuredH="149" zOrder="1" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Favorites%0Aand%0ADirectory%20Tree%0Asimilar%20to%0AWindows%20%0Aor%20Mac%20%0Adepending</text>
+      </controlProperties>
+    </control>
+    <control controlID="2" controlTypeID="com.balsamiq.mockups::List" x="356" y="154" w="315" h="303" measuredW="100" measuredH="126" zOrder="2" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Standard%20file%20list</text>
+      </controlProperties>
+    </control>
+    <control controlID="3" controlTypeID="com.balsamiq.mockups::TextInput" x="314" y="463" w="357" h="-1" measuredW="79" measuredH="27" zOrder="3" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text/>
+      </controlProperties>
+    </control>
+    <control controlID="4" controlTypeID="com.balsamiq.mockups::Label" x="254" y="467" w="-1" h="-1" measuredW="55" measuredH="21" zOrder="4" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Name%28s%29</text>
+      </controlProperties>
+    </control>
+  </controls>
+</mockup>
