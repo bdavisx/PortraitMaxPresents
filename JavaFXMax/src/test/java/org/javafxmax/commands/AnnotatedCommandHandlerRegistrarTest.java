@@ -72,11 +72,13 @@ public class AnnotatedCommandHandlerRegistrarTest {
   public static class CommandDistributorRecorder extends CommandDistributor {
     public boolean testCommandRegistered;
 
-    @Override public <T> void register( Class<T> messageClass, Consumer<T> consumer ) {
-      if( messageClass.equals( TestApplicationCommand.class ) ) {
+    public CommandDistributorRecorder() {super( objectDistributor );}
+
+    @Override public <T> void register( Class<T> commandClass, Consumer<T> consumer ) {
+      if( commandClass.equals( TestApplicationCommand.class ) ) {
         testCommandRegistered = true;
       }
-      super.register( messageClass, consumer );
+      super.register( commandClass, consumer );
     }
   }
 

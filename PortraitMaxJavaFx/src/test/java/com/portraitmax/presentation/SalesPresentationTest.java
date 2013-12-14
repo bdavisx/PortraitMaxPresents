@@ -1,6 +1,7 @@
 package com.portraitmax.presentation;
 
 import com.google.common.eventbus.EventBus;
+import org.javafxmax.events.EventContainer;
 import org.junit.Before;
 import org.junit.Test;
 import org.powermock.api.mockito.PowerMockito;
@@ -25,15 +26,15 @@ public class SalesPresentationTest {
     final ArrayList<File> filesUserChose = new ArrayList<>( Arrays.asList( new File[]{ file1, file2 } ) );
 
     UUID testId = UUID.randomUUID();
-    EventBus eventBus = PowerMockito.mock( EventBus.class );
+    EventContainer eventContainer = PowerMockito.mock( EventContainer.class );
 
-    SalesPresentation presentation = new SalesPresentation( eventBus );
+    SalesPresentation presentation = new SalesPresentation( eventContainer );
     presentation.setPresentationId( testId );
 
     AddFilesToPresentationCommand command = new AddFilesToPresentationCommand( testId, filesUserChose );
     presentation.handle( command );
 
-    verify( eventBus ).post( new FilesAddedToPresentationEvent( testId, filesUserChose ) );
+    verify( eventContainer ).addEvent( new FilesAddedToPresentationEvent( testId, filesUserChose ) );
   }
 
 }

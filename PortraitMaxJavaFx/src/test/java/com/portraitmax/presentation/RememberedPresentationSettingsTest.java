@@ -1,4 +1,4 @@
-package com.portraitmax.javafx.imagemanagement;
+package com.portraitmax.presentation;
 
 import java.io.File;
 

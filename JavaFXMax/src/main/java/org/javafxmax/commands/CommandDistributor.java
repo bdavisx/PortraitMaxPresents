@@ -1,24 +1,22 @@
 package org.javafxmax.commands;
 
+import org.javafxmax.distributors.ObjectDistributor;
+import org.javafxmax.distributors.SimpleObjectDistributor;
+
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Consumer;
 
-public class CommandDistributor {
-  private final Map< Class, Consumer > classToConsumerMap = new ConcurrentHashMap<>();
+public class CommandDistributor implements ObjectDistributor {
+  private final ObjectDistributor objectDistributor;
 
-  public <T> void register( Class<T> messageClass, Consumer<T> consumer ) {
-    classToConsumerMap.put( messageClass, consumer );
+  public CommandDistributor( ObjectDistributor objectDistributor ) {
+    this.objectDistributor = objectDistributor;
   }
 
-  public void send( Object command ) {
-    findConsumer( command ).accept( command );
+  @Override public <T> void register( Class<T> commandClass, Consumer<T> consumer ) {
+    objectDistributor.register( commandClass, consumer );
   }
 
-  private Consumer findConsumer( Object command ) {
-    Consumer consumer = classToConsumerMap.get( command.getClass() );
-    if( consumer == null ) throw new NoHandlerForCommandException( command );
-    return consumer;
-  }
-
+  @Override public void send( Object command ) {objectDistributor.send( command );}
 }
