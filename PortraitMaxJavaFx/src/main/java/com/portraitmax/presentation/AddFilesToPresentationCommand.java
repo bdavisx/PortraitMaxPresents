@@ -1,7 +1,7 @@
 package com.portraitmax.presentation;
 
 import org.apache.commons.lang.builder.HashCodeBuilder;
-import org.javafxmax.domain.commands.ApplicationCommand;
+import org.loosefx.domain.commands.ApplicationCommand;
 
 import java.io.File;
 import java.util.List;

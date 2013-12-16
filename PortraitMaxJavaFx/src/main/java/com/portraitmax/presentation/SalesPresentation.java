@@ -2,8 +2,8 @@ package com.portraitmax.presentation;
 
 
 import com.google.inject.Inject;
-import org.javafxmax.domain.commands.ApplicationCommandHandler;
-import org.javafxmax.events.EventContainer;
+import org.loosefx.domain.commands.ApplicationCommandHandler;
+import org.loosefx.events.EventContainer;
 
 import java.io.File;
 import java.util.ArrayList;

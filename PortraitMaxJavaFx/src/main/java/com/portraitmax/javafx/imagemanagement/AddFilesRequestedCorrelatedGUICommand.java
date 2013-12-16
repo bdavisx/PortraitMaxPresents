@@ -1,7 +1,7 @@
 package com.portraitmax.javafx.imagemanagement;
 
 import javafx.stage.Window;
-import org.javafxmax.mvvm.guicommands.AbstractCorrelatedGUICommand;
+import org.loosefx.mvvm.guicommands.AbstractCorrelatedGUICommand;
 
 import java.util.UUID;
 

@@ -1,7 +1,6 @@
 package com.portraitmax.presentation;
 
-import com.google.common.eventbus.EventBus;
-import org.javafxmax.events.EventContainer;
+import org.loosefx.events.EventContainer;
 import org.junit.Before;
 import org.junit.Test;
 import org.powermock.api.mockito.PowerMockito;

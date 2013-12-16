@@ -6,8 +6,8 @@ import com.google.inject.Inject;
 import com.portraitmax.presentation.AddFilesToPresentationCommand;
 import com.portraitmax.presentation.RememberedPresentationSettings;
 import javafx.stage.FileChooser;
-import org.javafxmax.commands.CommandDistributor;
-import org.javafxmax.mvvm.guicommands.GUICommandHandler;
+import org.loosefx.commands.CommandDistributor;
+import org.loosefx.mvvm.guicommands.GUICommandHandler;
 
 import java.io.File;
 import java.util.List;

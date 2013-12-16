@@ -5,7 +5,7 @@ import com.portraitmax.presentation.RememberedPresentationSettings;
 import javafx.collections.ObservableList;
 import javafx.stage.FileChooser;
 import javafx.stage.Window;
-import org.javafxmax.commands.CommandDistributor;
+import org.loosefx.commands.CommandDistributor;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
