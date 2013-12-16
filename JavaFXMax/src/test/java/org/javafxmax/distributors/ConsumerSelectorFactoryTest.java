@@ -1,18 +1,34 @@
 package org.javafxmax.distributors;
 
-import static  org.junit.Assert.*;
 import static org.fest.assertions.api.Assertions.*;
 
 import org.junit.Test;
 
 public class ConsumerSelectorFactoryTest {
   @Test
+  public void itShouldCreateASingleClassMessageConsumerSelector() throws Exception {
+    ConsumerSelectorFactory factory = new ConsumerSelectorFactory();
+    MessageConsumerSelector consumerSelector = factory.createMessageClassOnlyConsumerSelector( TestEvents.EmptyBaseEvent.class );
+
+    assertThat( consumerSelector ).isOfAnyClassIn( SingleClassMessageConsumerSelector.class );
+  }
+
+  @Test
+  public void itShouldCreateAIncludeSublcassesMessageConsumerSelector() throws Exception {
+    ConsumerSelectorFactory factory = new ConsumerSelectorFactory();
+    MessageConsumerSelector consumerSelector = factory.createMessageClassOnlyConsumerSelector( TestEvents.EmptyBaseEvent.class );
+
+    assertThat( consumerSelector ).isOfAnyClassIn( IncludeSubclassesMessageConsumerSelector.class );
+  }
+
+
+  @Test
   public void itShouldCreateASingleClassSelector() throws Exception {
     ConsumerSelectorFactory factory = new ConsumerSelectorFactory();
-    MessageConsumerSelector consumerSelector = factory.createMessageClassOnlyConsumerSelector( BaseEvent.class );
+    MessageConsumerSelector consumerSelector = factory.createMessageClassOnlyConsumerSelector( TestEvents.EmptyBaseEvent.class );
 
-    BaseEvent baseEvent = new BaseEvent();
-    InheritedEvent inheritedEvent = new InheritedEvent();
+    TestEvents.EmptyBaseEvent baseEvent = new TestEvents.EmptyBaseEvent();
+    TestEvents.EmptyInheritedEvent inheritedEvent = new TestEvents.EmptyInheritedEvent();
 
     assertThat( consumerSelector.test( baseEvent.getClass() ) ).isTrue();
     assertThat( consumerSelector.test( inheritedEvent.getClass() ) ).isFalse();
@@ -22,15 +38,13 @@ public class ConsumerSelectorFactoryTest {
   public void itShouldCreateSubclassSelector() throws Exception {
     ConsumerSelectorFactory factory = new ConsumerSelectorFactory();
     MessageConsumerSelector consumerSelector =
-      factory.createMessageClassAndSubclassesConsumerSelector( BaseEvent.class );
+      factory.createMessageClassAndSubclassesConsumerSelector( TestEvents.EmptyBaseEvent.class );
 
-    BaseEvent baseEvent = new BaseEvent();
-    InheritedEvent inheritedEvent = new InheritedEvent();
+    TestEvents.EmptyBaseEvent baseEvent = new TestEvents.EmptyBaseEvent();
+    TestEvents.EmptyInheritedEvent inheritedEvent = new TestEvents.EmptyInheritedEvent();
 
     assertThat( consumerSelector.test( baseEvent.getClass() ) ).isTrue();
     assertThat( consumerSelector.test( inheritedEvent.getClass() ) ).isTrue();
   }
 
-  public class BaseEvent {}
-  public class InheritedEvent extends BaseEvent {}
 }
