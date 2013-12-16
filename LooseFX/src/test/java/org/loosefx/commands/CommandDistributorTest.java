@@ -13,8 +13,7 @@ public class CommandDistributorTest {
     TestHandler handler = new TestHandler();
     handler.receivedCommand = null;
 
-    ConsumerSelectorFactory consumerSelectorFactory = mock( ConsumerSelectorFactory.class );
-    CommandDistributor distributor = new CommandDistributor( new SimpleObjectDistributor( consumerSelectorFactory ) );
+    CommandDistributor distributor = createDistributorForTests();
     distributor.register( TestCommand.class, handler::handle );
 
     TestCommand command = new TestCommand();
@@ -30,8 +29,7 @@ public class CommandDistributorTest {
     TestHandler2 handler2 = new TestHandler2();
     handler2.receivedCommand = null;
 
-    ConsumerSelectorFactory consumerSelectorFactory = mock( ConsumerSelectorFactory.class );
-    CommandDistributor distributor = new CommandDistributor( new SimpleObjectDistributor( consumerSelectorFactory ) );
+    CommandDistributor distributor = createDistributorForTests();
     distributor.register( TestCommand.class, handler::handle );
     distributor.register( TestCommand2.class, handler2::handle );
 
@@ -49,13 +47,17 @@ public class CommandDistributorTest {
     TestHandler2 handler2 = new TestHandler2();
     handler2.receivedCommand = null;
 
-    ConsumerSelectorFactory consumerSelectorFactory = mock( ConsumerSelectorFactory.class );
-    CommandDistributor distributor = new CommandDistributor( new SimpleObjectDistributor( consumerSelectorFactory ) );
+    CommandDistributor distributor = createDistributorForTests();
     distributor.register( TestCommand.class, handler::handle );
     distributor.register( TestCommand2.class, handler2::handle );
 
     TestCommand3 command = new TestCommand3();
     distributor.send( command );
+  }
+
+  private CommandDistributor createDistributorForTests() {
+    ConsumerSelectorFactory consumerSelectorFactory = new ConsumerSelectorFactory();
+    return new CommandDistributor( new SimpleObjectDistributor( consumerSelectorFactory ) );
   }
 
   private class TestCommand {}

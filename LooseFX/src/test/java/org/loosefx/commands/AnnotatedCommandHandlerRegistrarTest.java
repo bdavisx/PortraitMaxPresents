@@ -59,7 +59,7 @@ public class AnnotatedCommandHandlerRegistrarTest {
 
   public static class TestModule extends AbstractModule {
     @Override protected void configure() {
-      ConsumerSelectorFactory consumerSelectorFactory = mock( ConsumerSelectorFactory.class );
+      ConsumerSelectorFactory consumerSelectorFactory = new ConsumerSelectorFactory();
       bind( CommandDistributor.class ).toInstance( new CommandDistributorRecorder(
         new SimpleObjectDistributor( consumerSelectorFactory ) ) );
       bind( Reflections.class ).toInstance( createReflections() );

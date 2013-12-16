@@ -20,5 +20,10 @@ public class CommandDistributor {
     objectDistributor.unregister( messageClass, consumer );
   }
 
-  public void send( Object command ) {objectDistributor.send( command );}
+  public void send( Object command ) {
+    if( !objectDistributor.doesMessageClassHaveConsumers( command.getClass() ) ) {
+      throw new NoHandlerForCommandException( command );
+    }
+    objectDistributor.send( command );
+  }
 }
