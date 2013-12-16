@@ -16,4 +16,7 @@ public interface ObjectDistributor {
 
   /** Sends notifications to all registered consumers. */
   void send( Object message );
+
+  /** WIll remove all exact match consumers. */
+  <T> void removeAllConsumersForMessageClass( Class<T> messageClass );
 }

@@ -11,11 +11,17 @@ public class ClosureEventBus {
     this.objectDistributor = objectDistributor;
   }
 
-  public <T> void register(
-    Class<T> messageClass, Consumer<T> consumer ) {objectDistributor.register( messageClass, consumer );}
+  public <T> void unregister( Class<T> messageClass, Consumer<T> consumer ) {
+    objectDistributor.unregister( messageClass, consumer );
+  }
 
-  public <T> void unregister( Class<T> messageClass,
-    Consumer<T> consumer ) {objectDistributor.unregister( messageClass, consumer );}
+  public <T> void registerOnlyForMessageClass( final Class<T> messageClass, final Consumer<T> consumer ) {
+    objectDistributor.registerOnlyForMessageClass( messageClass, consumer );
+  }
+
+  public <T> void registerForMessageClassAndSubclasses( final Class<T> messageClass, final Consumer<T> consumer ) {
+    objectDistributor.registerForMessageClassAndSubclasses( messageClass, consumer );
+  }
 
   public void send( Object message ) {objectDistributor.send( message );}
 }

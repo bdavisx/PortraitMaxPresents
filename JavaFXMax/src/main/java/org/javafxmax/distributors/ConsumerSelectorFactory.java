@@ -1,6 +1,6 @@
 package org.javafxmax.distributors;
 
-class ConsumerSelectorFactory {
+public class ConsumerSelectorFactory {
   public <T> MessageConsumerSelector createMessageClassOnlyConsumerSelector( Class<T> messageClass ) {
     return new SingleClassMessageConsumerSelector<T>( messageClass );
   }

@@ -14,8 +14,13 @@ public class CommandDistributor {
     this.objectDistributor = objectDistributor;
   }
 
-  public <T> void register( Class<T> commandClass, Consumer<T> consumer ) {
-    objectDistributor.register( commandClass, consumer );
+  public <T> void register( Class<T> messageClass, Consumer<T> consumer ) {
+    objectDistributor.removeAllConsumersForMessageClass( messageClass );
+    objectDistributor.registerOnlyForMessageClass( messageClass, consumer );
+  }
+
+  public <T> void unregister( Class<T> messageClass, Consumer<T> consumer ) {
+    objectDistributor.unregister( messageClass, consumer );
   }
 
   public void send( Object command ) {objectDistributor.send( command );}

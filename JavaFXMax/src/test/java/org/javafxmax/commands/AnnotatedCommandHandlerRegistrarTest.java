@@ -4,6 +4,9 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Singleton;
+import org.javafxmax.distributors.ConsumerSelectorFactory;
+import org.javafxmax.distributors.ObjectDistributor;
+import org.javafxmax.distributors.SimpleObjectDistributor;
 import org.javafxmax.domain.commands.ApplicationCommand;
 import org.javafxmax.domain.commands.ApplicationCommandHandler;
 import org.javafxmax.mvvm.guicommands.AbstractCorrelatedGUICommand;
@@ -18,6 +21,7 @@ import java.util.UUID;
 import java.util.function.Consumer;
 
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.mock;
 
 public class AnnotatedCommandHandlerRegistrarTest {
 
@@ -55,7 +59,9 @@ public class AnnotatedCommandHandlerRegistrarTest {
 
   public static class TestModule extends AbstractModule {
     @Override protected void configure() {
-      bind( CommandDistributor.class ).toInstance( new CommandDistributorRecorder() );
+      ConsumerSelectorFactory consumerSelectorFactory = mock( ConsumerSelectorFactory.class );
+      bind( CommandDistributor.class ).toInstance( new CommandDistributorRecorder(
+        new SimpleObjectDistributor( consumerSelectorFactory ) ) );
       bind( Reflections.class ).toInstance( createReflections() );
       bind( TestClassWithAnnotatedHandlers.class ).in( Singleton.class );
     }
@@ -72,7 +78,9 @@ public class AnnotatedCommandHandlerRegistrarTest {
   public static class CommandDistributorRecorder extends CommandDistributor {
     public boolean testCommandRegistered;
 
-    public CommandDistributorRecorder() {super( objectDistributor );}
+    public CommandDistributorRecorder( ObjectDistributor objectDistributor ) {
+      super( objectDistributor );
+    }
 
     @Override public <T> void register( Class<T> commandClass, Consumer<T> consumer ) {
       if( commandClass.equals( TestApplicationCommand.class ) ) {
