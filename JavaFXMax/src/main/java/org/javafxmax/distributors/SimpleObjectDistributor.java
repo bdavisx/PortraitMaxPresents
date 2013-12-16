@@ -1,25 +1,46 @@
 package org.javafxmax.distributors;
 
-import org.javafxmax.commands.NoHandlerForCommandException;
-
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.function.Consumer;
 
 public class SimpleObjectDistributor implements ObjectDistributor {
-  private final Map< Class, Consumer > classToConsumerMap = new ConcurrentHashMap<>();
+  private final ConsumerSelectorFactory consumerSelectorFactory;
+  private final List<SendMessageIfMatches> messageSenders = new ArrayList<>();
 
-  @Override public <T> void register( Class<T> messageClass, Consumer<T> consumer ) {
-    classToConsumerMap.put( messageClass, consumer );
+  public SimpleObjectDistributor( ConsumerSelectorFactory consumerSelectorFactory ) {
+    this.consumerSelectorFactory = consumerSelectorFactory;
+  }
+
+  @Override public <T> void registerOnlyForMessageClass( Class<T> messageClass, Consumer<T> consumer ) {
+    MessageConsumerSelector selector = consumerSelectorFactory.createMessageClassOnlyConsumerSelector( messageClass );
+    SendMessageIfMatches sender = new SendMessageIfMatches( selector, consumer );
+    messageSenders.add( sender );
+  }
+
+  @Override public <T> void registerForMessageClassAndSubclasses( Class<T> messageClass, Consumer<T> consumer ) {
+    MessageConsumerSelector selector = consumerSelectorFactory.createMessageClassAndSubclassesConsumerSelector(
+      messageClass );
+    SendMessageIfMatches sender = new SendMessageIfMatches( selector, consumer );
+    messageSenders.add( sender );
+  }
+
+  @Override public <T> void unregister( Class<T> messageClass, Consumer<T> consumer ) {
+    for( SendMessageIfMatches sender : new ArrayList<SendMessageIfMatches>( messageSenders ) ) {
+      if( sender.matchesExactly( messageClass, consumer ) ) {
+        messageSenders.remove( sender );
+      }
+    }
   }
 
   @Override public void send( Object command ) {
-    findConsumer( command ).accept( command );
+    for( SendMessageIfMatches sender : new ArrayList<SendMessageIfMatches>( messageSenders ) ) {
+      sender.sendMessage( command );
+    }
   }
 
-  private Consumer findConsumer( Object command ) {
-    Consumer consumer = classToConsumerMap.get( command.getClass() );
-    if( consumer == null ) throw new NoHandlerForCommandException( command );
-    return consumer;
+  @Override public <T> boolean doesMessageClassHaveConsumers( Class<T> messageClass ) {
+    return messageSenders.stream().anyMatch( (sender) -> sender.matchesForSending( messageClass ) );
   }
 }
+

@@ -1,5 +1,21 @@
 package org.javafxmax.events;
 
-public class ClosureEventBus {
+import org.javafxmax.distributors.ObjectDistributor;
 
+import java.util.function.Consumer;
+
+public class ClosureEventBus {
+  private final ObjectDistributor objectDistributor;
+
+  public ClosureEventBus( ObjectDistributor objectDistributor ) {
+    this.objectDistributor = objectDistributor;
+  }
+
+  public <T> void register(
+    Class<T> messageClass, Consumer<T> consumer ) {objectDistributor.register( messageClass, consumer );}
+
+  public <T> void unregister( Class<T> messageClass,
+    Consumer<T> consumer ) {objectDistributor.unregister( messageClass, consumer );}
+
+  public void send( Object message ) {objectDistributor.send( message );}
 }

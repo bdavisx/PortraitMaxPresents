@@ -7,16 +7,16 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Consumer;
 
-public class CommandDistributor implements ObjectDistributor {
+public class CommandDistributor {
   private final ObjectDistributor objectDistributor;
 
   public CommandDistributor( ObjectDistributor objectDistributor ) {
     this.objectDistributor = objectDistributor;
   }
 
-  @Override public <T> void register( Class<T> commandClass, Consumer<T> consumer ) {
+  public <T> void register( Class<T> commandClass, Consumer<T> consumer ) {
     objectDistributor.register( commandClass, consumer );
   }
 
-  @Override public void send( Object command ) {objectDistributor.send( command );}
+  public void send( Object command ) {objectDistributor.send( command );}
 }
