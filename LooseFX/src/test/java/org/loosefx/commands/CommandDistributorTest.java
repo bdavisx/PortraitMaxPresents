@@ -1,9 +1,13 @@
 package org.loosefx.commands;
 
 import org.loosefx.distributors.ConsumerSelectorFactory;
+import org.loosefx.distributors.ObjectDistributor;
 import org.loosefx.distributors.SimpleObjectDistributor;
 import org.junit.Assert;
 import org.junit.Test;
+
+import java.util.function.Consumer;
+
 import static org.mockito.Mockito.*;
 
 public class CommandDistributorTest {
@@ -20,6 +24,21 @@ public class CommandDistributorTest {
     distributor.send( command );
 
     Assert.assertSame( command, handler.receivedCommand );
+  }
+
+  @Test
+  public void itShouldPassThruUnregister() throws Exception {
+    TestHandler handler = new TestHandler();
+    handler.receivedCommand = null;
+
+    ConsumerSelectorFactory consumerSelectorFactory = new ConsumerSelectorFactory();
+    ObjectDistributor objectDistributor = mock( ObjectDistributor.class );
+    CommandDistributor distributor = new CommandDistributor( objectDistributor );
+    Consumer<TestCommand> consumer = handler::handle;
+    distributor.register( TestCommand.class, consumer );
+    distributor.unregister( TestCommand.class, consumer );
+
+    verify( objectDistributor ).unregister( TestCommand.class, consumer );
   }
 
   @Test
