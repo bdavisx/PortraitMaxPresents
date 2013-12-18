@@ -2,6 +2,8 @@ package org.loosefx.events;
 
 import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
+import org.bushe.swing.event.EventSubscriber;
+import org.bushe.swing.event.ThreadSafeEventService;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -12,8 +14,13 @@ public class EventContainerTest {
     DummyEvent event = new DummyEvent();
 
     EventHandler handler = new EventHandler();
-    EventBus eventBus = new EventBus();
-    eventBus.register( handler );
+    ThreadSafeEventService eventBus = new ThreadSafeEventService();
+    eventBus.subscribe( DummyEvent.class, new EventSubscriber() {
+      @Override
+      public void onEvent( final Object event ) {
+        handler.handleDummyEvent( (DummyEvent) event );
+      }
+    } );
     EventContainer eventContainer = new EventContainer( eventBus );
 
     eventContainer.addEvent( event );
@@ -24,12 +31,10 @@ public class EventContainerTest {
   private static class EventHandler {
     private DummyEvent event;
 
-    @Subscribe
     public void handleDummyEvent( DummyEvent event ) {
       this.event = event;
     }
   }
-
 
   private static class DummyEvent {}
 }

@@ -4,9 +4,11 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Singleton;
+import org.bushe.swing.event.EventService;
+import org.bushe.swing.event.EventSubscriber;
+import org.bushe.swing.event.ThreadSafeEventService;
+import org.bushe.swing.exception.EventBusException;
 import org.loosefx.distributors.ConsumerSelectorFactory;
-import org.loosefx.distributors.ObjectDistributor;
-import org.loosefx.distributors.SimpleObjectDistributor;
 import org.loosefx.domain.commands.ApplicationCommand;
 import org.loosefx.domain.commands.ApplicationCommandHandler;
 import org.loosefx.mvvm.guicommands.AbstractCorrelatedGUICommand;
@@ -40,7 +42,7 @@ public class AnnotatedCommandHandlerRegistrarTest {
     assertTrue( commandDistributor.testCommandRegistered );
   }
 
-  @Test( expected = UnableToInvokeAutoRegisteredCommandHandlerException.class )
+  @Test( expected = EventBusException.class )
   public void exeptionInHandler() {
     Injector injector = Guice.createInjector( new TestModule() );
     CommandDistributorRecorder distributor =
@@ -61,7 +63,8 @@ public class AnnotatedCommandHandlerRegistrarTest {
     @Override protected void configure() {
       ConsumerSelectorFactory consumerSelectorFactory = new ConsumerSelectorFactory();
       bind( CommandDistributor.class ).toInstance( new CommandDistributorRecorder(
-        new SimpleObjectDistributor( consumerSelectorFactory ) ) );
+        new ThreadSafeEventService() ) );
+      bind( EventService.class ).toInstance( new ThreadSafeEventService() );
       bind( Reflections.class ).toInstance( createReflections() );
       bind( TestClassWithAnnotatedHandlers.class ).in( Singleton.class );
     }
@@ -78,15 +81,15 @@ public class AnnotatedCommandHandlerRegistrarTest {
   public static class CommandDistributorRecorder extends CommandDistributor {
     public boolean testCommandRegistered;
 
-    public CommandDistributorRecorder( ObjectDistributor objectDistributor ) {
-      super( objectDistributor );
+    public CommandDistributorRecorder( EventService eventService ) {
+      super( eventService );
     }
 
-    @Override public <T> void register( Class<T> commandClass, Consumer<T> consumer ) {
+    @Override public <T> void register( Class<T> commandClass, EventSubscriber<T> subscriber ) {
       if( commandClass.equals( TestApplicationCommand.class ) ) {
         testCommandRegistered = true;
       }
-      super.register( commandClass, consumer );
+      super.register( commandClass, subscriber );
     }
   }
 

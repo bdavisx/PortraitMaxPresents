@@ -3,6 +3,7 @@ package org.loosefx.commands;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Provider;
+import org.bushe.swing.event.EventSubscriber;
 import org.loosefx.domain.commands.ApplicationCommandHandler;
 import org.loosefx.mvvm.guicommands.GUICommandHandler;
 import org.reflections.Reflections;
@@ -60,7 +61,7 @@ public class AnnotatedCommandHandlerRegistrar {
     Object handlerObject = provider.get();
     Class messageType = handlerMethod.getParameterTypes()[0];
     HandlerHolder holder = new HandlerHolder( handlerMethod, handlerObject );
-    commandDistributor.register( messageType, holder.createConsumer() );
+    commandDistributor.register( messageType, holder.createSubscriber() );
   }
 
   private class HandlerHolder {
@@ -72,9 +73,9 @@ public class AnnotatedCommandHandlerRegistrar {
       this.handlerObject = handlerObject;
     }
 
-    private Consumer createConsumer( ) {
-      return new Consumer() {
-        @Override public void accept( Object o ) {
+    private EventSubscriber createSubscriber() {
+      return new EventSubscriber() {
+        @Override public void onEvent( Object o ) {
           try {
             handlerMethod.invoke( handlerObject, o );
           } catch( IllegalAccessException | InvocationTargetException ex ) {

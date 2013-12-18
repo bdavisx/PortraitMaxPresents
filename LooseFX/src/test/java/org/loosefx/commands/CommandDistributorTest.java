@@ -1,8 +1,9 @@
 package org.loosefx.commands;
 
+import org.bushe.swing.event.EventService;
+import org.bushe.swing.event.EventSubscriber;
+import org.bushe.swing.event.ThreadSafeEventService;
 import org.loosefx.distributors.ConsumerSelectorFactory;
-import org.loosefx.distributors.ObjectDistributor;
-import org.loosefx.distributors.SimpleObjectDistributor;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -32,13 +33,13 @@ public class CommandDistributorTest {
     handler.receivedCommand = null;
 
     ConsumerSelectorFactory consumerSelectorFactory = new ConsumerSelectorFactory();
-    ObjectDistributor objectDistributor = mock( ObjectDistributor.class );
+    EventService objectDistributor = mock( EventService.class );
     CommandDistributor distributor = new CommandDistributor( objectDistributor );
-    Consumer<TestCommand> consumer = handler::handle;
+    EventSubscriber<TestCommand> consumer = handler::handle;
     distributor.register( TestCommand.class, consumer );
     distributor.unregister( TestCommand.class, consumer );
 
-    verify( objectDistributor ).unregister( TestCommand.class, consumer );
+    verify( objectDistributor ).unsubscribe( TestCommand.class, consumer );
   }
 
   @Test
@@ -76,7 +77,7 @@ public class CommandDistributorTest {
 
   private CommandDistributor createDistributorForTests() {
     ConsumerSelectorFactory consumerSelectorFactory = new ConsumerSelectorFactory();
-    return new CommandDistributor( new SimpleObjectDistributor( consumerSelectorFactory ) );
+    return new CommandDistributor( new ThreadSafeEventService() );
   }
 
   private class TestCommand {}

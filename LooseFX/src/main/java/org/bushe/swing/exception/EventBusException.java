@@ -38,11 +38,11 @@ import java.io.PrintWriter;
  * @todo in SwingUtils, make an invokeLater() method that saves the calling stack and catches all exceptions from a
  * subsequent call to SwingUtilities.invokeLater(), then throws a Swing Exception so the calling stack is saved.
  */
-public class SwingException extends Exception {
+public class EventBusException extends RuntimeException {
    protected StackTraceElement[] callingStackTrace;
 
    /** Default constructor */
-   public SwingException() {
+   public EventBusException() {
       super();
    }
 
@@ -50,17 +50,17 @@ public class SwingException extends Exception {
     * Constructor for compatibility with Exception. Use ClientException(String, Throwable, StackTraceElement[])
     * instead
     */
-   public SwingException(String message) {
+   public EventBusException( String message ) {
       super(message);
    }
 
    /** Constructor for compatibility with Exception Use ClientException(String, Throwable, StackTraceElement[]) instead */
-   public SwingException(Throwable cause) {
+   public EventBusException( Throwable cause ) {
       super(cause);
    }
 
    /** Constructor for compatibility with Exception Use ClientException(String, Throwable, StackTraceElement[]) instead */
-   public SwingException(String message, Throwable cause) {
+   public EventBusException( String message, Throwable cause ) {
       super(message, cause);
    }
 
@@ -72,7 +72,7 @@ public class SwingException extends Exception {
     * @param cause The cause of the exception in the same call stack
     * @param callingStack the stack trace that the client used to call the exception to occur.
     */
-   public SwingException(String message, Throwable cause, StackTraceElement[] callingStack) {
+   public EventBusException( String message, Throwable cause, StackTraceElement[] callingStack ) {
       super(message, cause);
       setCallingStack(callingStack);
    }
