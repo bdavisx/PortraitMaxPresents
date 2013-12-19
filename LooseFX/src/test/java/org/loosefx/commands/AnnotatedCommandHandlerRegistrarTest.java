@@ -61,7 +61,6 @@ public class AnnotatedCommandHandlerRegistrarTest {
 
   public static class TestModule extends AbstractModule {
     @Override protected void configure() {
-      ConsumerSelectorFactory consumerSelectorFactory = new ConsumerSelectorFactory();
       bind( CommandDistributor.class ).toInstance( new CommandDistributorRecorder(
         new ThreadSafeEventService() ) );
       bind( EventService.class ).toInstance( new ThreadSafeEventService() );

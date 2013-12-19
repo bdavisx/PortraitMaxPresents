@@ -32,14 +32,13 @@ public class CommandDistributorTest {
     TestHandler handler = new TestHandler();
     handler.receivedCommand = null;
 
-    ConsumerSelectorFactory consumerSelectorFactory = new ConsumerSelectorFactory();
     EventService objectDistributor = mock( EventService.class );
     CommandDistributor distributor = new CommandDistributor( objectDistributor );
-    EventSubscriber<TestCommand> consumer = handler::handle;
-    distributor.register( TestCommand.class, consumer );
-    distributor.unregister( TestCommand.class, consumer );
+    EventSubscriber<TestCommand> subscriber = handler::handle;
+    distributor.register( TestCommand.class, subscriber );
+    distributor.unregister( TestCommand.class, subscriber );
 
-    verify( objectDistributor ).unsubscribe( TestCommand.class, consumer );
+    verify( objectDistributor ).unsubscribe( TestCommand.class, subscriber );
   }
 
   @Test
@@ -76,7 +75,6 @@ public class CommandDistributorTest {
   }
 
   private CommandDistributor createDistributorForTests() {
-    ConsumerSelectorFactory consumerSelectorFactory = new ConsumerSelectorFactory();
     return new CommandDistributor( new ThreadSafeEventService() );
   }
 
