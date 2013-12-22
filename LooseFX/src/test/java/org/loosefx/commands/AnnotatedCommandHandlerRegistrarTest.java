@@ -8,7 +8,6 @@ import org.bushe.swing.event.EventService;
 import org.bushe.swing.event.EventSubscriber;
 import org.bushe.swing.event.ThreadSafeEventService;
 import org.bushe.swing.exception.EventBusException;
-import org.loosefx.distributors.ConsumerSelectorFactory;
 import org.loosefx.domain.commands.ApplicationCommand;
 import org.loosefx.domain.commands.ApplicationCommandHandler;
 import org.loosefx.mvvm.guicommands.AbstractCorrelatedGUICommand;

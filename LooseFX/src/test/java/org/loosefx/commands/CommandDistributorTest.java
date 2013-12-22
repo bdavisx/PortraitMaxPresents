@@ -3,7 +3,6 @@ package org.loosefx.commands;
 import org.bushe.swing.event.EventService;
 import org.bushe.swing.event.EventSubscriber;
 import org.bushe.swing.event.ThreadSafeEventService;
-import org.loosefx.distributors.ConsumerSelectorFactory;
 import org.junit.Assert;
 import org.junit.Test;
 

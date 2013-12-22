@@ -3,6 +3,7 @@ package com.portraitmax.presentation;
 
 import com.google.inject.Inject;
 import org.loosefx.domain.commands.ApplicationCommandHandler;
+import org.loosefx.events.ApplicationEventHandler;
 import org.loosefx.events.EventContainer;
 
 import java.io.File;
@@ -30,6 +31,7 @@ public class SalesPresentation {
     eventContainer.addEvent( new FilesAddedToPresentationEvent( getIdentifier(), command.getFilesToAdd() ) );
   }
 
+  @ApplicationEventHandler
   public void apply( FilesAddedToPresentationEvent event ) {
     eventImageFiles.addAll( event.getFilesToAdd() );
   }
