@@ -2,11 +2,12 @@ package org.loosefx.eventsourcing;
 
 import java.util.Collection;
 import java.util.UUID;
+import java.util.stream.Stream;
 
 public interface EntityEventProvider {
   void clear();
-  void loadFromHistory(Collection<DomainEvent> domainEvents);
+  void loadFromHistory( Stream<DomainEvent> domainEvents);
   void hookUpVersionProvider( VersionProvider versionProvider);
-  Collection<DomainEvent> getChanges();
+  Stream<DomainEvent> getChanges();
   UUID getId();
 }

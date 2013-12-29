@@ -21,12 +21,6 @@
   <dependencies>
 
     <dependency>
-      <groupId>org.axonframework</groupId>
-      <artifactId>axon</artifactId>
-      <version>2.0.7</version>
-    </dependency>
-
-    <dependency>
       <groupId>com.google.inject</groupId>
       <artifactId>guice</artifactId>
       <version>${guice.version}</version>
