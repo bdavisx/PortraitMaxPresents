@@ -1,6 +1,8 @@
 package com.portraitmax.presentation;
 
 import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.loosefx.eventsourcing.AggregateVersion;
+import org.loosefx.eventsourcing.DomainEvent;
 
 import java.io.File;
 import java.util.List;
@@ -8,17 +10,14 @@ import java.util.UUID;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-public class FilesAddedToPresentationEvent {
-  private final UUID presentationId;
+public class FilesAddedToPresentationEvent extends AbstractPresentationEvent {
   private final List<File> filesToAdd;
 
-  public FilesAddedToPresentationEvent( UUID presentationId, List<File> filesToAdd ) {
+  public FilesAddedToPresentationEvent( final UUID id, UUID presentationId, List<File> filesToAdd ) {
+    super( id, presentationId );
     checkNotNull( filesToAdd );
-    this.presentationId = presentationId;
     this.filesToAdd = filesToAdd;
   }
-
-  public UUID getPresentationId() {return presentationId;}
 
   public List<File> getFilesToAdd() {
     return filesToAdd;

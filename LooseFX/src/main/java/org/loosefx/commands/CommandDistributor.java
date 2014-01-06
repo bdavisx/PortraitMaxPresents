@@ -6,6 +6,7 @@ import org.bushe.swing.event.EventSubscriber;
 public class CommandDistributor {
   private final EventService eventService;
 
+  /** As a general rule, the eventService will be "local", it shouldn't be the application wide event service. */
   public CommandDistributor( final EventService eventService ) {
     this.eventService = eventService;
   }

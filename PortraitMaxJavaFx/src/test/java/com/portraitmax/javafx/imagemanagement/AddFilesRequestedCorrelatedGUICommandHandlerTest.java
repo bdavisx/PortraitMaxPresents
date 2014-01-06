@@ -72,6 +72,6 @@ public class AddFilesRequestedCorrelatedGUICommandHandlerTest {
     verify( fileChooser ).setInitialDirectory( rememberedDirectory );
     verify( remeberedSettings ).setCurrentImageDirectory( directoryForFile1 );
     verify( commandDistributor ).send(
-      new AddFilesToPresentationCommand( commandToHandle.getCorrelationIdentifier(), filesUserChose ) );
+      new AddFilesToPresentationCommand( any(), commandToHandle.getCorrelationIdentifier(), filesUserChose ) );
   }
 }

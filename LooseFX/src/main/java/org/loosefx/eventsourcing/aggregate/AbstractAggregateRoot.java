@@ -1,4 +1,11 @@
-package org.loosefx.eventsourcing;
+package org.loosefx.eventsourcing.aggregate;
+
+import org.loosefx.eventsourcing.AggregateVersion;
+import org.loosefx.eventsourcing.DomainEvent;
+import org.loosefx.eventsourcing.DomainEventVersionComparator;
+import org.loosefx.eventsourcing.EntityEventProvider;
+import org.loosefx.eventsourcing.RegisterChildEntities;
+import org.loosefx.eventsourcing.UnregisteredDomainEventException;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -15,8 +22,8 @@ public abstract class AbstractAggregateRoot implements EventProvider, RegisterCh
   private final Map<Class, Consumer<DomainEvent>> registeredEvents;
 
   private UUID id;
-  private AggregateVersion version;
-  private AggregateVersion eventVersion;
+  private AggregateVersion version = new AggregateVersion(0);
+  private AggregateVersion eventVersion = new AggregateVersion(0);
 
   protected AbstractAggregateRoot() {
     appliedEvents = new ArrayList<>();
@@ -31,7 +38,7 @@ public abstract class AbstractAggregateRoot implements EventProvider, RegisterCh
   protected void setVersion( final AggregateVersion version ) { this.version = version; }
 
   public AggregateVersion getEventVersion() { return eventVersion; }
-  protected void setEventVersion( AggregateVersion eventVersion ) { this.eventVersion = eventVersion; }
+  protected void setEventVersion( final AggregateVersion eventVersion ) { this.eventVersion = eventVersion; }
 
   @Override
   public void loadFromHistory( final Stream<DomainEvent> domainEvents ) {
@@ -54,7 +61,8 @@ public abstract class AbstractAggregateRoot implements EventProvider, RegisterCh
       .sorted( new DomainEventVersionComparator() );
   }
 
-  void clearEvents() {
+  @Override
+  public void clearEvents() {
     childEventProviders.forEach( eventProvider -> eventProvider.clear());
     appliedEvents.clear();
   }
@@ -70,7 +78,8 @@ public abstract class AbstractAggregateRoot implements EventProvider, RegisterCh
     childEventProviders.add( entityEventProvider );
   }
 
-  protected void registerEvent( final Class eventType, final Consumer<DomainEvent> eventHandler) {
+  @Override
+  public void registerEvent( final Class eventType, final Consumer<DomainEvent> eventHandler ) {
     registeredEvents.put( eventType, eventHandler );
   }
 
@@ -101,5 +110,4 @@ public abstract class AbstractAggregateRoot implements EventProvider, RegisterCh
     setEventVersion( getEventVersion().incrementVersion() );
     return getEventVersion();
   }
-
 }

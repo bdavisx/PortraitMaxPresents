@@ -62,7 +62,7 @@ public abstract class EventServiceAction extends AbstractAction {
     *
     * @param event the event passed to #execute(ActionEvent)
     *
-    * @return the event service to publish on, if null and 
+    * @return the event service to publish on, if null and
     * getThrowsExceptionOnNullEventService() is true (default) an exception is thrown
     *
     * @see EventBusAction
@@ -100,13 +100,13 @@ public abstract class EventServiceAction extends AbstractAction {
     * action's getValue("ID") (for compatibility with the SAM ActionManager's ID) <li>the action's {@link
     * javax.swing.Action#ACTION_COMMAND_KEY} <li>the action event's {@link javax.swing.Action#ACTION_COMMAND_KEY}
     * <li>the action's {@link javax.swing.Action#NAME} the value is used (if the value is not a String, the value's
-    * toString() is used). 
+    * toString() is used).
     * <p/>
     * To use a different name, override this method.
     *
     * @param event the event passed to #execute(ActionEvent)
     *
-    * @return the topic name to publish on, getId() by default
+    * @return the topic name to publish on, getCommandId() by default
     */
    public String getTopicName(ActionEvent event) {
       if (topicName != null) {
@@ -141,7 +141,7 @@ public abstract class EventServiceAction extends AbstractAction {
     *
     * @param event the event passed to #execute(ActionEvent)
     *
-    * @return the topic value to publish, getId() by default
+    * @return the topic value to publish, getCommandId() by default
     */
    protected Object getTopicValue(ActionEvent event) {
       return event;

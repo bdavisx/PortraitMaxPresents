@@ -2,6 +2,7 @@ package com.portraitmax.presentation;
 
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.loosefx.domain.commands.ApplicationCommand;
+import org.loosefx.eventsourcing.AggregateVersion;
 
 import java.io.File;
 import java.util.List;
@@ -10,14 +11,20 @@ import java.util.UUID;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 public class AddFilesToPresentationCommand implements ApplicationCommand {
-  private final UUID presentationId;
+  private final UUID commandId;
+  private UUID presentationId;
+  private AggregateVersion aggregateVersion;
   private final List<File> filesToAdd;
 
-  public AddFilesToPresentationCommand( UUID presentationId, List<File> filesToAdd ) {
+  public AddFilesToPresentationCommand( final UUID commandId, final UUID presentationId, final List<File> filesToAdd ) {
     checkNotNull( filesToAdd );
+    this.commandId = commandId;
     this.presentationId = presentationId;
     this.filesToAdd = filesToAdd;
   }
+
+  @Override
+  public UUID getCommandId() { return commandId; }
 
   public UUID getPresentationId() {return presentationId;}
 

@@ -1,12 +1,6 @@
 package org.loosefx.registrars;
 
-import com.google.inject.Inject;
-import com.google.inject.Injector;
-import com.google.inject.Provider;
-import org.bushe.swing.event.EventSubscriber;
 import org.loosefx.commands.UnableToInvokeAutoRegisteredCommandHandlerException;
-import org.loosefx.domain.commands.ApplicationCommandHandler;
-import org.loosefx.mvvm.guicommands.GUICommandHandler;
 import org.reflections.Reflections;
 
 import java.lang.annotation.Annotation;
@@ -14,6 +8,8 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 
 /*
   we can't really register for each individual domain object, either for commands
@@ -33,70 +29,77 @@ import java.util.Set;
 
   Thoughts, the application is going to need a reference to the open presentations (or whatever),
   and in this app anyway, I don't see any commands needing to be routed to a closed presentation. Therefore
-  we should be able to find the correct object to route the commands to. But I dont' want to have to keep
+  we should be able to find the correct object to route the commands to. But I don't want to have to keep
   track of each individual object to send the commands to -- let's have an open aggregate cache that
   takes handles this automatically. This sort of takes out the need for the AnnotatedRegister class as
   far as aggregates go - but it could still be relevant for others.
 
 */
+// TODO: figure out if we can hook into the creation of objects in the binder to connect
+
 
 public class InstantiatedObjectAnnotatedStrategyBasedRegistrar {
   private final Class<? extends Annotation> annotationClass;
 
-  @Inject
   public InstantiatedObjectAnnotatedStrategyBasedRegistrar( final Class<? extends Annotation> annotationClass ) {
     this.annotationClass = annotationClass;
   }
 
-  // TODO: figure out if we can hook into the creation of objects in the binder to connect
+  public void registerAnnotatedHandlers( final Object objectToRegister,
+    final BiConsumer<Class, Consumer> methodThatDoesRegistration ) {
 
-  public void registerAnnotatedHandlers( Object objectToRegister ) {
-    Set<Method> methodsToRegister = findMethodsToRegister( objectToRegister );
-    registerMethods( methodsToRegister );
+    final Set<Method> methodsToRegister = findMethodsToRegister( objectToRegister );
+    registerMethods( objectToRegister, methodThatDoesRegistration, methodsToRegister );
   }
 
-  private Set<Method> findMethodsToRegister( Object objectToRegister ) {
-    Set<Method> methodsToRegister = new HashSet<>();
+  private Set<Method> findMethodsToRegister( final Object objectToRegister ) {
+    final Set<Method> methodsToRegister = new HashSet<>();
     methodsToRegister.addAll( findAnnotatedMethods( objectToRegister ) );
     return methodsToRegister;
   }
 
   private Set<Method> findAnnotatedMethods( final Object objectToRegister ) {
-    Reflections reflections = new Reflections( objectToRegister );
-    return reflections.getMethodsAnnotatedWith( ApplicationCommandHandler.class );
+    final Method[] declaredMethods = objectToRegister.getClass().getDeclaredMethods();
+    Set<Method> methodsWithAnnotation = new HashSet<>();
+    for( final Method method : declaredMethods ) {
+      if( method.isAnnotationPresent( annotationClass ) ) {
+        methodsWithAnnotation.add( method );
+      }
+    }
+    return methodsWithAnnotation;
   }
 
-  private void registerMethods( Object objectToRegister, Set<Method> methodsToRegister ) {
-    for( Method handlerMethod : methodsToRegister ) {
-      registerMethod( objectToRegister, handlerMethod );
+  private void registerMethods( final Object objectToRegister,
+    final BiConsumer<Class, Consumer> methodThatDoesRegistration, final Set<Method> methodsToRegister ) {
+
+    for( final Method handlerMethod : methodsToRegister ) {
+      registerMethod( objectToRegister, methodThatDoesRegistration, handlerMethod );
     }
   }
 
-  private void registerMethod( final Object objectToRegister, Method handlerMethod ) {
-    Provider<?> provider = injector.getProvider( handlerMethod.getDeclaringClass() );
-    Object handlerObject = provider.get();
-    Class messageType = handlerMethod.getParameterTypes()[0];
-    HandlerHolder holder = new HandlerHolder( handlerMethod, handlerObject );
-    commandDistributor.register( messageType, holder.createSubscriber() );
+  private void registerMethod( final Object objectToRegister,
+    final BiConsumer<Class, Consumer> methodThatDoesRegistration, final Method handlerMethod ) {
+
+    final Class messageType = handlerMethod.getParameterTypes()[0];
+    final HandlerHolder holder = new HandlerHolder( handlerMethod, objectToRegister );
+    methodThatDoesRegistration.accept( messageType, holder.createSubscriber() );
   }
 
   private class HandlerHolder {
     private final Method handlerMethod;
     private final Object handlerObject;
 
-    public HandlerHolder( Method handlerMethod, Object handlerObject ) {
+    public HandlerHolder( final Method handlerMethod, final Object handlerObject ) {
       this.handlerMethod = handlerMethod;
       this.handlerObject = handlerObject;
     }
 
-    private EventSubscriber createSubscriber() {
-      return new EventSubscriber() {
-        @Override public void onEvent( Object o ) {
-          try {
-            handlerMethod.invoke( handlerObject, o );
-          } catch( IllegalAccessException | InvocationTargetException ex ) {
-            throw new UnableToInvokeAutoRegisteredCommandHandlerException( handlerMethod, handlerObject, ex );
-          }
+    private Consumer createSubscriber() {
+      return o -> {
+        try {
+          handlerMethod.invoke( handlerObject, o );
+        } catch( IllegalAccessException | InvocationTargetException ex ) {
+          throw new UnableToInvokeAutoRegisteredCommandHandlerException( handlerMethod, handlerObject, ex );
         }
       };
     }

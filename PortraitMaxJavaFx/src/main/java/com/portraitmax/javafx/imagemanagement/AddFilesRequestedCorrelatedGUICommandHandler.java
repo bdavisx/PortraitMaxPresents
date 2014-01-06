@@ -11,6 +11,7 @@ import org.loosefx.mvvm.guicommands.GUICommandHandler;
 
 import java.io.File;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Scenario: Fire off correlated message with AddFilesRequestedCorrelatedGUICommand,
@@ -43,7 +44,8 @@ public class AddFilesRequestedCorrelatedGUICommandHandler {
 
     saveSettings( files );
 
-    commandDistributor.send( new AddFilesToPresentationCommand( command.getCorrelationIdentifier(), files ) );
+    commandDistributor.send( new AddFilesToPresentationCommand( UUID.randomUUID(), command.getCorrelationIdentifier(),
+      files ) );
   }
 
   private void configureChooser( FileChooser chooser ) {

@@ -3,7 +3,7 @@ package org.loosefx.eventsourcing;
 import java.util.UUID;
 
 public interface DomainEvent {
-  UUID getId();
+  UUID getEventId();
 
   UUID getAggregateId();
   void setAggregateId( UUID aggregateId );

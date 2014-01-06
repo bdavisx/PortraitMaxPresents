@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.UUID;
 
+import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.verify;
 
 public class SalesPresentationTest {
@@ -24,16 +25,18 @@ public class SalesPresentationTest {
     File file2 = PowerMockito.mock( File.class );
     final ArrayList<File> filesUserChose = new ArrayList<>( Arrays.asList( new File[]{ file1, file2 } ) );
 
-    UUID testId = UUID.randomUUID();
+    UUID presentationId = UUID.randomUUID();
     EventContainer eventContainer = PowerMockito.mock( EventContainer.class );
 
-    SalesPresentation presentation = new SalesPresentation( eventContainer );
-    presentation.setPresentationId( testId );
+    SalesPresentation presentation = new SalesPresentation();
+    presentation.handle( new CreatePresentationCommand( UUID.randomUUID(), presentationId ) );
+    presentation.setPresentationId( presentationId );
 
-    AddFilesToPresentationCommand command = new AddFilesToPresentationCommand( testId, filesUserChose );
+    AddFilesToPresentationCommand command = new AddFilesToPresentationCommand( UUID.randomUUID(), presentationId,
+      filesUserChose );
     presentation.handle( command );
 
-    verify( eventContainer ).addEvent( new FilesAddedToPresentationEvent( testId, filesUserChose ) );
+    verify( eventContainer ).addEvent( new FilesAddedToPresentationEvent( any(), presentationId, filesUserChose ) );
   }
 
 }

@@ -10,6 +10,7 @@ import org.bushe.swing.event.ThreadSafeEventService;
 import org.bushe.swing.exception.EventBusException;
 import org.loosefx.domain.commands.ApplicationCommand;
 import org.loosefx.domain.commands.ApplicationCommandHandler;
+import org.loosefx.eventsourcing.AggregateVersion;
 import org.loosefx.mvvm.guicommands.AbstractCorrelatedGUICommand;
 import org.loosefx.mvvm.guicommands.GUICommandHandler;
 import org.junit.Test;
@@ -106,10 +107,13 @@ public class AnnotatedCommandHandlerRegistrarTest {
   }
 
   private static class TestApplicationCommand implements ApplicationCommand {
+    @Override
+    public UUID getCommandId() {
+      return null;
+    }
   }
 
   private static class TestGUICommand extends AbstractCorrelatedGUICommand {
-
     public TestGUICommand( UUID identifier ) {
       super( identifier );
     }
