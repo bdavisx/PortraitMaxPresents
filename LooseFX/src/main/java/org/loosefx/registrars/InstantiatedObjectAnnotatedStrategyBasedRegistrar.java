@@ -97,6 +97,7 @@ public class InstantiatedObjectAnnotatedStrategyBasedRegistrar {
     private Consumer createSubscriber() {
       return o -> {
         try {
+          handlerMethod.setAccessible( true );
           handlerMethod.invoke( handlerObject, o );
         } catch( IllegalAccessException | InvocationTargetException ex ) {
           throw new UnableToInvokeAutoRegisteredCommandHandlerException( handlerMethod, handlerObject, ex );

@@ -73,12 +73,12 @@ public class InstantiatedObjectAnnotatedStrategyBasedRegistrarTest {
     }
 
     @ApplicationEventHandler
-    public void handle1( Event1 event ) {
+    private void handle1( Event1 event ) {
       receivedEvents.add( event );
     }
 
     @ApplicationEventHandler
-    public void handle2( Event2 event ) {
+    private void handle2( Event2 event ) {
       receivedEvents.add( event );
     }
   }

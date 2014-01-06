@@ -40,12 +40,12 @@ public class SalesPresentation extends AbstractAggregateRoot {
   }
 
   @ApplicationEventHandler
-  public void apply( final PresentationCreatedEvent event ) {
+  private void apply( final PresentationCreatedEvent event ) {
     setPresentationId( event.getPresentationId() );
   }
 
   @ApplicationEventHandler
-  public void apply( final FilesAddedToPresentationEvent event ) {
+  private void apply( final FilesAddedToPresentationEvent event ) {
     eventImageFiles.addAll( event.getFilesToAdd() );
   }
 }
