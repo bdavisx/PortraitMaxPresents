@@ -5,7 +5,6 @@ import org.bushe.swing.event.EventService;
 
 import java.util.List;
 
-/** This should be on a one/aggregate basis. */
 public class EventContainer {
   private final EventService eventService;
 

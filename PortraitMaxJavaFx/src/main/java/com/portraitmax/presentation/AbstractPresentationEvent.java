@@ -10,8 +10,7 @@ public abstract class AbstractPresentationEvent implements DomainEvent {
   protected UUID presentationId;
   private AggregateVersion aggregateVersion;
 
-  public AbstractPresentationEvent(
-    final UUID eventId, UUID presentationId ) {
+  public AbstractPresentationEvent( final UUID eventId, UUID presentationId ) {
     this.eventId = eventId;
     this.presentationId = presentationId;
   }

@@ -1,5 +1,7 @@
 package org.loosefx.eventsourcing.aggregate;
 
+import org.bushe.swing.event.EventService;
+import org.bushe.swing.event.ThreadSafeEventService;
 import org.loosefx.eventsourcing.AggregateVersion;
 import org.loosefx.eventsourcing.DomainEvent;
 import org.loosefx.eventsourcing.DomainEventVersionComparator;
@@ -24,6 +26,7 @@ public abstract class AbstractAggregateRoot implements EventProvider, RegisterCh
   private UUID id;
   private AggregateVersion version = new AggregateVersion(0);
   private AggregateVersion eventVersion = new AggregateVersion(0);
+  private EventService eventBus = null;
 
   protected AbstractAggregateRoot() {
     appliedEvents = new ArrayList<>();
@@ -90,15 +93,25 @@ public abstract class AbstractAggregateRoot implements EventProvider, RegisterCh
     appliedEvents.add( domainEvent );
   }
 
-  private void apply( final Class eventType, final DomainEvent domainEvent ) {
+  protected void apply( final Class eventType, final DomainEvent domainEvent ) {
+    makeSureEventHasHandler( eventType );
+    final Consumer<DomainEvent> handler = registeredEvents.get( eventType );
+    handler.accept( domainEvent );
+    publishEvent( domainEvent );
+  }
+
+  private void makeSureEventHasHandler( final Class eventType ) {
     if( !registeredEvents.containsKey( eventType ) ) {
       throw new UnregisteredDomainEventException(
         String.format( "The requested domain event '%s' is not registered in '%s'", eventType.getName(),
           getClass().getName() ));
     }
+  }
 
-    final Consumer<DomainEvent> handler = registeredEvents.get( eventType );
-    handler.accept( domainEvent );
+  private void publishEvent( final DomainEvent domainEvent ) {
+    if( eventBus != null ) {
+      eventBus.publish( domainEvent );
+    }
   }
 
   //private Stream<DomainEvent> getChildEventsAndUpdateEventVersion() {
@@ -109,5 +122,9 @@ public abstract class AbstractAggregateRoot implements EventProvider, RegisterCh
   private AggregateVersion getNewEventVersion() {
     setEventVersion( getEventVersion().incrementVersion() );
     return getEventVersion();
+  }
+
+  public void setEventBus( final EventService eventBus ) {
+    this.eventBus = eventBus;
   }
 }

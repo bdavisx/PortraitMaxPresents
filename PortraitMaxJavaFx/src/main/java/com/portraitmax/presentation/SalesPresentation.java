@@ -17,13 +17,6 @@ public class SalesPresentation extends AbstractAggregateRoot {
   private List<File> eventImageFiles = new ArrayList<>();
 
   public SalesPresentation() {
-    // TODO: need to figure out how to handle this w/o "doing work"
-    registerForEvents();
-  }
-
-  public void registerForEvents() {
-//    registerEvent( PresentationCreatedEvent.class, this::applyPresentationCreatedEvent );
-//    registerEvent( FilesAddedToPresentationEvent.class, this::applyFilesAddedToPresentationEvent );
   }
 
   public UUID getIdentifier() { return presentationId; }
@@ -40,12 +33,12 @@ public class SalesPresentation extends AbstractAggregateRoot {
   }
 
   @ApplicationEventHandler
-  private void apply( final PresentationCreatedEvent event ) {
+  private void applyPresentationCreatedEvent( final PresentationCreatedEvent event ) {
     setPresentationId( event.getPresentationId() );
   }
 
   @ApplicationEventHandler
-  private void apply( final FilesAddedToPresentationEvent event ) {
+  private void applyFilesAddedToPresentationEvent( final FilesAddedToPresentationEvent event ) {
     eventImageFiles.addAll( event.getFilesToAdd() );
   }
 }
