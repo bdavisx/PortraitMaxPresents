@@ -5,7 +5,7 @@ import com.portraitmax.presentation.RememberedPresentationSettings;
 import javafx.collections.ObservableList;
 import javafx.stage.FileChooser;
 import javafx.stage.Window;
-import org.loosefx.commands.CommandDistributor;
+import org.bushe.swing.event.EventService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -38,7 +38,7 @@ public class AddFilesRequestedCorrelatedGUICommandHandlerTest {
 
     FileExtensionFilterProvider extensionFilterProvider = mock( FileExtensionFilterProvider.class );
     RememberedPresentationSettings remeberedSettings = mock( RememberedPresentationSettings.class );
-    CommandDistributor commandDistributor = mock( CommandDistributor.class );
+    EventService eventBus = mock( EventService.class );
 
     when( fileChooserFactory.create() ).thenReturn( fileChooser );
     when( fileChooser.getExtensionFilters() ).thenReturn( extensionFiltersListFromChooser );
@@ -62,7 +62,7 @@ public class AddFilesRequestedCorrelatedGUICommandHandlerTest {
     when( fileChooser.showOpenMultipleDialog( window  ) ).thenReturn( filesUserChose );
 
     AddFilesRequestedCorrelatedGUICommandHandler handler = new AddFilesRequestedCorrelatedGUICommandHandler(
-      fileChooserFactory, extensionFilterProvider, remeberedSettings, commandDistributor );
+      fileChooserFactory, extensionFilterProvider, remeberedSettings, eventBus );
     final AddFilesRequestedCorrelatedGUICommand commandToHandle =
       new AddFilesRequestedCorrelatedGUICommand( UUID.randomUUID(), window );
     handler.handle( commandToHandle );
@@ -71,7 +71,7 @@ public class AddFilesRequestedCorrelatedGUICommandHandlerTest {
     verify( extensionFiltersListFromChooser ).addAll( providedExtensionFilters );
     verify( fileChooser ).setInitialDirectory( rememberedDirectory );
     verify( remeberedSettings ).setCurrentImageDirectory( directoryForFile1 );
-    verify( commandDistributor ).send(
-      new AddFilesToPresentationCommand( any(), commandToHandle.getCorrelationIdentifier(), filesUserChose ) );
+    verify( eventBus ).publish(
+      new AddFilesToPresentationCommand( commandToHandle.getCorrelationIdentifier(), filesUserChose ) );
   }
 }

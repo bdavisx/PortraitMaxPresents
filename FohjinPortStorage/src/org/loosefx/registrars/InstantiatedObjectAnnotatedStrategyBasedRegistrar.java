@@ -1,8 +1,5 @@
 package org.loosefx.registrars;
 
-import org.loosefx.commands.UnableToInvokeAutoRegisteredCommandHandlerException;
-import org.reflections.Reflections;
-
 import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -100,7 +97,7 @@ public class InstantiatedObjectAnnotatedStrategyBasedRegistrar {
           handlerMethod.setAccessible( true );
           handlerMethod.invoke( handlerObject, o );
         } catch( IllegalAccessException | InvocationTargetException ex ) {
-          throw new UnableToInvokeAutoRegisteredCommandHandlerException( handlerMethod, handlerObject, ex );
+          throw new UnableToInvokeAutoRegisteredMethodException( handlerMethod, handlerObject, ex );
         }
       };
     }

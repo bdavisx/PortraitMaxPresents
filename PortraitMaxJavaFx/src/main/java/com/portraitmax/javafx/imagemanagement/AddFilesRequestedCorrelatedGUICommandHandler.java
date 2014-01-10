@@ -6,7 +6,7 @@ import com.google.inject.Inject;
 import com.portraitmax.presentation.AddFilesToPresentationCommand;
 import com.portraitmax.presentation.RememberedPresentationSettings;
 import javafx.stage.FileChooser;
-import org.loosefx.commands.CommandDistributor;
+import org.bushe.swing.event.EventService;
 import org.loosefx.mvvm.guicommands.GUICommandHandler;
 
 import java.io.File;
@@ -23,16 +23,16 @@ public class AddFilesRequestedCorrelatedGUICommandHandler {
   private final FileChooserFactory fileChooserFactory;
   private final FileExtensionFilterProvider extensionFilterProvider;
   private final RememberedPresentationSettings remeberedSettings;
-  private final CommandDistributor commandDistributor;
+  private final EventService eventBus;
 
   @Inject
   public AddFilesRequestedCorrelatedGUICommandHandler( FileChooserFactory fileChooserFactory,
     FileExtensionFilterProvider extensionFilterProvider,
-    RememberedPresentationSettings remeberedSettings, CommandDistributor commandDistributor ) {
+    RememberedPresentationSettings remeberedSettings, EventService eventBus ) {
     this.fileChooserFactory = fileChooserFactory;
     this.extensionFilterProvider = extensionFilterProvider;
     this.remeberedSettings = remeberedSettings;
-    this.commandDistributor = commandDistributor;
+    this.eventBus = eventBus;
   }
 
   @GUICommandHandler
@@ -44,8 +44,7 @@ public class AddFilesRequestedCorrelatedGUICommandHandler {
 
     saveSettings( files );
 
-    commandDistributor.send( new AddFilesToPresentationCommand( UUID.randomUUID(), command.getCorrelationIdentifier(),
-      files ) );
+    eventBus.publish( new AddFilesToPresentationCommand( command.getCorrelationIdentifier(), files ) );
   }
 
   private void configureChooser( FileChooser chooser ) {

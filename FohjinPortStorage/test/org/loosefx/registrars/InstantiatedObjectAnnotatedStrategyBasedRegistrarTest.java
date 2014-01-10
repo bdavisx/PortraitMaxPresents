@@ -2,10 +2,6 @@ package org.loosefx.registrars;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.loosefx.events.ApplicationEventHandler;
-import org.loosefx.eventsourcing.AggregateVersion;
-import org.loosefx.eventsourcing.DomainEvent;
-import org.loosefx.eventsourcing.aggregate.AbstractAggregateRoot;
 
 import java.util.ArrayList;
 import java.util.List;
