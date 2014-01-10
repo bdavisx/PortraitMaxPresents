@@ -51,14 +51,10 @@ public class AbstractEntity implements EntityEventProvider {
   }
 
   @Override
-  public void loadFromHistory( final Stream<DomainEvent> domainEvents ) {
-    if( domainEvents.count() == 0 ) { return; }
-
-    DomainEvent lastEvent = null;
+  public void loadFromHistory( final Iterable<DomainEvent> domainEvents ) {
     for( final Iterator<DomainEvent> iterator = domainEvents.iterator(); iterator.hasNext(); ) {
       DomainEvent domainEvent = iterator.next();
       apply(domainEvent.getClass(), domainEvent);
-      lastEvent = domainEvent;
     }
   }
 
@@ -66,7 +62,7 @@ public class AbstractEntity implements EntityEventProvider {
   public void hookUpVersionProvider( VersionProvider versionProvider) { this.versionProvider = versionProvider; }
 
   @Override
-  public Stream<DomainEvent> getChanges() { return appliedEvents.stream(); }
+  public Iterable<DomainEvent> getChanges() { return appliedEvents; }
 
   @Override
   public void clear() { appliedEvents.clear(); }

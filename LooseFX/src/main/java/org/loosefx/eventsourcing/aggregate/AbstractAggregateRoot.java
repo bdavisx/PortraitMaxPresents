@@ -1,7 +1,6 @@
 package org.loosefx.eventsourcing.aggregate;
 
 import org.bushe.swing.event.EventService;
-import org.bushe.swing.event.ThreadSafeEventService;
 import org.loosefx.eventsourcing.AggregateVersion;
 import org.loosefx.eventsourcing.DomainEvent;
 import org.loosefx.eventsourcing.DomainEventVersionComparator;
@@ -16,7 +15,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.function.Consumer;
-import java.util.stream.Stream;
 
 public abstract class AbstractAggregateRoot implements EventProvider, RegisterChildEntities {
   private final List<DomainEvent> appliedEvents;
@@ -25,7 +23,7 @@ public abstract class AbstractAggregateRoot implements EventProvider, RegisterCh
 
   private UUID id;
   private AggregateVersion version = new AggregateVersion(0);
-  private AggregateVersion eventVersion = new AggregateVersion(0);
+  private AggregateVersion currentEventVersion = new AggregateVersion(0);
   private EventService eventBus = null;
 
   protected AbstractAggregateRoot() {
@@ -40,13 +38,13 @@ public abstract class AbstractAggregateRoot implements EventProvider, RegisterCh
   public AggregateVersion getVersion() { return version; }
   protected void setVersion( final AggregateVersion version ) { this.version = version; }
 
-  public AggregateVersion getEventVersion() { return eventVersion; }
-  protected void setEventVersion( final AggregateVersion eventVersion ) { this.eventVersion = eventVersion; }
+  public AggregateVersion getCurrentEventVersion() { return currentEventVersion; }
+  protected void setCurrentEventVersion( final AggregateVersion currentEventVersion ) {
+    this.currentEventVersion = currentEventVersion;
+  }
 
   @Override
-  public void loadFromHistory( final Stream<DomainEvent> domainEvents ) {
-    if( domainEvents.count() == 0 ) { return; }
-
+  public void loadFromHistory( final Iterable<DomainEvent> domainEvents ) {
     DomainEvent lastEvent = null;
     for( final Iterator<DomainEvent> iterator = domainEvents.iterator(); iterator.hasNext(); ) {
       DomainEvent domainEvent = iterator.next();
@@ -54,14 +52,18 @@ public abstract class AbstractAggregateRoot implements EventProvider, RegisterCh
       lastEvent = domainEvent;
     }
 
-    setVersion( lastEvent.getVersion() );
-    setEventVersion( getVersion() );
+    if( lastEvent != null ) {
+      setVersion( lastEvent.getVersion() );
+      setCurrentEventVersion( getVersion() );
+    }
   }
 
   @Override
-  public Stream<DomainEvent> getChanges() {
-    return Stream.concat( appliedEvents.stream(), getChildEvents() )
-      .sorted( new DomainEventVersionComparator() );
+  public List<DomainEvent> getChanges() {
+    List<DomainEvent> allChanges = new ArrayList<>( appliedEvents );
+    allChanges.addAll( getChildEvents() );
+    allChanges.sort( new DomainEventVersionComparator() );
+    return allChanges;
   }
 
   @Override
@@ -77,7 +79,7 @@ public abstract class AbstractAggregateRoot implements EventProvider, RegisterCh
 
   @Override
   public void registerChildEventProvider( final EntityEventProvider entityEventProvider ) {
-    entityEventProvider.hookUpVersionProvider( this::getNewEventVersion );
+    entityEventProvider.hookUpVersionProvider( this::determineNewEventVersion );
     childEventProviders.add( entityEventProvider );
   }
 
@@ -88,7 +90,7 @@ public abstract class AbstractAggregateRoot implements EventProvider, RegisterCh
 
   protected void apply( final DomainEvent domainEvent ) {
     domainEvent.setAggregateId( getId() );
-    domainEvent.setVersion( getNewEventVersion() );
+    domainEvent.setVersion( determineNewEventVersion() );
     apply( domainEvent.getClass(), domainEvent );
     appliedEvents.add( domainEvent );
   }
@@ -115,13 +117,20 @@ public abstract class AbstractAggregateRoot implements EventProvider, RegisterCh
   }
 
   //private Stream<DomainEvent> getChildEventsAndUpdateEventVersion() {
-  private Stream<DomainEvent> getChildEvents() {
-    return childEventProviders.stream().flatMap( EntityEventProvider::getChanges );
+  private List<DomainEvent> getChildEvents() {
+    List<DomainEvent> childEvents = new ArrayList<>();
+    for( EntityEventProvider eventProvider : childEventProviders ) {
+      for( DomainEvent event : eventProvider.getChanges() ) {
+        childEvents.add( event );
+      }
+    }
+    return childEvents;
   }
 
-  private AggregateVersion getNewEventVersion() {
-    setEventVersion( getEventVersion().incrementVersion() );
-    return getEventVersion();
+  /** I don't like having a change method return a value, but we want this to be atomic (I think). */
+  private AggregateVersion determineNewEventVersion() {
+    setCurrentEventVersion( getCurrentEventVersion().incrementVersion() );
+    return getCurrentEventVersion();
   }
 
   public void setEventBus( final EventService eventBus ) {
