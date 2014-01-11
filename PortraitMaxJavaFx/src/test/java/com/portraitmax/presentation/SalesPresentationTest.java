@@ -34,8 +34,8 @@ public class SalesPresentationTest {
 
   @Test
   public void itShouldSendFilesAddedEvent() throws Exception {
-    File file1 = PowerMockito.mock( File.class );
-    File file2 = PowerMockito.mock( File.class );
+    final File file1 = PowerMockito.mock( File.class );
+    final File file2 = PowerMockito.mock( File.class );
     final ArrayList<File> filesUserChose = new ArrayList<>( Arrays.asList( new File[]{ file1, file2 } ) );
 
     UUID presentationId = UUID.randomUUID();
