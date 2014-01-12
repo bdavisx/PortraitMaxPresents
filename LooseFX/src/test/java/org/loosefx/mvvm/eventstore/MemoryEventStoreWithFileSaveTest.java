@@ -17,6 +17,10 @@ import java.util.UUID;
 
 public class MemoryEventStoreWithFileSaveTest {
   private UUID aggregateIdentifier;
+  private GenericDomainEventMessage<StubDomainEvent> event1;
+  private GenericDomainEventMessage<StubDomainEvent> event2;
+  private DomainEventStream eventStream;
+  public static final String typeName = "TypeName";
 
   @Before
   public void setUp() {
@@ -25,26 +29,45 @@ public class MemoryEventStoreWithFileSaveTest {
 
   @Test
   public void itStoresEventsInAnExistingList() throws Exception {
-    final String type = "TypeName";
-    List<DomainEventMessage> existingEventList = new ArrayList<>();
     Map<String, List<DomainEventMessage>> typeToEventListMap = new HashMap<>();
-    typeToEventListMap.put( type, existingEventList );
+    List<DomainEventMessage> existingEventList = new ArrayList<>();
+    typeToEventListMap.put( typeName, existingEventList );
 
     GenericDomainEventMessage<StubDomainEvent> existingEvent = new GenericDomainEventMessage<StubDomainEvent>(
       aggregateIdentifier, 0, new StubDomainEvent());
     existingEventList.add( existingEvent );
 
-    GenericDomainEventMessage<StubDomainEvent> event1 = new GenericDomainEventMessage<StubDomainEvent>(
-      aggregateIdentifier, 1, new StubDomainEvent());
-    GenericDomainEventMessage<StubDomainEvent> event2 = new GenericDomainEventMessage<StubDomainEvent>(
-      aggregateIdentifier, 2, new StubDomainEvent());
-    DomainEventStream stream = new SimpleDomainEventStream( event1, event2 );
+    createEventStream();
 
     MemoryEventStoreWithFileSave eventStore = new MemoryEventStoreWithFileSave( typeToEventListMap );
-    eventStore.appendEvents( type, stream );
+    eventStore.appendEvents( typeName, eventStream );
 
-    assertThat( existingEventList ).containsAll( Arrays.asList( new DomainEventMessage[] { event1, event2 } ) );
+    makeSureListContainsEvent1And2( existingEventList );
   }
+
+  @Test
+  public void itStoresEventsInAnNewList() throws Exception {
+    Map<String, List<DomainEventMessage>> typeToEventListMap = new HashMap<>();
+
+    createEventStream();
+
+    MemoryEventStoreWithFileSave eventStore = new MemoryEventStoreWithFileSave( typeToEventListMap );
+    eventStore.appendEvents( typeName, eventStream );
+
+    List<DomainEventMessage> existingEventList = typeToEventListMap.get( typeName );
+    makeSureListContainsEvent1And2( existingEventList );
+  }
+
+  private void createEventStream() {
+    event1 = new GenericDomainEventMessage<StubDomainEvent>( aggregateIdentifier, 1, new StubDomainEvent());
+    event2 = new GenericDomainEventMessage<StubDomainEvent>( aggregateIdentifier, 2, new StubDomainEvent());
+    eventStream = new SimpleDomainEventStream( event1, event2 );
+  }
+
+  private void makeSureListContainsEvent1And2( final List<DomainEventMessage> existingEventList ) {
+    assertThat( existingEventList ).containsAll( Arrays.asList( new DomainEventMessage[]{ event1, event2 } ) );
+  }
+
 }
 
 
