@@ -18,17 +18,19 @@ package org.loosefx.mvvm.eventstore;
 
 import java.io.Serializable;
 
-public class StubDomainEvent implements Serializable {
+/**
+ @author Allard Buijze */
+public class StubSnapshotDomainEvent implements Serializable {
 
   private static final long serialVersionUID = 834667054977749990L;
   private final long sequenceNumber;
 
-  public StubDomainEvent( final long sequenceNumber ) {
+  public StubSnapshotDomainEvent( final long sequenceNumber ) {
     this.sequenceNumber = sequenceNumber;
   }
 
   @Override
   public String toString() {
-    return "StubDomainEvent " + sequenceNumber;
+    return "StubSnapshotDomainEvent " + sequenceNumber;
   }
 }

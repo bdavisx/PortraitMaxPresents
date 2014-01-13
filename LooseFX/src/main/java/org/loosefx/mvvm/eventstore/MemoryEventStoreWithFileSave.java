@@ -52,6 +52,8 @@ public class MemoryEventStoreWithFileSave implements EventStore, SnapshotEventSt
     return new SimpleDomainEventStream( buildEventsList( type, identifier ) );
   }
 
+  // TODO: need tests for snapshots and reads****************************************
+
   private List<DomainEventMessage> buildEventsList( final String type, final Object identifier ) {
     final List<DomainEventMessage> eventsForStream = new ArrayList<DomainEventMessage>();
 
