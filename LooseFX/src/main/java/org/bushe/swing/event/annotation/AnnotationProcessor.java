@@ -3,8 +3,8 @@ package org.bushe.swing.event.annotation;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.regex.Pattern;
 import java.util.Arrays;
+import java.util.regex.Pattern;
 
 import org.bushe.swing.event.EventService;
 import org.bushe.swing.event.EventServiceExistsException;
@@ -50,7 +50,7 @@ public class AnnotationProcessor {
     * EventBus annotations.
     * @param obj the instance that may or may not have annotations
     */
-   public static void process(Object obj) {
+   public static void process(final Object obj) {
       processOrUnprocess(obj, true);
    }
 
@@ -59,50 +59,50 @@ public class AnnotationProcessor {
     * EventBus annotations.
     * @param obj the instance that may or may not have annotations
     */
-   public static void unprocess(Object obj) {
+   public static void unprocess(final Object obj) {
       processOrUnprocess(obj, false);
    }
 
-   private static void processOrUnprocess(Object obj, boolean add) {
+   private static void processOrUnprocess(final Object obj, final boolean add) {
       if (obj == null) {
          return;
       }
-      Class cl = obj.getClass();
-      Method[] methods = cl.getMethods();
+      final Class cl = obj.getClass();
+      final Method[] methods = cl.getMethods();
       if (LOG.isLoggable(Logger.Level.DEBUG)) {
         LOG.debug("Looking for EventBus annotations for class " + cl + ", methods:" + Arrays.toString(methods));
       }
-      for (Method method : methods) {
-         
-         EventSubscriber classAnnotation = method.getAnnotation(EventSubscriber.class);
+      for (final Method method : methods) {
+
+         final EventSubscriber classAnnotation = method.getAnnotation(EventSubscriber.class);
          if (classAnnotation != null) {
             if (LOG.isLoggable(Logger.Level.DEBUG)) {
                LOG.debug("Found EventSubscriber:"+classAnnotation +" on method:" + method);
             }
             process(classAnnotation, obj, method, add);
          }
-         EventTopicSubscriber topicAnnotation = method.getAnnotation(EventTopicSubscriber.class);
+         final EventTopicSubscriber topicAnnotation = method.getAnnotation(EventTopicSubscriber.class);
          if (topicAnnotation != null) {
             if (LOG.isLoggable(Logger.Level.DEBUG)) {
                LOG.debug("Found EventTopicSubscriber: "+topicAnnotation +"  on method:" + method);
             }
             process(topicAnnotation, obj, method, add);
          }
-         EventTopicPatternSubscriber topicPatternAnnotation = method.getAnnotation(EventTopicPatternSubscriber.class);
+         final EventTopicPatternSubscriber topicPatternAnnotation = method.getAnnotation(EventTopicPatternSubscriber.class);
          if (topicPatternAnnotation != null) {
             if (LOG.isLoggable(Logger.Level.DEBUG)) {
                LOG.debug("Found EventTopicPatternSubscriber: "+topicPatternAnnotation+" on method:" + method);
             }
             process(topicPatternAnnotation, obj, method, add);
          }
-         RuntimeTopicEventSubscriber runtimeTopicAnnotation = method.getAnnotation(RuntimeTopicEventSubscriber.class);
+         final RuntimeTopicEventSubscriber runtimeTopicAnnotation = method.getAnnotation(RuntimeTopicEventSubscriber.class);
          if (runtimeTopicAnnotation != null) {
             if (LOG.isLoggable(Logger.Level.DEBUG)) {
                LOG.debug("Found RuntimeTopicEventSubscriber: "+runtimeTopicAnnotation+" on method:" + method);
             }
             process(runtimeTopicAnnotation, obj, method, add);
          }
-         RuntimeTopicPatternEventSubscriber annotation = method.getAnnotation(RuntimeTopicPatternEventSubscriber.class);
+         final RuntimeTopicPatternEventSubscriber annotation = method.getAnnotation(RuntimeTopicPatternEventSubscriber.class);
          if (annotation != null) {
             if (LOG.isLoggable(Logger.Level.DEBUG)) {
                LOG.debug("Found RuntimeTopicPatternEventSubscriber:"+annotation+" on method:" + method);
@@ -111,35 +111,35 @@ public class AnnotationProcessor {
          }
 
 
-         VetoSubscriber vetoClassAnnotation = method.getAnnotation(VetoSubscriber.class);
+         final VetoSubscriber vetoClassAnnotation = method.getAnnotation(VetoSubscriber.class);
          if (vetoClassAnnotation != null) {
             if (LOG.isLoggable(Logger.Level.DEBUG)) {
                LOG.debug("Found VetoSubscriber:"+vetoClassAnnotation +" on method:" + method);
             }
             process(vetoClassAnnotation, obj, method, add);
          }
-         VetoTopicSubscriber vetoTopicAnnotation = method.getAnnotation(VetoTopicSubscriber.class);
+         final VetoTopicSubscriber vetoTopicAnnotation = method.getAnnotation(VetoTopicSubscriber.class);
          if (vetoTopicAnnotation != null) {
             if (LOG.isLoggable(Logger.Level.DEBUG)) {
                LOG.debug("Found VetoTopicSubscriber: "+vetoTopicAnnotation +"  on method:" + method);
             }
             process(vetoTopicAnnotation, obj, method, add);
          }
-         VetoTopicPatternSubscriber vetoTopicPatternAnnotation = method.getAnnotation(VetoTopicPatternSubscriber.class);
+         final VetoTopicPatternSubscriber vetoTopicPatternAnnotation = method.getAnnotation(VetoTopicPatternSubscriber.class);
          if (vetoTopicPatternAnnotation != null) {
             if (LOG.isLoggable(Logger.Level.DEBUG)) {
                LOG.debug("Found VetoTopicPatternSubscriber: "+vetoTopicPatternAnnotation+" on method:" + method);
             }
             process(vetoTopicPatternAnnotation, obj, method, add);
          }
-         VetoRuntimeTopicSubscriber vetoRuntimeTopicAnnotation = method.getAnnotation(VetoRuntimeTopicSubscriber.class);
+         final VetoRuntimeTopicSubscriber vetoRuntimeTopicAnnotation = method.getAnnotation(VetoRuntimeTopicSubscriber.class);
          if (vetoRuntimeTopicAnnotation != null) {
             if (LOG.isLoggable(Logger.Level.DEBUG)) {
                LOG.debug("Found VetoRuntimeTopicSubscriber: "+vetoRuntimeTopicAnnotation+" on method:" + method);
             }
             process(vetoRuntimeTopicAnnotation, obj, method, add);
          }
-         VetoRuntimeTopicPatternSubscriber vetoAnnotation = method.getAnnotation(VetoRuntimeTopicPatternSubscriber.class);
+         final VetoRuntimeTopicPatternSubscriber vetoAnnotation = method.getAnnotation(VetoRuntimeTopicPatternSubscriber.class);
          if (vetoAnnotation != null) {
             if (LOG.isLoggable(Logger.Level.DEBUG)) {
                LOG.debug("Found VetoRuntimeTopicPatternSubscriber:"+vetoAnnotation+" on method:" + method);
@@ -150,27 +150,27 @@ public class AnnotationProcessor {
    }
 
 
-   private static void process(EventTopicPatternSubscriber topicPatternAnnotation, Object obj,
-           Method method, boolean add) {
+   private static void process(final EventTopicPatternSubscriber topicPatternAnnotation, final Object obj,
+           final Method method, final boolean add) {
       //Check args
-      String topicPattern = topicPatternAnnotation.topicPattern();
+      final String topicPattern = topicPatternAnnotation.topicPattern();
       if (topicPattern == null) {
          throw new IllegalArgumentException("Topic pattern cannot be null for EventTopicPatternSubscriber annotation");
       }
 
       //Get event service
-      Class<? extends EventService> eventServiceClass = topicPatternAnnotation.autoCreateEventServiceClass();
-      String eventServiceName = topicPatternAnnotation.eventServiceName();
-      EventService eventService = getEventServiceFromAnnotation(eventServiceName, eventServiceClass);
-      int priority = topicPatternAnnotation.priority();
+      final Class<? extends EventService> eventServiceClass = topicPatternAnnotation.autoCreateEventServiceClass();
+      final String eventServiceName = topicPatternAnnotation.eventServiceName();
+      final EventService eventService = getEventServiceFromAnnotation(eventServiceName, eventServiceClass);
+      final int priority = topicPatternAnnotation.priority();
 
       //Create proxy and subscribe
-      Pattern pattern = Pattern.compile(topicPattern);
+      final Pattern pattern = Pattern.compile(topicPattern);
       //See Issue #18
       //Also note that this post is wrong: https://eventbus.dev.java.net/servlets/ProjectForumMessageView?messageID=19499&forumID=1834
       //Since two WeakReferences are not treated as one.  So this always has to be strong and we'll have to clean up occasionally.
       if (add) {
-         ProxyTopicPatternSubscriber subscriber = new ProxyTopicPatternSubscriber(obj, method,
+         final ProxyTopicPatternSubscriber subscriber = new ProxyTopicPatternSubscriber(obj, method,
                  topicPatternAnnotation.referenceStrength(), priority, eventService,
                  topicPattern, pattern, false);
 
@@ -180,26 +180,26 @@ public class AnnotationProcessor {
       }
    }
 
-   private static void process(EventTopicSubscriber topicAnnotation, Object obj, Method method, boolean add) {
+   private static void process(final EventTopicSubscriber topicAnnotation, final Object obj, final Method method, final boolean add) {
       //Check args
-      String topic = topicAnnotation.topic();
+      final String topic = topicAnnotation.topic();
       if (topic == null) {
          throw new IllegalArgumentException("Topic cannot be null for EventTopicSubscriber annotation");
       }
 
       //Get event service
-      Class<? extends EventService> eventServiceClass = topicAnnotation.autoCreateEventServiceClass();
-      String eventServiceName = topicAnnotation.eventServiceName();
-      EventService eventService = getEventServiceFromAnnotation(eventServiceName, eventServiceClass);
+      final Class<? extends EventService> eventServiceClass = topicAnnotation.autoCreateEventServiceClass();
+      final String eventServiceName = topicAnnotation.eventServiceName();
+      final EventService eventService = getEventServiceFromAnnotation(eventServiceName, eventServiceClass);
 
-      int priority = topicAnnotation.priority();
+      final int priority = topicAnnotation.priority();
 
       //See Issue #18
       //Also note that this post is wrong: https://eventbus.dev.java.net/servlets/ProjectForumMessageView?messageID=19499&forumID=1834
       //Since two WeakReferences are not treated as one.  So this always has to be strong and we'll have to clean up occasionally.
       if (add) {
          //Create proxy and subscribe
-         ProxyTopicSubscriber subscriber = new ProxyTopicSubscriber(obj, method,
+         final ProxyTopicSubscriber subscriber = new ProxyTopicSubscriber(obj, method,
                  topicAnnotation.referenceStrength(), priority, eventService, topic, false);
 
          eventService.subscribeStrongly(topic, subscriber);
@@ -208,13 +208,13 @@ public class AnnotationProcessor {
       }
    }
 
-   private static void process(EventSubscriber annotation, Object obj, Method method, boolean add) {
+   private static void process(final EventSubscriber annotation, final Object obj, final Method method, final boolean add) {
       //Check args
       Class eventClass = annotation.eventClass();
       if (eventClass == null) {
          throw new IllegalArgumentException("Event class cannot be null for EventSubscriber annotation");
       } else if (UseTheClassOfTheAnnotatedMethodsParameter.class.equals(eventClass)) {
-         Class[] params = method.getParameterTypes();
+         final Class[] params = method.getParameterTypes();
          if (params.length < 1) {
             throw new RuntimeException("Expected annotated method to have one parameter.");
          } else {
@@ -223,16 +223,16 @@ public class AnnotationProcessor {
       }
 
       //Get event service
-      Class<? extends EventService> eventServiceClass = annotation.autoCreateEventServiceClass();
-      String eventServiceName = annotation.eventServiceName();
-      EventService eventService = getEventServiceFromAnnotation(eventServiceName, eventServiceClass);
+      final Class<? extends EventService> eventServiceClass = annotation.autoCreateEventServiceClass();
+      final String eventServiceName = annotation.eventServiceName();
+      final EventService eventService = getEventServiceFromAnnotation(eventServiceName, eventServiceClass);
 
       if (add) {
-         int priority = annotation.priority();
+         final int priority = annotation.priority();
 
          //Create proxy and subscribe
          //See https://eventbus.dev.java.net/servlets/ProjectForumMessageView?messageID=19499&forumID=1834
-         BaseProxySubscriber subscriber = new BaseProxySubscriber(obj, method, annotation.referenceStrength(),
+         final BaseProxySubscriber subscriber = new BaseProxySubscriber(obj, method, annotation.referenceStrength(),
                  priority, eventService, eventClass, false);
          if (annotation.exact()) {
             //See Issue #18
@@ -249,82 +249,95 @@ public class AnnotationProcessor {
          if (annotation.exact()) {
             eventService.unsubscribeExactly(eventClass, obj);
          } else {
-            eventService.unsubscribe(eventClass, obj);            
+            eventService.unsubscribe(eventClass, obj);
          }
       }
    }
 
 
 
-   private static void process(final RuntimeTopicEventSubscriber annotation, final Object subscriber, final Method method, boolean add) {
-       EventTopicSubscriber eventTopicSubscriber = new EventTopicSubscriber() {
+   private static void process(final RuntimeTopicEventSubscriber annotation, final Object subscriber, final Method method, final boolean add) {
+       final EventTopicSubscriber eventTopicSubscriber = new EventTopicSubscriber() {
            //TODO uncomment when language level is set to 1.6 (2.0) @Override
-           public Class<? extends EventService> autoCreateEventServiceClass() {
+           @Override
+		public Class<? extends EventService> autoCreateEventServiceClass() {
                return annotation.autoCreateEventServiceClass();
            }
 
            //TODO uncomment when language level is set to 1.6 (2.0) @Override
-           public String eventServiceName() {
+           @Override
+		public String eventServiceName() {
                return annotation.eventServiceName();
            }
 
            //TODO uncomment when language level is set to 1.6 (2.0) @Override
-           public ReferenceStrength referenceStrength() {
+           @Override
+		public ReferenceStrength referenceStrength() {
                return annotation.referenceStrength();
            }
 
            //TODO uncomment when language level is set to 1.6 (2.0) @Override
-			  public int priority() {
+			  @Override
+			public int priority() {
 				return annotation.priority();
 			  }
 
            //TODO uncomment when language level is set to 1.6 (2.0) @Override
-           public String topic() {
+           @Override
+		public String topic() {
                return getTopic(annotation.methodName(), subscriber, method);
            }
 
            //TODO uncomment when language level is set to 1.6 (2.0) @Override
-           public Class<? extends Annotation> annotationType() {
+           @Override
+		public Class<? extends Annotation> annotationType() {
                return annotation.annotationType();
            }
        };
        process(eventTopicSubscriber, subscriber, method, add);
    }
 
-   private static void process(final RuntimeTopicPatternEventSubscriber annotation, final Object subscriber, final Method method, boolean add) {
-       EventTopicPatternSubscriber eventTopicPatternSubscriber = new EventTopicPatternSubscriber() {
+   private static void process(final RuntimeTopicPatternEventSubscriber annotation, final Object subscriber, final Method method, final boolean add) {
+       final EventTopicPatternSubscriber eventTopicPatternSubscriber = new EventTopicPatternSubscriber() {
            //TODO uncomment when language level is set to 1.6 (2.0) @Override
-           public Class<? extends EventService> autoCreateEventServiceClass() {
+           @Override
+		public Class<? extends EventService> autoCreateEventServiceClass() {
                return annotation.autoCreateEventServiceClass();
            }
 
            //TODO uncomment when language level is set to 1.6 (2.0) @Override
-           public String eventServiceName() {
+           @Override
+		public String eventServiceName() {
                return annotation.eventServiceName();
            }
 
            //TODO uncomment when language level is set to 1.6 (2.0) @Override
-           public ReferenceStrength referenceStrength() {
+           @Override
+		public ReferenceStrength referenceStrength() {
                return annotation.referenceStrength();
            }
 
            //TODO uncomment when language level is set to 1.6 (2.0) @Override
-			  public int priority() {
+			  @Override
+			public int priority() {
 				return annotation.priority();
 			  }
 
            //TODO uncomment when language level is set to 1.6 (2.0) @Override
-           public boolean exact() {
+           @Override
+		public boolean exact() {
                return annotation.exact();
            }
 
            //TODO uncomment when language level is set to 1.6 (2.0) @Override
-           public String topicPattern() {
+           @Override
+		public String topicPattern() {
                return getTopic(annotation.methodName(), subscriber, method);
            }
 
            //TODO uncomment when language level is set to 1.6 (2.0) @Override
-           public Class<? extends Annotation> annotationType() {
+           @Override
+		public Class<? extends Annotation> annotationType() {
                return annotation.annotationType();
            }
        };
@@ -332,23 +345,23 @@ public class AnnotationProcessor {
    }
 
    /* This is a cut and paste from above practically, sure which Annotations could be extended.
-    * TODO: When Java 7 comes out, or whatever JSR-308 is delivered, reduce this file by 70% */  
-   private static void process(VetoTopicPatternSubscriber topicPatternAnnotation, Object obj, Method method, boolean add) {
+    * TODO: When Java 7 comes out, or whatever JSR-308 is delivered, reduce this file by 70% */
+   private static void process(final VetoTopicPatternSubscriber topicPatternAnnotation, final Object obj, final Method method, final boolean add) {
       //Check args
-      String topicPattern = topicPatternAnnotation.topicPattern();
+      final String topicPattern = topicPatternAnnotation.topicPattern();
       if (topicPattern == null) {
          throw new IllegalArgumentException("Topic pattern cannot be null for VetoTopicPatternSubscriber annotation");
       }
 
       //Get event service
-      Class<? extends EventService> eventServiceClass = topicPatternAnnotation.autoCreateEventServiceClass();
-      String eventServiceName = topicPatternAnnotation.eventServiceName();
-      EventService eventService = getEventServiceFromAnnotation(eventServiceName, eventServiceClass);
-      int priority = topicPatternAnnotation.priority();
+      final Class<? extends EventService> eventServiceClass = topicPatternAnnotation.autoCreateEventServiceClass();
+      final String eventServiceName = topicPatternAnnotation.eventServiceName();
+      final EventService eventService = getEventServiceFromAnnotation(eventServiceName, eventServiceClass);
+      final int priority = topicPatternAnnotation.priority();
 
       //Create proxy and subscribe
-      Pattern pattern = Pattern.compile(topicPattern);
-      ProxyTopicPatternSubscriber subscriber = new ProxyTopicPatternSubscriber(obj, method, topicPatternAnnotation.referenceStrength(),
+      final Pattern pattern = Pattern.compile(topicPattern);
+      final ProxyTopicPatternSubscriber subscriber = new ProxyTopicPatternSubscriber(obj, method, topicPatternAnnotation.referenceStrength(),
               priority, eventService, topicPattern, pattern, true);
 
       //See Issue #18
@@ -361,22 +374,22 @@ public class AnnotationProcessor {
       }
    }
 
-   private static void process(VetoTopicSubscriber topicAnnotation, Object obj, Method method, boolean add) {
+   private static void process(final VetoTopicSubscriber topicAnnotation, final Object obj, final Method method, final boolean add) {
       //Check args
-      String topic = topicAnnotation.topic();
+      final String topic = topicAnnotation.topic();
       if (topic == null) {
          throw new IllegalArgumentException("Topic cannot be null for VetoTopicSubscriber annotation");
       }
 
       //Get event service
-      Class<? extends EventService> eventServiceClass = topicAnnotation.autoCreateEventServiceClass();
-      String eventServiceName = topicAnnotation.eventServiceName();
-      EventService eventService = getEventServiceFromAnnotation(eventServiceName, eventServiceClass);
+      final Class<? extends EventService> eventServiceClass = topicAnnotation.autoCreateEventServiceClass();
+      final String eventServiceName = topicAnnotation.eventServiceName();
+      final EventService eventService = getEventServiceFromAnnotation(eventServiceName, eventServiceClass);
 
-      int priority = topicAnnotation.priority();
+      final int priority = topicAnnotation.priority();
 
       //Create proxy and subscribe
-      ProxyTopicSubscriber subscriber = new ProxyTopicSubscriber(obj, method,
+      final ProxyTopicSubscriber subscriber = new ProxyTopicSubscriber(obj, method,
               topicAnnotation.referenceStrength(), priority, eventService, topic, true);
 
       //See Issue #18
@@ -389,13 +402,13 @@ public class AnnotationProcessor {
       }
    }
 
-   private static void process(VetoSubscriber annotation, Object obj, Method method, boolean add) {
+   private static void process(final VetoSubscriber annotation, final Object obj, final Method method, final boolean add) {
       //Check args
       Class eventClass = annotation.eventClass();
       if (eventClass == null) {
          throw new IllegalArgumentException("Event class cannot be null for VetoSubscriber annotation");
       } else if (UseTheClassOfTheAnnotatedMethodsParameter.class.equals(eventClass)) {
-         Class[] params = method.getParameterTypes();
+         final Class[] params = method.getParameterTypes();
          if (params.length < 1) {
             throw new RuntimeException("Expected annotated method to have one parameter.");
          } else {
@@ -404,15 +417,15 @@ public class AnnotationProcessor {
       }
 
       //Get event service
-      Class<? extends EventService> eventServiceClass = annotation.autoCreateEventServiceClass();
-      String eventServiceName = annotation.eventServiceName();
-      EventService eventService = getEventServiceFromAnnotation(eventServiceName, eventServiceClass);
+      final Class<? extends EventService> eventServiceClass = annotation.autoCreateEventServiceClass();
+      final String eventServiceName = annotation.eventServiceName();
+      final EventService eventService = getEventServiceFromAnnotation(eventServiceName, eventServiceClass);
 
-      int priority = annotation.priority();
+      final int priority = annotation.priority();
 
       //Create proxy and subscribe
       //See https://eventbus.dev.java.net/servlets/ProjectForumMessageView?messageID=19499&forumID=1834
-      BaseProxySubscriber subscriber = new BaseProxySubscriber(obj, method, annotation.referenceStrength(),
+      final BaseProxySubscriber subscriber = new BaseProxySubscriber(obj, method, annotation.referenceStrength(),
               priority, eventService, eventClass, true);
       if (add) {
          if (annotation.exact()) {
@@ -436,60 +449,70 @@ public class AnnotationProcessor {
    }
 
 
-   private static void process(final VetoRuntimeTopicSubscriber annotation, final Object subscriber, final Method method, boolean add) {
-       VetoTopicSubscriber eventTopicSubscriber = new VetoTopicSubscriber() {
+   private static void process(final VetoRuntimeTopicSubscriber annotation, final Object subscriber, final Method method, final boolean add) {
+       final VetoTopicSubscriber eventTopicSubscriber = new VetoTopicSubscriber() {
            //TODO uncomment when language level is set to 1.6 (2.0) @Override
-           public Class<? extends EventService> autoCreateEventServiceClass() {
+           @Override
+		public Class<? extends EventService> autoCreateEventServiceClass() {
                return annotation.autoCreateEventServiceClass();
            }
 
            //TODO uncomment when language level is set to 1.6 (2.0) @Override
-           public String eventServiceName() {
+           @Override
+		public String eventServiceName() {
                return annotation.eventServiceName();
            }
 
            //TODO uncomment when language level is set to 1.6 (2.0) @Override
-           public ReferenceStrength referenceStrength() {
+           @Override
+		public ReferenceStrength referenceStrength() {
                return annotation.referenceStrength();
            }
 
            //TODO uncomment when language level is set to 1.6 (2.0) @Override
-			  public int priority() {
+			  @Override
+			public int priority() {
 			   	return annotation.priority();
 			  }
 
            //TODO uncomment when language level is set to 1.6 (2.0) @Override
-           public String topic() {
+           @Override
+		public String topic() {
                return getTopic(annotation.methodName(), subscriber, method);
            }
 
            //TODO uncomment when language level is set to 1.6 (2.0) @Override
-           public Class<? extends Annotation> annotationType() {
+           @Override
+		public Class<? extends Annotation> annotationType() {
                return annotation.annotationType();
            }
        };
        process(eventTopicSubscriber, subscriber, method, add);
    }
 
-   private static void process(final VetoRuntimeTopicPatternSubscriber annotation, final Object subscriber, final Method method, boolean add) {
-      VetoTopicPatternSubscriber eventTopicPatternSubscriber = new VetoTopicPatternSubscriber() {
+   private static void process(final VetoRuntimeTopicPatternSubscriber annotation, final Object subscriber, final Method method, final boolean add) {
+      final VetoTopicPatternSubscriber eventTopicPatternSubscriber = new VetoTopicPatternSubscriber() {
          //TODO uncomment when language level is set to 1.6 (2.0) @Override
-         public Class<? extends EventService> autoCreateEventServiceClass() {
+         @Override
+		public Class<? extends EventService> autoCreateEventServiceClass() {
             return annotation.autoCreateEventServiceClass();
          }
 
          //TODO uncomment when language level is set to 1.6 (2.0) @Override
-         public String eventServiceName() {
+         @Override
+		public String eventServiceName() {
             return annotation.eventServiceName();
          }
 
          //TODO uncomment when language level is set to 1.6 (2.0) @Override
-         public ReferenceStrength referenceStrength() {
+         @Override
+		public ReferenceStrength referenceStrength() {
             return annotation.referenceStrength();
          }
 
          //TODO uncomment when language level is set to 1.6 (2.0) @Override
-         public int priority() {
+         @Override
+		public int priority() {
             return annotation.priority();
          }
 
@@ -499,12 +522,14 @@ public class AnnotationProcessor {
          }
 
          //TODO uncomment when language level is set to 1.6 (2.0) @Override
-         public String topicPattern() {
+         @Override
+		public String topicPattern() {
             return getTopic(annotation.methodName(), subscriber, method);
          }
 
          //TODO uncomment when language level is set to 1.6 (2.0) @Override
-         public Class<? extends Annotation> annotationType() {
+         @Override
+		public Class<? extends Annotation> annotationType() {
             return annotation.annotationType();
          }
       };
@@ -512,28 +537,28 @@ public class AnnotationProcessor {
    }
 
 
-   private static String getTopic(String methodName, Object subscriber, Method method) {
+   private static String getTopic(final String methodName, final Object subscriber, final Method method) {
        try {
-           Method runtimeEvalMethod = subscriber.getClass().getMethod(methodName, new Class[0]);
+           final Method runtimeEvalMethod = subscriber.getClass().getMethod(methodName, new Class[0]);
            //necessary in case the method does not have public access or if the class it belongs
            //to isn't public
            runtimeEvalMethod.setAccessible(true);
            return runtimeEvalMethod.invoke(subscriber, new Object[0]).toString();
-       } catch (SecurityException e) {
+       } catch (final SecurityException e) {
            throw new RuntimeException("Could not retrieve method for subscription. Method: " + methodName, e);
-       } catch (NoSuchMethodException e) {
+       } catch (final NoSuchMethodException e) {
            throw new RuntimeException("Could not retrieve method for subscription. Method: " + methodName, e);
-       } catch (InvocationTargetException e) {
+       } catch (final InvocationTargetException e) {
            e.getTargetException().printStackTrace();
            throw new RuntimeException("Could not invoke method for subscription. Method: " + methodName, e);
-       } catch (IllegalAccessException e) {
+       } catch (final IllegalAccessException e) {
            throw new RuntimeException("Could not invoke method for subscription. Method: " + methodName, e);
        }
    }
 
 
-   private static EventService getEventServiceFromAnnotation(String eventServiceName,
-           Class<? extends EventService> eventServiceClass) {
+   private static EventService getEventServiceFromAnnotation(final String eventServiceName,
+           final Class<? extends EventService> eventServiceClass) {
       EventService eventService = EventServiceLocator.getEventService(eventServiceName);
       if (eventService == null) {
          if (EventServiceLocator.SERVICE_NAME_EVENT_BUS.equals(eventServiceName)) {
@@ -543,14 +568,14 @@ public class AnnotationProcessor {
             //The event service does not yet exist, create it
             try {
                eventService = eventServiceClass.newInstance();
-            } catch (InstantiationException e) {
+            } catch (final InstantiationException e) {
                throw new RuntimeException("Could not instance of create EventService class " + eventServiceClass, e);
-            } catch (IllegalAccessException e) {
+            } catch (final IllegalAccessException e) {
                throw new RuntimeException("Could not instance of create EventService class " + eventServiceClass, e);
             }
             try {
                EventServiceLocator.setEventService(eventServiceName, eventService);
-            } catch (EventServiceExistsException e) {
+            } catch (final EventServiceExistsException e) {
                //ignore it, it's OK
                eventService = EventServiceLocator.getEventService(eventServiceName);
             }

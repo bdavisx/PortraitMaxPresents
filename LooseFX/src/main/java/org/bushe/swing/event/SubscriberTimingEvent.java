@@ -23,12 +23,12 @@ package org.bushe.swing.event;
  * @see ThreadSafeEventService
  */
 public class SubscriberTimingEvent extends AbstractEventServiceEvent {
-   private Long start;
-   private Long end;
-   private Long timeLimitMilliseconds;
-   private Object event;
-   private EventSubscriber subscriber;
-   private VetoEventListener vetoEventListener;
+   private final Long start;
+   private final Long end;
+   private final Long timeLimitMilliseconds;
+   private final Object event;
+   private final EventSubscriber subscriber;
+   private final VetoEventListener vetoEventListener;
    private String stringified;
 
    /**
@@ -43,8 +43,8 @@ public class SubscriberTimingEvent extends AbstractEventServiceEvent {
     * null
     * @param vetoEventListener the vetoEventListener that took too long, can be null if the eventListener is not null
     */
-   public SubscriberTimingEvent(Object source, Long start, Long end, Long timeLimitMilliseconds,
-           Object event, EventSubscriber subscriber, VetoEventListener vetoEventListener) {
+   public SubscriberTimingEvent(final Object source, final Long start, final Long end, final Long timeLimitMilliseconds,
+           final Object event, final EventSubscriber subscriber, final VetoEventListener vetoEventListener) {
       super(source);
       this.start = start;
       this.end = end;
@@ -62,7 +62,7 @@ public class SubscriberTimingEvent extends AbstractEventServiceEvent {
          stringified = "Time limit exceeded for " + type + ". Handling time=" + (end.longValue() - start.longValue()) +
                  ", Time limit=" + timeLimitMilliseconds + ", event:" + event
                  + thing + ", start:" + start + ", end:" + end;
-      } catch (Exception ex) {
+      } catch (final Exception ex) {
          stringified = "Time limit exceeded for event, toString threw and exception.";
       }
    }
@@ -110,7 +110,8 @@ public class SubscriberTimingEvent extends AbstractEventServiceEvent {
       return subscriber == null;
    }
 
-   public String toString() {
+   @Override
+public String toString() {
       return stringified;
    }
 }

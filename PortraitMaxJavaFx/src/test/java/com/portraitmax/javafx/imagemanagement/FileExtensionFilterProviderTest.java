@@ -9,10 +9,10 @@ public class FileExtensionFilterProviderTest {
 
   @org.junit.Test
   public void getImageFileExtensionFilters() throws Exception {
-    FileExtensionFilterProvider provider = new FileExtensionFilterProvider();
-    List<FileChooser.ExtensionFilter> filters = provider.getExtensionFilters();
-    boolean match = false;
-    for( FileChooser.ExtensionFilter filter : filters ) {
+    final FileExtensionFilterProvider provider = new FileExtensionFilterProvider();
+    final List<FileChooser.ExtensionFilter> filters = provider.getExtensionFilters();
+    final boolean match = false;
+    for( final FileChooser.ExtensionFilter filter : filters ) {
       filter.getExtensions().containsAll( Arrays.asList( new String[] { "*.jpg", "*.png", "*.psd" } ) );
     }
   }

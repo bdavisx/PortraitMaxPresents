@@ -2,8 +2,8 @@ package org.bushe.swing.event;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.Map;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Central Logging class.  Shields code from Logging implementation.
@@ -54,17 +54,17 @@ public class Logger {
 
    public static LoggerType LOGGER_TYPE= null;
 
-   public static Logger getLogger(String name) {
+   public static Logger getLogger(final String name) {
       if (LOGGER_TYPE == null) {
          LOGGER_TYPE = getLoggerType();
       }
       if (LOGGER_TYPE == LoggerType.COMMONS) {
             try {
-               Object logger = getLogMethod.invoke(null, name);
+               final Object logger = getLogMethod.invoke(null, name);
                return new Logger(logger);
-            } catch (IllegalAccessException e) {
+            } catch (final IllegalAccessException e) {
                e.printStackTrace();
-            } catch (InvocationTargetException e) {
+            } catch (final InvocationTargetException e) {
                e.printStackTrace();
             }
       }
@@ -76,23 +76,23 @@ public class Logger {
     * @return
     */
    private static LoggerType getLoggerType() {
-      LoggerType result = null;
+      final LoggerType result = null;
       //See if apache commons is available
       try {
          logFactoryClass = Class.forName("org.apache.commons.logging.LogFactory");
          getLogMethod = logFactoryClass.getMethod("getLog", new Class[]{String.class});
          logClass = Class.forName("org.apache.commons.logging.Log");
          return LoggerType.COMMONS;
-      } catch (Throwable e) {
+      } catch (final Throwable e) {
       }
       return LoggerType.JAVA;
    }
 
-   public Logger(java.util.logging.Logger utilLogger) {
+   public Logger(final java.util.logging.Logger utilLogger) {
       this.utilLogger = utilLogger;
    }
 
-   public Logger(Object commonsLogger) {
+   public Logger(final Object commonsLogger) {
       this.commonsLogger = commonsLogger;
    }
 
@@ -102,9 +102,9 @@ public class Logger {
     * @param level the EventBus Logger level
     * @return whether this level is loggable.
     */
-   public boolean isLoggable(Level level) {
+   public boolean isLoggable(final Level level) {
       if (utilLogger != null) {
-         java.util.logging.Level javaLevel = getJavaLevelFor(level);
+         final java.util.logging.Level javaLevel = getJavaLevelFor(level);
          return javaLevel != null && utilLogger.isLoggable(javaLevel);
       } else if (commonsLogger != null) {
          switch (level) {
@@ -119,7 +119,7 @@ public class Logger {
       return false;
    }
 
-   private java.util.logging.Level getJavaLevelFor(Level level) {
+   private java.util.logging.Level getJavaLevelFor(final Level level) {
       switch (level) {
          case FATAL: return java.util.logging.Level.SEVERE;
          case ERROR: return java.util.logging.Level.SEVERE;
@@ -131,20 +131,20 @@ public class Logger {
       return null;
    }
 
-   public void debug(String message) {
+   public void debug(final String message) {
       log(Level.DEBUG, message);
    }
 
-   public void log(Level level, String message) {
+   public void log(final Level level, final String message) {
       log(level, message, null);
    }
 
-   public void log(Level level, String message, Throwable throwable) {
+   public void log(final Level level, final String message, final Throwable throwable) {
       if (!isLoggable(level)) {
          return;
       }
       if (utilLogger != null) {
-         java.util.logging.Level javaLevel = getJavaLevelFor(level);
+         final java.util.logging.Level javaLevel = getJavaLevelFor(level);
          if (throwable == null) {
             utilLogger.log(javaLevel, message);
          } else {
@@ -173,35 +173,35 @@ public class Logger {
       }
    }
 
-   private Object callCommonsLogger(String methodName) {
+   private Object callCommonsLogger(final String methodName) {
       if (METHOD_CACHE_NO_PARAMS == null) {
          METHOD_CACHE_NO_PARAMS = new HashMap<String, Method>();
       }
       return callCommonsLogger(METHOD_CACHE_NO_PARAMS, methodName, CLASS_ARGS_EMPTY, EMPTY_ARGS);
    }
 
-   private Object callCommonsLogger(String methodName, String message) {
+   private Object callCommonsLogger(final String methodName, final String message) {
       if (METHOD_CACHE_ONE_PARAM == null) {
          METHOD_CACHE_ONE_PARAM = new HashMap<String, Method>();
       }
       return callCommonsLogger(METHOD_CACHE_ONE_PARAM, methodName, CLASS_ARGS_ONE, new Object[]{message});
    }
 
-   private Object callCommonsLogger(String methodName, String message, Throwable throwable) {
+   private Object callCommonsLogger(final String methodName, final String message, final Throwable throwable) {
       if (METHOD_CACHE_TWO_PARAMS == null) {
          METHOD_CACHE_TWO_PARAMS = new HashMap<String, Method>();
       }
       return callCommonsLogger(METHOD_CACHE_TWO_PARAMS, methodName, CLASS_ARGS_TWO, new Object[]{message, throwable});
    }
 
-   private Object callCommonsLogger(Map<String, Method> cache, String methodName, Class[] classOfArgs, Object[] args) {
+   private Object callCommonsLogger(final Map<String, Method> cache, final String methodName, final Class[] classOfArgs, final Object[] args) {
       Method method = cache.get(methodName);
       if (method == null) {
          try {
             method = logClass.getMethod(methodName, classOfArgs);
             cache.put(methodName, method);
-         } catch (NoSuchMethodException e) {
-            e.printStackTrace();  
+         } catch (final NoSuchMethodException e) {
+            e.printStackTrace();
          }
       }
       if (method == null) {
@@ -209,9 +209,9 @@ public class Logger {
       }
       try {
          return method.invoke(commonsLogger, args);
-      } catch (IllegalAccessException e) {
+      } catch (final IllegalAccessException e) {
          return null;
-      } catch (InvocationTargetException e) {
+      } catch (final InvocationTargetException e) {
          return null;
       }
    }

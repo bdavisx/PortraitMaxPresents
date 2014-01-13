@@ -50,17 +50,17 @@ public class EventBusException extends RuntimeException {
     * Constructor for compatibility with Exception. Use ClientException(String, Throwable, StackTraceElement[])
     * instead
     */
-   public EventBusException( String message ) {
+   public EventBusException( final String message ) {
       super(message);
    }
 
    /** Constructor for compatibility with Exception Use ClientException(String, Throwable, StackTraceElement[]) instead */
-   public EventBusException( Throwable cause ) {
+   public EventBusException( final Throwable cause ) {
       super(cause);
    }
 
    /** Constructor for compatibility with Exception Use ClientException(String, Throwable, StackTraceElement[]) instead */
-   public EventBusException( String message, Throwable cause ) {
+   public EventBusException( final String message, final Throwable cause ) {
       super(message, cause);
    }
 
@@ -72,7 +72,7 @@ public class EventBusException extends RuntimeException {
     * @param cause The cause of the exception in the same call stack
     * @param callingStack the stack trace that the client used to call the exception to occur.
     */
-   public EventBusException( String message, Throwable cause, StackTraceElement[] callingStack ) {
+   public EventBusException( final String message, final Throwable cause, final StackTraceElement[] callingStack ) {
       super(message, cause);
       setCallingStack(callingStack);
    }
@@ -84,7 +84,7 @@ public class EventBusException extends RuntimeException {
     *
     * @param swingCallingStack the stack trace that the client used to cause the exception to occur.
     */
-   public void setCallingStack(StackTraceElement[] swingCallingStack) {
+   public void setCallingStack(final StackTraceElement[] swingCallingStack) {
       this.callingStackTrace = swingCallingStack;
    }
 
@@ -103,8 +103,9 @@ public class EventBusException extends RuntimeException {
     *
     * @param ps the print stream
     */
-   public void printStackTrace(PrintStream ps) {
-      PrintWriter pw = new PrintWriter(ps, true);
+   @Override
+public void printStackTrace(final PrintStream ps) {
+      final PrintWriter pw = new PrintWriter(ps, true);
       printStackTrace(pw);
    }
 
@@ -113,7 +114,8 @@ public class EventBusException extends RuntimeException {
     *
     * @param pw
     */
-   public void printStackTrace(PrintWriter pw) {
+   @Override
+public void printStackTrace(final PrintWriter pw) {
       pw.println(this);
       if (callingStackTrace != null) {
          pw.println("Calling stack:");

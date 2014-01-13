@@ -20,7 +20,7 @@ import java.util.logging.Logger;
 
 public final class FileChooserManualCheck extends Application {
 
-  private Desktop desktop = Desktop.getDesktop();
+  private final Desktop desktop = Desktop.getDesktop();
 
   @Override
   public void start( final Stage stage ) {
@@ -36,7 +36,7 @@ public final class FileChooserManualCheck extends Application {
       new EventHandler<ActionEvent>() {
         @Override
         public void handle( final ActionEvent e ) {
-          File file = directoryChooser.showDialog( stage );
+          final File file = directoryChooser.showDialog( stage );
           if( file != null ) {
             openFile( file );
           }
@@ -60,14 +60,14 @@ public final class FileChooserManualCheck extends Application {
     stage.show();
   }
 
-  public static void main( String[] args ) {
+  public static void main( final String[] args ) {
     Application.launch( args );
   }
 
-  private void openFile( File file ) {
+  private void openFile( final File file ) {
     try {
       desktop.open( file );
-    } catch( IOException ex ) {
+    } catch( final IOException ex ) {
       Logger.getLogger(
         FileChooserManualCheck.class.getName() ).log(
         Level.SEVERE, null, ex

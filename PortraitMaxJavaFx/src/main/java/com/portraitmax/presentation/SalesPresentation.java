@@ -14,19 +14,19 @@ public class SalesPresentation extends AbstractAnnotatedAggregateRoot<UUID> {
 
   @AggregateIdentifier
   private UUID presentationId;
-  private List<File> eventImageFiles = new ArrayList<>();
+  private final List<File> eventImageFiles = new ArrayList<>();
 
   public SalesPresentation() {}
 
   @CommandHandler
-  public SalesPresentation( CreatePresentationCommand command ) {
+  public SalesPresentation( final CreatePresentationCommand command ) {
     apply( new PresentationCreatedEvent( command.getPresentationId() ) );
   }
 
   public UUID getIdentifier() { return presentationId; }
 
   @CommandHandler
-  public void handle( AddFilesToPresentationCommand command ) {
+  public void handle( final AddFilesToPresentationCommand command ) {
     apply( new FilesAddedToPresentationEvent( presentationId, command.getFilesToAdd() ) );
   }
 

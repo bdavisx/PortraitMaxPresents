@@ -22,9 +22,9 @@ public class ProxyTopicPatternSubscriber extends ProxyTopicSubscriber {
     * exist
     * @param patternString the Regular Expression for topics to subscribe to, used for unsubscription only
     */
-   public ProxyTopicPatternSubscriber(Object proxiedSubscriber, Method subscriptionMethod,
-           ReferenceStrength referenceStrength, EventService es, String patternString,
-           Pattern pattern, boolean veto) {
+   public ProxyTopicPatternSubscriber(final Object proxiedSubscriber, final Method subscriptionMethod,
+           final ReferenceStrength referenceStrength, final EventService es, final String patternString,
+           final Pattern pattern, final boolean veto) {
       this(proxiedSubscriber, subscriptionMethod, referenceStrength, 0, es, patternString, pattern, veto);
    }
 
@@ -39,14 +39,15 @@ public class ProxyTopicPatternSubscriber extends ProxyTopicSubscriber {
     * exist
     * @param patternString the Regular Expression for topics to subscribe to, used for unsubscription only
     */
-   public ProxyTopicPatternSubscriber(Object proxiedSubscriber, Method subscriptionMethod,
-           ReferenceStrength referenceStrength, int priority,
-           EventService es, String patternString, Pattern pattern, boolean veto) {
+   public ProxyTopicPatternSubscriber(final Object proxiedSubscriber, final Method subscriptionMethod,
+           final ReferenceStrength referenceStrength, final int priority,
+           final EventService es, final String patternString, final Pattern pattern, final boolean veto) {
       super(proxiedSubscriber, subscriptionMethod, referenceStrength, priority, es, patternString, veto);
       this.pattern = pattern;
    }
 
-   protected void unsubscribe(String topic) {
+   @Override
+protected void unsubscribe(final String topic) {
       if (veto) {
          getEventService().unsubscribeVetoListener(pattern, this);
       } else {
@@ -55,7 +56,8 @@ public class ProxyTopicPatternSubscriber extends ProxyTopicSubscriber {
       pattern = null;
    }
 
-   public boolean equals(Object o) {
+   @Override
+public boolean equals(final Object o) {
       if (this == o) {
          return true;
       }
@@ -66,7 +68,7 @@ public class ProxyTopicPatternSubscriber extends ProxyTopicSubscriber {
          return false;
       }
 
-      ProxyTopicPatternSubscriber that = (ProxyTopicPatternSubscriber) o;
+      final ProxyTopicPatternSubscriber that = (ProxyTopicPatternSubscriber) o;
 
       if (pattern != null ? !pattern.equals(that.pattern) : that.pattern != null) {
          return false;
@@ -75,7 +77,8 @@ public class ProxyTopicPatternSubscriber extends ProxyTopicSubscriber {
       return true;
    }
 
-   public String toString() {
+   @Override
+public String toString() {
       return "ProxyTopicPatternSubscriber{" +
               "pattern=" + pattern +
               "veto=" + veto +

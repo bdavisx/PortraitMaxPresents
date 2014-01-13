@@ -16,6 +16,7 @@
 package org.bushe.swing.event;
 
 import java.awt.event.ActionEvent;
+
 import javax.swing.ImageIcon;
 
 /**
@@ -30,11 +31,12 @@ public class EventBusAction extends EventServiceAction {
       this(null, null);
    }
 
-   public EventBusAction(String actionName, ImageIcon icon) {
+   public EventBusAction(final String actionName, final ImageIcon icon) {
       super(actionName, icon);
    }
 
-   protected EventService getEventService(ActionEvent event) {
+   @Override
+protected EventService getEventService(final ActionEvent event) {
       return EventBus.getGlobalEventService();
    }
 }

@@ -32,13 +32,13 @@ public class AddFilesRequestedCorrelatedGUICommandHandlerTest {
 
   @Test
   public void extensionFiltersAdded() throws Exception {
-    FileChooserFactory fileChooserFactory = mock( FileChooserFactory.class );
+    final FileChooserFactory fileChooserFactory = mock( FileChooserFactory.class );
     final FileChooser fileChooser = PowerMockito.mock( FileChooser.class );
     final ObservableList<FileChooser.ExtensionFilter> extensionFiltersListFromChooser = mock( ObservableList.class );
 
-    FileExtensionFilterProvider extensionFilterProvider = mock( FileExtensionFilterProvider.class );
-    RememberedPresentationSettings remeberedSettings = mock( RememberedPresentationSettings.class );
-    EventService eventBus = mock( EventService.class );
+    final FileExtensionFilterProvider extensionFilterProvider = mock( FileExtensionFilterProvider.class );
+    final RememberedPresentationSettings remeberedSettings = mock( RememberedPresentationSettings.class );
+    final EventService eventBus = mock( EventService.class );
 
     when( fileChooserFactory.create() ).thenReturn( fileChooser );
     when( fileChooser.getExtensionFilters() ).thenReturn( extensionFiltersListFromChooser );
@@ -49,19 +49,19 @@ public class AddFilesRequestedCorrelatedGUICommandHandlerTest {
     final File rememberedDirectory = new File( "c:\\" );
     when( remeberedSettings.getCurrentImageDirectory() ).thenReturn( rememberedDirectory );
 
-    Window window = mock( Window.class );
+    final Window window = mock( Window.class );
 
-    File file1 = PowerMockito.mock( File.class );
-    File directoryForFile1 = PowerMockito.mock( File.class );
+    final File file1 = PowerMockito.mock( File.class );
+    final File directoryForFile1 = PowerMockito.mock( File.class );
     when( file1.getParentFile() ).thenReturn( directoryForFile1 );
 
-    File file2 = PowerMockito.mock( File.class );
+    final File file2 = PowerMockito.mock( File.class );
 
     final ArrayList<File> filesUserChose = new ArrayList<>( Arrays.asList(
       new File[] { file1, file2 } ) );
     when( fileChooser.showOpenMultipleDialog( window  ) ).thenReturn( filesUserChose );
 
-    AddFilesRequestedCorrelatedGUICommandHandler handler = new AddFilesRequestedCorrelatedGUICommandHandler(
+    final AddFilesRequestedCorrelatedGUICommandHandler handler = new AddFilesRequestedCorrelatedGUICommandHandler(
       fileChooserFactory, extensionFilterProvider, remeberedSettings, eventBus );
     final AddFilesRequestedCorrelatedGUICommand commandToHandle =
       new AddFilesRequestedCorrelatedGUICommand( UUID.randomUUID(), window );

@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<eclipse-userlibraries>
+  <library name="Maven: dom4j:dom4j:1.6.1">
+    <archive path="C:/Users/bill/.m2/repository/dom4j/dom4j/1.6.1/dom4j-1.6.1.jar" />
+  </library>
+  <library name="Maven: net.sf.jsr107cache:jsr107cache:1.1">
+    <archive path="C:/Users/bill/.m2/repository/net/sf/jsr107cache/jsr107cache/1.1/jsr107cache-1.1.jar" />
+  </library>
+  <library name="Maven: org.javassist:javassist:3.18.0-GA">
+    <archive path="C:/Users/bill/.m2/repository/org/javassist/javassist/3.18.0-GA/javassist-3.18.0-GA.jar" />
+  </library>
+  <library name="Maven: com.thoughtworks.xstream:xstream:1.4.3">
+    <archive path="C:/Users/bill/.m2/repository/com/thoughtworks/xstream/xstream/1.4.3/xstream-1.4.3.jar" />
+  </library>
+  <library name="Maven: ch.qos.logback:logback-classic:1.0.9">
+    <archive path="C:/Users/bill/.m2/repository/ch/qos/logback/logback-classic/1.0.9/logback-classic-1.0.9.jar" />
+  </library>
+  <library name="Maven: com.google.inject:guice:3.0">
+    <archive path="C:/Users/bill/.m2/repository/com/google/inject/guice/3.0/guice-3.0.jar" />
+  </library>
+  <library name="Maven: commons-collections:commons-collections:3.2.1">
+    <archive path="C:/Users/bill/.m2/repository/commons-collections/commons-collections/3.2.1/commons-collections-3.2.1.jar" />
+  </library>
+  <library name="Maven: org.hamcrest:hamcrest-all:1.3">
+    <archive path="C:/Users/bill/.m2/repository/org/hamcrest/hamcrest-all/1.3/hamcrest-all-1.3.jar" />
+  </library>
+  <library name="Maven: cglib:cglib-nodep:2.2.2">
+    <archive path="C:/Users/bill/.m2/repository/cglib/cglib-nodep/2.2.2/cglib-nodep-2.2.2.jar" />
+  </library>
+  <library name="Maven: org.reflections:reflections:0.9.9-RC1">
+    <archive path="C:/Users/bill/.m2/repository/org/reflections/reflections/0.9.9-RC1/reflections-0.9.9-RC1.jar" />
+  </library>
+  <library name="Maven: commons-lang:commons-lang:2.5">
+    <archive path="C:/Users/bill/.m2/repository/commons-lang/commons-lang/2.5/commons-lang-2.5.jar" />
+  </library>
+  <library name="Maven: org.powermock:powermock-api-mockito:1.5.1">
+    <archive path="C:/Users/bill/.m2/repository/org/powermock/powermock-api-mockito/1.5.1/powermock-api-mockito-1.5.1.jar" />
+  </library>
+  <library name="Maven: org.axonframework:axon-core:2.0.7">
+    <archive path="C:/Users/bill/.m2/repository/org/axonframework/axon-core/2.0.7/axon-core-2.0.7.jar" />
+  </library>
+  <library name="Maven: org.powermock:powermock-api-support:1.5.1">
+    <archive path="C:/Users/bill/.m2/repository/org/powermock/powermock-api-support/1.5.1/powermock-api-support-1.5.1.jar" />
+  </library>
+  <library name="Maven: org.powermock:powermock-reflect:1.5.1">
+    <archive path="C:/Users/bill/.m2/repository/org/powermock/powermock-reflect/1.5.1/powermock-reflect-1.5.1.jar" />
+  </library>
+  <library name="Maven: aopalliance:aopalliance:1.0">
+    <archive path="C:/Users/bill/.m2/repository/aopalliance/aopalliance/1.0/aopalliance-1.0.jar" />
+  </library>
+  <library name="Maven: org.easytesting:fest-assert-core:2.0M10">
+    <archive path="C:/Users/bill/.m2/repository/org/easytesting/fest-assert-core/2.0M10/fest-assert-core-2.0M10.jar" />
+  </library>
+  <library name="Maven: xml-apis:xml-apis:1.0.b2">
+    <archive path="C:/Users/bill/.m2/repository/xml-apis/xml-apis/1.0.b2/xml-apis-1.0.b2.jar" />
+  </library>
+  <library name="Maven: org.mockito:mockito-all:1.9.5">
+    <archive path="C:/Users/bill/.m2/repository/org/mockito/mockito-all/1.9.5/mockito-all-1.9.5.jar" />
+  </library>
+  <library name="Maven: org.easytesting:fest-util:1.2.5">
+    <archive path="C:/Users/bill/.m2/repository/org/easytesting/fest-util/1.2.5/fest-util-1.2.5.jar" />
+  </library>
+  <library name="Maven: org.powermock:powermock-module-junit4-common:1.5.1">
+    <archive path="C:/Users/bill/.m2/repository/org/powermock/powermock-module-junit4-common/1.5.1/powermock-module-junit4-common-1.5.1.jar" />
+  </library>
+  <library name="Maven: javax.inject:javax.inject:1">
+    <archive path="C:/Users/bill/.m2/repository/javax/inject/javax.inject/1/javax.inject-1.jar" />
+  </library>
+  <library name="Maven: org.powermock:powermock-core:1.5.1">
+    <archive path="C:/Users/bill/.m2/repository/org/powermock/powermock-core/1.5.1/powermock-core-1.5.1.jar" />
+  </library>
+  <library name="Maven: org.hamcrest:hamcrest-core:1.3">
+    <archive path="C:/Users/bill/.m2/repository/org/hamcrest/hamcrest-core/1.3/hamcrest-core-1.3.jar" />
+  </library>
+  <library name="Maven: ch.qos.logback:logback-core:1.0.9">
+    <archive path="C:/Users/bill/.m2/repository/ch/qos/logback/logback-core/1.0.9/logback-core-1.0.9.jar" />
+  </library>
+  <library name="Maven: commons-io:commons-io:2.4">
+    <archive path="C:/Users/bill/.m2/repository/commons-io/commons-io/2.4/commons-io-2.4.jar" />
+  </library>
+  <library name="Maven: org.objenesis:objenesis:1.2">
+    <archive path="C:/Users/bill/.m2/repository/org/objenesis/objenesis/1.2/objenesis-1.2.jar" />
+  </library>
+  <library name="Maven: org.axonframework:axon-test:2.0.7">
+    <archive path="C:/Users/bill/.m2/repository/org/axonframework/axon-test/2.0.7/axon-test-2.0.7.jar" />
+  </library>
+  <library name="Maven: com.google.guava:guava:14.0.1">
+    <archive path="C:/Users/bill/.m2/repository/com/google/guava/guava/14.0.1/guava-14.0.1.jar" />
+  </library>
+  <library name="Maven: org.slf4j:slf4j-api:1.7.2">
+    <archive path="C:/Users/bill/.m2/repository/org/slf4j/slf4j-api/1.7.2/slf4j-api-1.7.2.jar" />
+  </library>
+  <library name="Maven: xpp3:xpp3_min:1.1.4c">
+    <archive path="C:/Users/bill/.m2/repository/xpp3/xpp3_min/1.1.4c/xpp3_min-1.1.4c.jar" />
+  </library>
+  <library name="Maven: org.powermock:powermock-module-junit4:1.5.1">
+    <archive path="C:/Users/bill/.m2/repository/org/powermock/powermock-module-junit4/1.5.1/powermock-module-junit4-1.5.1.jar" />
+  </library>
+  <library name="Maven: joda-time:joda-time:2.1">
+    <archive path="C:/Users/bill/.m2/repository/joda-time/joda-time/2.1/joda-time-2.1.jar" />
+  </library>
+  <library name="Maven: junit:junit:4.11">
+    <archive path="C:/Users/bill/.m2/repository/junit/junit/4.11/junit-4.11.jar" />
+  </library>
+  <library name="Maven: com.googlecode.disruptor:disruptor:2.10.3">
+    <archive path="C:/Users/bill/.m2/repository/com/googlecode/disruptor/disruptor/2.10.3/disruptor-2.10.3.jar" />
+  </library>
+  <library name="Maven: xmlpull:xmlpull:1.1.3.1">
+    <archive path="C:/Users/bill/.m2/repository/xmlpull/xmlpull/1.1.3.1/xmlpull-1.1.3.1.jar" />
+  </library>
+  <library name="ansi (v1.4.3, ruby-1.9.3-p392) [gem]">
+    <archive path="C:/Ruby193/lib/ruby/gems/1.9.1/gems/ansi-1.4.3/demo" />
+    <archive path="C:/Ruby193/lib/ruby/gems/1.9.1/gems/ansi-1.4.3/lib" />
+  </library>
+  <library name="builder (v3.2.0, ruby-1.9.3-p392) [gem]">
+    <archive path="C:/Ruby193/lib/ruby/gems/1.9.1/gems/builder-3.2.0/lib" />
+  </library>
+  <library name="debugger-ruby_core_source (v1.1.9, ruby-1.9.3-p392) [gem]">
+    <archive path="C:/Ruby193/lib/ruby/gems/1.9.1/gems/debugger-ruby_core_source-1.1.9/lib" />
+  </library>
+  <library name="hashie (v2.0.3, ruby-1.9.3-p392) [gem]">
+    <archive path="C:/Ruby193/lib/ruby/gems/1.9.1/gems/hashie-2.0.3/lib" />
+  </library>
+  <library name="jruby facet library">
+    <archive path="C:/jruby-1.7.3/lib/ruby/shared" />
+    <archive path="C:/jruby-1.7.3/lib/ruby/1.8" />
+    <archive path="C:/Users/bill/.IntelliJIdea12/config/plugins/ruby/rubystubs/rubystubs18" />
+  </library>
+  <library name="jruby facet library">
+    <archive path="C:/jruby-1.7.3/lib/ruby/shared" />
+    <archive path="C:/jruby-1.7.3/lib/ruby/1.8" />
+    <archive path="C:/Users/bill/.IntelliJIdea12/config/plugins/ruby/rubystubs/rubystubs18" />
+  </library>
+  <library name="jruby-win32ole (v0.8.5, jruby) [gem]">
+    <archive path="C:/jruby-1.7.3/lib/ruby/gems/shared/gems/jruby-win32ole-0.8.5/bin" />
+    <archive path="C:/jruby-1.7.3/lib/ruby/gems/shared/gems/jruby-win32ole-0.8.5/lib" />
+    <archive path="C:/jruby-1.7.3/lib/ruby/gems/shared/gems/jruby-win32ole-0.8.5/src" />
+    <archive path="C:/jruby-1.7.3/lib/ruby/gems/shared/gems/jruby-win32ole-0.8.5/samples" />
+    <archive path="C:/jruby-1.7.3/lib/ruby/gems/shared/gems/jruby-win32ole-0.8.5/nbproject" />
+  </library>
+  <library name="minitest (v4.7.0, ruby-1.9.3-p392) [gem]">
+    <archive path="C:/Ruby193/lib/ruby/gems/1.9.1/gems/minitest-4.7.0/lib" />
+  </library>
+  <library name="minitest-reporters (v0.14.12, ruby-1.9.3-p392) [gem]">
+    <archive path="C:/Ruby193/lib/ruby/gems/1.9.1/gems/minitest-reporters-0.14.12/lib" />
+  </library>
+  <library name="powerbar (v1.0.11, ruby-1.9.3-p392) [gem]">
+    <archive path="C:/Ruby193/lib/ruby/gems/1.9.1/gems/powerbar-1.0.11/ass" />
+    <archive path="C:/Ruby193/lib/ruby/gems/1.9.1/gems/powerbar-1.0.11/bin" />
+    <archive path="C:/Ruby193/lib/ruby/gems/1.9.1/gems/powerbar-1.0.11/lib" />
+  </library>
+  <library name="rake (v0.9.2.2, ruby-1.9.3-p392) [gem]">
+    <archive path="C:/Ruby193/lib/ruby/gems/1.9.1/gems/rake-0.9.2.2/bin" />
+  </library>
+  <library name="rake (v10.0.3, jruby) [gem]">
+    <archive path="C:/jruby-1.7.3/lib/ruby/gems/shared/gems/rake-10.0.3/bin" />
+    <archive path="C:/jruby-1.7.3/lib/ruby/gems/shared/gems/rake-10.0.3/lib" />
+  </library>
+  <library name="rake (v10.0.4, ruby-1.9.3-p392) [gem]">
+    <archive path="C:/Ruby193/lib/ruby/gems/1.9.1/gems/rake-10.0.4/bin" />
+    <archive path="C:/Ruby193/lib/ruby/gems/1.9.1/gems/rake-10.0.4/lib" />
+  </library>
+  <library name="rdoc (v3.9.5, ruby-1.9.3-p392) [gem]">
+    <archive path="C:/Ruby193/lib/ruby/gems/1.9.1/gems/rdoc-3.9.5/bin" />
+  </library>
+  <library name="rdoc (v4.0.1, ruby-1.9.3-p392) [gem]">
+    <archive path="C:/Ruby193/lib/ruby/gems/1.9.1/gems/rdoc-4.0.1/bin" />
+    <archive path="C:/Ruby193/lib/ruby/gems/1.9.1/gems/rdoc-4.0.1/lib" />
+  </library>
+  <library name="ruby-debug-ide (v0.4.17.beta16, ruby-1.9.3-p392) [gem]">
+    <archive path="C:/Ruby193/lib/ruby/gems/1.9.1/gems/ruby-debug-ide-0.4.17.beta16/bin" />
+    <archive path="C:/Ruby193/lib/ruby/gems/1.9.1/gems/ruby-debug-ide-0.4.17.beta16/ext" />
+    <archive path="C:/Ruby193/lib/ruby/gems/1.9.1/gems/ruby-debug-ide-0.4.17.beta16/lib" />
+  </library>
+  <library name="sequel (v3.45.0, ruby-1.9.3-p392) [gem]">
+    <archive path="C:/Ruby193/lib/ruby/gems/1.9.1/gems/sequel-3.45.0/bin" />
+    <archive path="C:/Ruby193/lib/ruby/gems/1.9.1/gems/sequel-3.45.0/lib" />
+  </library>
+  <library name="win32console (v1.3.2, ruby-1.9.3-p392) [gem]">
+    <archive path="C:/Ruby193/lib/ruby/gems/1.9.1/gems/win32console-1.3.2-x86-mingw32/ext" />
+    <archive path="C:/Ruby193/lib/ruby/gems/1.9.1/gems/win32console-1.3.2-x86-mingw32/lib" />
+    <archive path="C:/Ruby193/lib/ruby/gems/1.9.1/gems/win32console-1.3.2-x86-mingw32/extra" />
+    <archive path="C:/Ruby193/lib/ruby/gems/1.9.1/gems/win32console-1.3.2-x86-mingw32/tasks" />
+  </library>
+</eclipse-userlibraries>
+

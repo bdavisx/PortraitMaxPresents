@@ -7,7 +7,7 @@ public class RememberedPresentationSettingsTest {
 
   public File getCurrentImageDirectory() { return currentImageDirectory; }
 
-  public void setCurrentImageDirectory( File currentImageDirectory ) {
+  public void setCurrentImageDirectory( final File currentImageDirectory ) {
     this.currentImageDirectory = currentImageDirectory;
   }
 }

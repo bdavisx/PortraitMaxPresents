@@ -17,6 +17,7 @@ package org.bushe.swing.event;
 
 import java.awt.Component;
 import java.awt.event.ActionEvent;
+
 import javax.swing.ImageIcon;
 
 /**
@@ -43,11 +44,12 @@ public class ContainerEventServiceAction extends EventServiceAction {
    public ContainerEventServiceAction() {
    }
 
-   public ContainerEventServiceAction(String actionName, ImageIcon icon) {
+   public ContainerEventServiceAction(final String actionName, final ImageIcon icon) {
       super(actionName, icon);
    }
 
-   protected EventService getEventService(ActionEvent event) {
+   @Override
+protected EventService getEventService(final ActionEvent event) {
       Component comp = null;
       try {
          if (event.getSource() instanceof Component) {
@@ -60,7 +62,7 @@ public class ContainerEventServiceAction extends EventServiceAction {
          } else {
             return ContainerEventServiceFinder.getEventService(comp);
          }
-      } catch (ClassCastException ex) {
+      } catch (final ClassCastException ex) {
          if (getThrowsExceptionOnNullEventService()) {
             throw new RuntimeException("ActionEvent source was not a component (" + (comp == null ? "null" : comp.getClass() + "") + "), must override getContainerEventService in action with id:" + getName(), ex);
          }

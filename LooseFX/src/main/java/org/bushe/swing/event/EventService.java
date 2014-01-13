@@ -15,9 +15,9 @@
  */
 package org.bushe.swing.event;
 
+import java.lang.reflect.Type;
 import java.util.List;
 import java.util.regex.Pattern;
-import java.lang.reflect.Type;
 
 /**
  * The core interface.  An EventService provides publish/subscribe services to a single JVM using Class-based and
@@ -70,7 +70,7 @@ import java.lang.reflect.Type;
  * before the first "Fo*" subscriber (ditto List and ArrayList). Prioritized subscribers are always guaranteed to be in
  * the order of priority, no matter the call or the resulting mix of subscribers.  All ordering rules apply to all
  * types subscribers: class, topic, pattern, veto, etc.  For Swing users, note that FIFO is
- * the opposite of Swing, where event listeners are called in the reverse order of when they were subscribed (FILO).    
+ * the opposite of Swing, where event listeners are called in the reverse order of when they were subscribed (FILO).
  * <p/>
  * Publication on a class or topic name can be vetoed by a {@link VetoEventListener}. All VetoEventListeners are checked
  * before any EventSubscribers or EventTopicSubscribers are called. This is unlike the JavaBean's
@@ -144,7 +144,7 @@ public interface EventService {
     * EventBus.publish(publishingTypeReference.getType(), trades);
     * </pre>
     * <p>
-    * @param genericType the generified type of the published object.  
+    * @param genericType the generified type of the published object.
     * @param event The event that occurred
     */
    public void publish(Type genericType, Object event);
@@ -183,7 +183,7 @@ public interface EventService {
     */
    public boolean subscribe(Class eventClass, EventSubscriber subscriber);
 
-  /** 
+  /**
    * Subscribe an EventSubscriber to publication of generic Types.
    * Subscribers will only be notified for publications using  {@link #publish(java.lang.reflect.Type, Object)}.
    * <p>
@@ -370,7 +370,7 @@ public interface EventService {
    public boolean unsubscribe(Pattern topicPattern, EventTopicSubscriber subscriber);
 
    /**
-    * Subscribes a VetoEventListener to publication of event matching a class.  Only a <b>WeakReference</b> to the 
+    * Subscribes a VetoEventListener to publication of event matching a class.  Only a <b>WeakReference</b> to the
     * VetoEventListener is held by the EventService.
     * <p/>
     * Use this method to avoid having to call unsubscribe(), though with care since garbage collection semantics is
@@ -391,7 +391,7 @@ public interface EventService {
    public boolean subscribeVetoListener(Class eventClass, VetoEventListener vetoListener);
 
    /**
-    * Subscribes a VetoEventListener to publication of an exact event class.  Only a <b>WeakReference</b> to the 
+    * Subscribes a VetoEventListener to publication of an exact event class.  Only a <b>WeakReference</b> to the
     * VetoEventListener is held by the EventService.
     * <p/>
     * Use this method to avoid having to call unsubscribe(), though with care since garbage collection semantics is
@@ -424,7 +424,7 @@ public interface EventService {
 
    /**
     * Subscribes an VetoTopicEventListener to all the topic names that match the RegEx Pattern.  Only a
-    * <b>WeakReference</b> to the VetoEventListener is held by the EventService.  
+    * <b>WeakReference</b> to the VetoEventListener is held by the EventService.
     *
     * @param topicPattern the RegEx pattern to match topics with
     * @param vetoListener The vetoListener that can determine whether an event is published.
@@ -674,8 +674,9 @@ public interface EventService {
     *             In EventBus 2.0 this name will replace getVetoEventListeners()
     *             and have it's union functionality
     */
-   public <T> List<T> getVetoSubscribers(String topic);
-      
+   @Deprecated
+public <T> List<T> getVetoSubscribers(String topic);
+
    /** Clears all current subscribers and veto subscribers */
    public void clearAllSubscribers();
 

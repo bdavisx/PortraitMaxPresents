@@ -56,7 +56,7 @@ public class EventServiceLocator {
    public static final String SERVICE_NAME_EVENT_BUS = "EventBus";
    /** The name "SwingEventService" is reserved for the service that is returned by {@link #getSwingEventService}. */
    public static final String SERVICE_NAME_SWING_EVENT_SERVICE = "SwingEventService";
-   
+
    /**
     * Set this Java property to a Class that implements EventService to use an instance of that class instead of
     * the instance returned by {@link #getSwingEventService}.  Must be set before {@link #getEventBusService()} is called.
@@ -98,7 +98,7 @@ public class EventServiceLocator {
     *
     * @return a named event service instance
     */
-   public static synchronized EventService getEventService(String serviceName) {
+   public static synchronized EventService getEventService(final String serviceName) {
       EventService es = (EventService) EVENT_SERVICES.get(serviceName);
       if (es == null) {
          if (SERVICE_NAME_EVENT_BUS.equals(serviceName)) {
@@ -112,13 +112,13 @@ public class EventServiceLocator {
 
    /**
     * Registers a named EventService to the locator.  Can be used to change the default EventBus implementation.
-    * 
+    *
     * @param serviceName a named event service instance
     * @param es the EventService to attach to the service name
     *
     * @throws EventServiceExistsException if a service by this name already exists and the new service is non-null
     */
-   public static synchronized void setEventService(String serviceName, EventService es) throws EventServiceExistsException {
+   public static synchronized void setEventService(final String serviceName, final EventService es) throws EventServiceExistsException {
       if (EVENT_SERVICES.get(serviceName) != null && es != null) {
          throw new EventServiceExistsException("An event service by the name " + serviceName + "already exists.  Perhaps multiple threads tried to create a service about the same time?");
       } else {
@@ -142,27 +142,27 @@ public class EventServiceLocator {
          SWING_EVENT_SERVICE = null;
    }
 
-   private static synchronized EventService getEventService(String eventServiceClassPropertyName, EventService defaultService) {
+   private static synchronized EventService getEventService(final String eventServiceClassPropertyName, final EventService defaultService) {
       EventService result;
-      String eventServiceClassName = System.getProperty(eventServiceClassPropertyName);
+      final String eventServiceClassName = System.getProperty(eventServiceClassPropertyName);
       if (eventServiceClassName != null) {
          Class sesClass;
          try {
             sesClass = Class.forName(eventServiceClassName);
-         } catch (ClassNotFoundException e) {
+         } catch (final ClassNotFoundException e) {
             throw new RuntimeException("Could not find class specified in the property " + eventServiceClassPropertyName + ".  Class=" + eventServiceClassName, e);
          }
          Object service;
          try {
             service = sesClass.newInstance();
-         } catch (InstantiationException e) {
+         } catch (final InstantiationException e) {
             throw new RuntimeException("InstantiationException creating instance of class set from Java property" + eventServiceClassPropertyName + ".  Class=" + eventServiceClassName, e);
-         } catch (IllegalAccessException e) {
+         } catch (final IllegalAccessException e) {
             throw new RuntimeException("IllegalAccessException creating instance of class set from Java property" + eventServiceClassPropertyName + ".  Class=" + eventServiceClassName, e);
          }
          try {
             result = (EventService) service;
-         } catch (ClassCastException ex) {
+         } catch (final ClassCastException ex) {
             throw new RuntimeException("ClassCastException casting to " + EventService.class + " from instance of class set from Java property" + eventServiceClassPropertyName + ".  Class=" + eventServiceClassName, ex);
          }
       } else {

@@ -5,7 +5,7 @@ import java.util.UUID;
 public abstract class AbstractPresentationEvent {
   protected UUID presentationId;
 
-  public AbstractPresentationEvent( UUID presentationId ) {
+  public AbstractPresentationEvent( final UUID presentationId ) {
     this.presentationId = presentationId;
   }
 

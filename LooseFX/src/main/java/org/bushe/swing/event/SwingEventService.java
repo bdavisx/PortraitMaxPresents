@@ -15,9 +15,10 @@
  */
 package org.bushe.swing.event;
 
-import javax.swing.*;
 import java.util.Arrays;
 import java.util.List;
+
+import javax.swing.SwingUtilities;
 
 /**
  * An {@link EventService} implementation for Swing.
@@ -39,7 +40,7 @@ public class SwingEventService extends ThreadSafeEventService {
       super((long) 200, false, null, null, null);
    }
 
-   public SwingEventService(Long timeThresholdForEventTimingEventPublication) {
+   public SwingEventService(final Long timeThresholdForEventTimingEventPublication) {
       super(timeThresholdForEventTimingEventPublication, false, null, null, null);
    }
 
@@ -62,7 +63,7 @@ public class SwingEventService extends ThreadSafeEventService {
     * @throws IllegalArgumentException if timeThresholdForEventTimingEventPublication is null and
     * subscribeTimingEventsInternally is true.
     */
-   public SwingEventService(Long timeThresholdForEventTimingEventPublication, boolean subscribeTimingEventsInternally) {
+   public SwingEventService(final Long timeThresholdForEventTimingEventPublication, final boolean subscribeTimingEventsInternally) {
       super(timeThresholdForEventTimingEventPublication, subscribeTimingEventsInternally, null, null, null);
    }
 
@@ -72,7 +73,8 @@ public class SwingEventService extends ThreadSafeEventService {
     * DOES NOT post a new event on the EDT.  The subscribers are called on the same EDT event, just like addXXXListeners
     * would be.
     */
-   protected void publish(final Object event, final String topic, final Object eventObj,
+   @Override
+protected void publish(final Object event, final String topic, final Object eventObj,
            final List subscribers, final List vetoSubscribers, final StackTraceElement[] callingStack) {
       if (SwingUtilities.isEventDispatchThread()) {
          super.publish(event, topic, eventObj, subscribers, vetoSubscribers, callingStack);
@@ -80,7 +82,8 @@ public class SwingEventService extends ThreadSafeEventService {
          //Make call to this method - stick on the EDT if not on the EDT
          //Check the params first so that this thread can get the exception thrown
          SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
+            @Override
+			public void run() {
                if (LOG.isLoggable(Logger.Level.DEBUG)) {
                   LOG.debug("publish(" + event + "," + topic + "," + eventObj
                           + "), called from non-EDT Thread:" + Arrays.toString(callingStack));

@@ -1,35 +1,35 @@
 package org.bushe.swing.event.annotation;
 
 import java.lang.ref.WeakReference;
-import java.lang.reflect.Method;
 import java.lang.reflect.AccessibleObject;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
 import org.bushe.swing.event.EventService;
-import org.bushe.swing.event.ProxySubscriber;
 import org.bushe.swing.event.Prioritized;
+import org.bushe.swing.event.ProxySubscriber;
 
 /**
  * Common base class for EventService Proxies.
  * <p>
  * Implementing Prioritized even when Priority is not used is always OK.  The default
- * value of 0 retains the FIFO order. 
+ * value of 0 retains the FIFO order.
  */
 public abstract class AbstractProxySubscriber implements ProxySubscriber, Prioritized {
    private Object proxiedSubscriber;
-   private Method subscriptionMethod;
-   private ReferenceStrength referenceStrength;
-   private EventService eventService;
-   private int priority;
+   private final Method subscriptionMethod;
+   private final ReferenceStrength referenceStrength;
+   private final EventService eventService;
+   private final int priority;
    protected boolean veto;
 
-   protected AbstractProxySubscriber(Object proxiedSubscriber, Method subscriptionMethod,
-           ReferenceStrength referenceStrength, EventService es, boolean veto) {
+   protected AbstractProxySubscriber(final Object proxiedSubscriber, final Method subscriptionMethod,
+           final ReferenceStrength referenceStrength, final EventService es, final boolean veto) {
       this(proxiedSubscriber, subscriptionMethod, referenceStrength, 0, es, veto);
    }
 
-   protected AbstractProxySubscriber(Object proxiedSubscriber, Method subscriptionMethod,
-           ReferenceStrength referenceStrength, int priority, EventService es, boolean veto) {
+   protected AbstractProxySubscriber(final Object proxiedSubscriber, final Method subscriptionMethod,
+           final ReferenceStrength referenceStrength, final int priority, final EventService es, final boolean veto) {
       this.referenceStrength = referenceStrength;
       this.priority = priority;
       eventService = es;
@@ -40,7 +40,7 @@ public abstract class AbstractProxySubscriber implements ProxySubscriber, Priori
       if (subscriptionMethod == null) {
          throw new IllegalArgumentException("The subscriptionMethod cannot be null when constructing a proxy subscriber.");
       }
-      Class<?> returnType = subscriptionMethod.getReturnType();
+      final Class<?> returnType = subscriptionMethod.getReturnType();
       if (veto && returnType != Boolean.TYPE) {
          throw new IllegalArgumentException("The subscriptionMethod must have the two parameters, the first one must be a String and the second a non-primitive (Object or derivative).");
       }
@@ -53,13 +53,14 @@ public abstract class AbstractProxySubscriber implements ProxySubscriber, Priori
    }
 
    /** @return the object this proxy is subscribed on behalf of */
-   public Object getProxiedSubscriber() {
+   @Override
+public Object getProxiedSubscriber() {
       if (proxiedSubscriber instanceof WeakReference) {
          return ((WeakReference)proxiedSubscriber).get();
       }
       return proxiedSubscriber;
    }
-   
+
    /** @return the subscriptionMethod passed in the constructor */
    public Method getSubscriptionMethod() {
       return subscriptionMethod;
@@ -71,25 +72,28 @@ public abstract class AbstractProxySubscriber implements ProxySubscriber, Priori
    }
 
    /** @return the ReferenceStrength passed in the constructor */
-   public ReferenceStrength getReferenceStrength() {
+   @Override
+public ReferenceStrength getReferenceStrength() {
       return referenceStrength;
    }
 
    /**
     * @return the priority, no effect if priority is 0 (the default value)
     */
-   public int getPriority() {
+   @Override
+public int getPriority() {
       return priority;
    }
 
    /**
-    * Called by EventServices to inform the proxy that it is unsubscribed.  
+    * Called by EventServices to inform the proxy that it is unsubscribed.
     * The ProxySubscriber should perform any necessary cleanup.
     * <p>
     * <b>Overriding classes must call super.proxyUnsubscribed() or risk
     * things not being cleanup up properly.</b>
     */
-   public void proxyUnsubscribed() {
+   @Override
+public void proxyUnsubscribed() {
       proxiedSubscriber = null;
    }
 
@@ -101,20 +105,20 @@ public abstract class AbstractProxySubscriber implements ProxySubscriber, Priori
               "successive calls as required by hashCode.");
    }
 
-   protected boolean retryReflectiveCallUsingAccessibleObject(Object[] args, Method subscriptionMethod, Object obj,
-           IllegalAccessException e, String message) {
+   protected boolean retryReflectiveCallUsingAccessibleObject(final Object[] args, final Method subscriptionMethod, final Object obj,
+           final IllegalAccessException e, String message) {
       boolean accessibleTriedAndFailed = false;
       if (subscriptionMethod != null) {
-         AccessibleObject[] accessibleMethod = {subscriptionMethod};
+         final AccessibleObject[] accessibleMethod = {subscriptionMethod};
          try {
             AccessibleObject.setAccessible(accessibleMethod, true);
-            Object returnValue = subscriptionMethod.invoke(obj, args);
+            final Object returnValue = subscriptionMethod.invoke(obj, args);
             return Boolean.valueOf(returnValue+"");
-         } catch (SecurityException ex) {
+         } catch (final SecurityException ex) {
             accessibleTriedAndFailed = true;
-         } catch (InvocationTargetException e1) {
+         } catch (final InvocationTargetException e1) {
             throw new RuntimeException(message, e);
-         } catch (IllegalAccessException e1) {
+         } catch (final IllegalAccessException e1) {
             throw new RuntimeException(message, e);
          }
       }
@@ -125,9 +129,9 @@ public abstract class AbstractProxySubscriber implements ProxySubscriber, Priori
    }
 
    @Override
-   public boolean equals(Object obj) {
+   public boolean equals(final Object obj) {
       if (obj instanceof AbstractProxySubscriber) {
-         AbstractProxySubscriber bps = (AbstractProxySubscriber) obj;
+         final AbstractProxySubscriber bps = (AbstractProxySubscriber) obj;
          if (referenceStrength != bps.referenceStrength) {
             return false;
          }
@@ -137,7 +141,7 @@ public abstract class AbstractProxySubscriber implements ProxySubscriber, Priori
          if (ReferenceStrength.WEAK == referenceStrength) {
             if (((WeakReference)proxiedSubscriber).get() != ((WeakReference)bps.proxiedSubscriber).get()) {
                return false;
-            }            
+            }
          } else {
             if (proxiedSubscriber != bps.proxiedSubscriber) {
                return false;

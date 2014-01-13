@@ -41,5 +41,5 @@ public interface ProxySubscriber {
    /**
     * @return the reference strength from this proxy to the proxied subscriber
     */
-   public ReferenceStrength getReferenceStrength();  
+   public ReferenceStrength getReferenceStrength();
 }

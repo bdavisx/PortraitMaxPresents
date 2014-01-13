@@ -16,6 +16,7 @@
 package org.bushe.swing.event;
 
 import java.awt.event.ActionEvent;
+
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.ImageIcon;
@@ -52,7 +53,7 @@ public abstract class EventServiceAction extends AbstractAction {
    public EventServiceAction() {
    }
 
-   public EventServiceAction(String actionName, ImageIcon icon) {
+   public EventServiceAction(final String actionName, final ImageIcon icon) {
       super(actionName, icon);
    }
 
@@ -80,7 +81,7 @@ public abstract class EventServiceAction extends AbstractAction {
     *
     * @param onTopic true if publishes on topic (the default), false if using class-based publication.
     */
-   public void setPublishesOnTopic(boolean onTopic) {
+   public void setPublishesOnTopic(final boolean onTopic) {
       this.publishesOnTopic = onTopic;
    }
 
@@ -90,7 +91,7 @@ public abstract class EventServiceAction extends AbstractAction {
     * A topic name does not need to be explicitly set.  See {@link #getTopicName(ActionEvent)} to understand how the
     * topic name is determined implicitly.
     */
-   public void setTopicName(String topicName) {
+   public void setTopicName(final String topicName) {
       this.topicName = topicName;
    }
 
@@ -108,7 +109,7 @@ public abstract class EventServiceAction extends AbstractAction {
     *
     * @return the topic name to publish on, getCommandId() by default
     */
-   public String getTopicName(ActionEvent event) {
+   public String getTopicName(final ActionEvent event) {
       if (topicName != null) {
          return topicName;
       }
@@ -143,7 +144,7 @@ public abstract class EventServiceAction extends AbstractAction {
     *
     * @return the topic value to publish, getCommandId() by default
     */
-   protected Object getTopicValue(ActionEvent event) {
+   protected Object getTopicValue(final ActionEvent event) {
       return event;
    }
 
@@ -158,7 +159,7 @@ public abstract class EventServiceAction extends AbstractAction {
     *
     * @return the Object to publish, cannot be null
     */
-   protected Object getEventServiceEvent(ActionEvent event) {
+   protected Object getEventServiceEvent(final ActionEvent event) {
       return event;
    }
 
@@ -175,8 +176,9 @@ public abstract class EventServiceAction extends AbstractAction {
     *
     * @throws RuntimeException if getThrowsExceptionOnNullEventService() &&  getEventService(event) == null
     */
-   public void actionPerformed(ActionEvent event) {
-      EventService eventService = getEventService(event);
+   @Override
+public void actionPerformed(final ActionEvent event) {
+      final EventService eventService = getEventService(event);
       if (eventService == null) {
          if (getThrowsExceptionOnNullEventService()) {
             throw new RuntimeException("Null EventService supplied to EventServiceAction with name:" + getName());
@@ -185,11 +187,11 @@ public abstract class EventServiceAction extends AbstractAction {
          }
       }
       if (isPublishesOnTopic()) {
-         String topic = getTopicName(event);
-         Object topicValue = getTopicValue(event);
+         final String topic = getTopicName(event);
+         final Object topicValue = getTopicValue(event);
          eventService.publish(topic, topicValue);
       } else {
-         Object esEvent = getEventServiceEvent(event);
+         final Object esEvent = getEventServiceEvent(event);
          eventService.publish(esEvent);
       }
    }
@@ -208,7 +210,7 @@ public abstract class EventServiceAction extends AbstractAction {
     *
     * @param throwsExceptionOnNullEventService true to suppress the exception when there is no event service
     */
-   public void setThrowsExceptionOnNullEventService(boolean throwsExceptionOnNullEventService) {
+   public void setThrowsExceptionOnNullEventService(final boolean throwsExceptionOnNullEventService) {
       this.throwsExceptionOnNullEventService = throwsExceptionOnNullEventService;
    }
 }

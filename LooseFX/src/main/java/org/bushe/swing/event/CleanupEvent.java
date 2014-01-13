@@ -26,18 +26,18 @@ public class CleanupEvent {
       /** Timer has started the cleanup task. Will be followed by at least one more CleanupEvent.*/
       STARTING,
       /** Task has determined there's cleanup to do.*/
-      OVER_STOP_THRESHOLD_CLEANING_BEGUN, 
+      OVER_STOP_THRESHOLD_CLEANING_BEGUN,
       /** Task has determined there's no cleanup to do.*/
-      UNDER_STOP_THRESHOLD_CLEANING_CANCELLED, 
+      UNDER_STOP_THRESHOLD_CLEANING_CANCELLED,
       /** Finished cleaning up task.*/
       FINISHED_CLEANING;
    }
-   
-   private Status status;
-   private int totalWeakRefsAndProxies;
-   private Integer numStaleSubscribersCleaned;
-   
-   public CleanupEvent(Status status, int totalWeakRefsAndProxies, Integer numStaleSubscribersCleaned) {
+
+   private final Status status;
+   private final int totalWeakRefsAndProxies;
+   private final Integer numStaleSubscribersCleaned;
+
+   public CleanupEvent(final Status status, final int totalWeakRefsAndProxies, final Integer numStaleSubscribersCleaned) {
       this.status = status;
       this.totalWeakRefsAndProxies = totalWeakRefsAndProxies;
       this.numStaleSubscribersCleaned = numStaleSubscribersCleaned;

@@ -9,7 +9,7 @@ import org.bushe.swing.event.VetoEventListener;
 /** A class is subscribed to an EventService on behalf of another object. */
 public class BaseProxySubscriber extends AbstractProxySubscriber
         implements org.bushe.swing.event.EventSubscriber, VetoEventListener {
-   private Class subscriptionClass;
+   private final Class subscriptionClass;
 
    /**
     * Creates a proxy.  This does not subscribe it.
@@ -23,8 +23,8 @@ public class BaseProxySubscriber extends AbstractProxySubscriber
     * @param subscription the class to subscribe to, used for unsubscription only
     * @param veto whether this is a veto subscriber
     */
-   public BaseProxySubscriber(Object proxiedSubscriber, Method subscriptionMethod, ReferenceStrength referenceStrength,
-           EventService es, Class subscription, boolean veto) {
+   public BaseProxySubscriber(final Object proxiedSubscriber, final Method subscriptionMethod, final ReferenceStrength referenceStrength,
+           final EventService es, final Class subscription, final boolean veto) {
       this(proxiedSubscriber, subscriptionMethod, referenceStrength, 0, es, subscription, veto);
    }
 
@@ -40,11 +40,11 @@ public class BaseProxySubscriber extends AbstractProxySubscriber
     * @param subscription the class to subscribe to, used for unsubscription only
     * @param veto whether this is a veto subscriber
     */
-   public BaseProxySubscriber(Object proxiedSubscriber, Method subscriptionMethod, ReferenceStrength referenceStrength,
-           int priority, EventService es, Class subscription, boolean veto) {
+   public BaseProxySubscriber(final Object proxiedSubscriber, final Method subscriptionMethod, final ReferenceStrength referenceStrength,
+           final int priority, final EventService es, final Class subscription, final boolean veto) {
       super(proxiedSubscriber, subscriptionMethod, referenceStrength, priority, es, veto);
       this.subscriptionClass = subscription;
-      Class[] params = subscriptionMethod.getParameterTypes();
+      final Class[] params = subscriptionMethod.getParameterTypes();
       if (params == null || params.length != 1 || params[0].isPrimitive()) {
          throw new IllegalArgumentException("The subscriptionMethod must have a single non-primitive parameter.");
       }
@@ -55,8 +55,9 @@ public class BaseProxySubscriber extends AbstractProxySubscriber
     *
     * @param event The Object that is being published.
     */
-   public void onEvent(Object event) {
-      Object[] args = new Object[]{event};
+   @Override
+public void onEvent(final Object event) {
+      final Object[] args = new Object[]{event};
       Method subscriptionMethod = null;
       Object obj = null;
       try {
@@ -67,17 +68,18 @@ public class BaseProxySubscriber extends AbstractProxySubscriber
          }
          subscriptionMethod = getSubscriptionMethod();
          subscriptionMethod.invoke(obj, args);
-      } catch (IllegalAccessException e) {
-         String message = "Exception when invoking annotated method from EventService publication.  Event class:" + event.getClass() + ", Event:" + event + ", subscriber:" + getProxiedSubscriber() + ", subscription Method=" + getSubscriptionMethod();
+      } catch (final IllegalAccessException e) {
+         final String message = "Exception when invoking annotated method from EventService publication.  Event class:" + event.getClass() + ", Event:" + event + ", subscriber:" + getProxiedSubscriber() + ", subscription Method=" + getSubscriptionMethod();
          retryReflectiveCallUsingAccessibleObject(args, subscriptionMethod, obj, e, message);
-      } catch (InvocationTargetException e) {
+      } catch (final InvocationTargetException e) {
          throw new RuntimeException("InvocationTargetException when invoking annotated method from EventService publication.  Event class:" + event.getClass() + ", Event:" + event + ", subscriber:" + getProxiedSubscriber() + ", subscription Method=" + getSubscriptionMethod(), e);
       }
    }
 
 
-   public boolean shouldVeto(Object event) {
-      Object[] args = new Object[]{event};
+   @Override
+public boolean shouldVeto(final Object event) {
+      final Object[] args = new Object[]{event};
       Method subscriptionMethod = null;
       Object obj = null;
       try {
@@ -88,21 +90,21 @@ public class BaseProxySubscriber extends AbstractProxySubscriber
          }
          subscriptionMethod = getSubscriptionMethod();
          return Boolean.valueOf(subscriptionMethod.invoke(obj, args)+"");
-      } catch (IllegalAccessException e) {
-         String message = "Exception when invoking annotated method from EventService publication.  Event class:" + event.getClass() + ", Event:" + event + ", subscriber:" + getProxiedSubscriber() + ", subscription Method=" + getSubscriptionMethod();
+      } catch (final IllegalAccessException e) {
+         final String message = "Exception when invoking annotated method from EventService publication.  Event class:" + event.getClass() + ", Event:" + event + ", subscriber:" + getProxiedSubscriber() + ", subscription Method=" + getSubscriptionMethod();
          return retryReflectiveCallUsingAccessibleObject(args, subscriptionMethod, obj, e, message);
-      } catch (InvocationTargetException e) {
+      } catch (final InvocationTargetException e) {
          throw new RuntimeException("InvocationTargetException when invoking annotated method from EventService publication.  Event class:" + event.getClass() + ", Event:" + event + ", subscriber:" + getProxiedSubscriber() + ", subscription Method=" + getSubscriptionMethod(), e);
       }
    }
 
    @Override
-   public boolean equals(Object obj) {
+   public boolean equals(final Object obj) {
       if (obj instanceof BaseProxySubscriber) {
          if (!super.equals(obj)) {
             return false;
          }
-         BaseProxySubscriber bps = (BaseProxySubscriber) obj;
+         final BaseProxySubscriber bps = (BaseProxySubscriber) obj;
          if (subscriptionClass != bps.subscriptionClass) {
             if (subscriptionClass == null) {
                return false;

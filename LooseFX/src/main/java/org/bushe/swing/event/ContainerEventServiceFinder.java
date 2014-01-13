@@ -16,6 +16,7 @@
 package org.bushe.swing.event;
 
 import java.awt.Component;
+
 import javax.swing.JComponent;
 import javax.swing.JPopupMenu;
 import javax.swing.RootPaneContainer;
@@ -67,7 +68,7 @@ public class ContainerEventServiceFinder {
                if (!(component instanceof JComponent)) {
                   return null;
                }
-               JComponent jComp = ((JComponent) component);
+               final JComponent jComp = ((JComponent) component);
                SwingEventService eventService = (SwingEventService) jComp.getClientProperty(CLIENT_PROPERTY_KEY_TOP_LEVEL_EVENT_SERVICE);
                if (eventService == null) {
                   eventService = new SwingEventService();

@@ -11,7 +11,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 public class AddFilesToPresentationCommand {
   @TargetAggregateIdentifier
-  private UUID presentationId;
+  private final UUID presentationId;
   private final List<File> filesToAdd;
 
   public AddFilesToPresentationCommand( final UUID presentationId, final List<File> filesToAdd ) {
@@ -27,10 +27,10 @@ public class AddFilesToPresentationCommand {
   }
 
   @Override
-  public boolean equals( Object o ) {
+  public boolean equals( final Object o ) {
     if( this == o ) return true;
     if( o == null || getClass() != o.getClass() ) return false;
-    AddFilesToPresentationCommand that = (AddFilesToPresentationCommand) o;
+    final AddFilesToPresentationCommand that = (AddFilesToPresentationCommand) o;
     if( !getPresentationId().equals( that.getPresentationId() ) ||
       !filesToAdd.equals( that.filesToAdd ) ) {
       return false;

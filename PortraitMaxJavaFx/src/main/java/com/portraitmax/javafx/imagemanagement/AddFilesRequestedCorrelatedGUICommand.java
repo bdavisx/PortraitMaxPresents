@@ -8,7 +8,7 @@ import java.util.UUID;
 public class AddFilesRequestedCorrelatedGUICommand extends AbstractCorrelatedGUICommand {
   private final Window parentWindow;
 
-  public AddFilesRequestedCorrelatedGUICommand( UUID correlationIdentifier, Window parentWindow ) {
+  public AddFilesRequestedCorrelatedGUICommand( final UUID correlationIdentifier, final Window parentWindow ) {
     super( correlationIdentifier );
     this.parentWindow = parentWindow;
   }

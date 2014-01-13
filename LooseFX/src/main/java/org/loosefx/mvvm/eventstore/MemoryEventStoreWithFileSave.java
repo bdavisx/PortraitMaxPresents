@@ -35,7 +35,7 @@ public class MemoryEventStoreWithFileSave implements EventStore, SnapshotEventSt
   public void appendEvents( final String type, final DomainEventStream events ) {
     if (!events.hasNext()) { return; }
 
-    List<DomainEventMessage> eventsForType = getOrCreateRegularEventListForType( type );
+    final List<DomainEventMessage> eventsForType = getOrCreateRegularEventListForType( type );
     while( events.hasNext() ) {
       eventsForType.add( events.next() );
     }
@@ -43,7 +43,7 @@ public class MemoryEventStoreWithFileSave implements EventStore, SnapshotEventSt
 
   @Override
   public void appendSnapshotEvent( final String type, final DomainEventMessage snapshotEvent ) {
-    List<DomainEventMessage> snapshotEventsForType = getOrCreateSnapshotEventListForType( type );
+    final List<DomainEventMessage> snapshotEventsForType = getOrCreateSnapshotEventListForType( type );
     snapshotEventsForType.add( snapshotEvent );
   }
 
@@ -61,9 +61,9 @@ public class MemoryEventStoreWithFileSave implements EventStore, SnapshotEventSt
     final List<DomainEventMessage> regularEventListForType = getEventListForType( type, typeToRegularEventsListMap );
     if( snapshotEventListForType == null && regularEventListForType == null ) { return eventsForStream; }
 
-    Optional<DomainEventMessage> lastSnapshotEventOptional = getLastSnapshotEventOptional(
+    final Optional<DomainEventMessage> lastSnapshotEventOptional = getLastSnapshotEventOptional(
       identifier, snapshotEventListForType );
-    long startingSequenceNumber = lastSnapshotEventOptional.isPresent() ?
+    final long startingSequenceNumber = lastSnapshotEventOptional.isPresent() ?
       lastSnapshotEventOptional.get().getSequenceNumber() : -1;
 
     Stream<DomainEventMessage> domainEventsAfterSnapshot = null;

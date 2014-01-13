@@ -19,6 +19,7 @@ import java.awt.event.ContainerEvent;
 import java.awt.event.ContainerListener;
 import java.awt.event.HierarchyEvent;
 import java.awt.event.HierarchyListener;
+
 import javax.swing.JComponent;
 import javax.swing.event.AncestorEvent;
 import javax.swing.event.AncestorListener;
@@ -35,11 +36,11 @@ import javax.swing.event.AncestorListener;
  * @author Michael Bushe michael@bushe.com
  */
 public class ContainerEventServiceRegistrar {
-   private JComponent jComp;
-   private EventSubscriber eventSubscriber;
-   private Class[] eventClasses;
-   private EventTopicSubscriber eventTopicSubscriber;
-   private String[] topics;
+   private final JComponent jComp;
+   private final EventSubscriber eventSubscriber;
+   private final Class[] eventClasses;
+   private final EventTopicSubscriber eventTopicSubscriber;
+   private final String[] topics;
    private EventService containerEventService;
 
    /**
@@ -48,7 +49,7 @@ public class ContainerEventServiceRegistrar {
     *
     * @param jComp the component whose container to monitor
     */
-   public ContainerEventServiceRegistrar(JComponent jComp) {
+   public ContainerEventServiceRegistrar(final JComponent jComp) {
       this(jComp, null, (Class[]) null, null, null);
    }
 
@@ -60,7 +61,7 @@ public class ContainerEventServiceRegistrar {
     * @param eventSubscriber the subscriber to register to the Container EventServer
     * @param eventClass the class of event to register for
     */
-   public ContainerEventServiceRegistrar(JComponent jComp, EventSubscriber eventSubscriber, Class eventClass) {
+   public ContainerEventServiceRegistrar(final JComponent jComp, final EventSubscriber eventSubscriber, final Class eventClass) {
       this(jComp, eventSubscriber, new Class[]{eventClass}, null, null);
    }
 
@@ -72,7 +73,7 @@ public class ContainerEventServiceRegistrar {
     * @param eventTopicSubscriber the topic subscriber to register to the Container EventServer
     * @param topic the event topic name to register for
     */
-   public ContainerEventServiceRegistrar(JComponent jComp, EventTopicSubscriber eventTopicSubscriber, String topic) {
+   public ContainerEventServiceRegistrar(final JComponent jComp, final EventTopicSubscriber eventTopicSubscriber, final String topic) {
       this(jComp, null, null, eventTopicSubscriber, new String[]{topic});
    }
 
@@ -84,7 +85,7 @@ public class ContainerEventServiceRegistrar {
     * @param eventSubscriber the subscriber to register to the Container EventServer
     * @param eventClasses the classes of event to register for
     */
-   public ContainerEventServiceRegistrar(JComponent jComp, EventSubscriber eventSubscriber, Class[] eventClasses) {
+   public ContainerEventServiceRegistrar(final JComponent jComp, final EventSubscriber eventSubscriber, final Class[] eventClasses) {
       this(jComp, eventSubscriber, eventClasses, null, null);
    }
 
@@ -96,7 +97,7 @@ public class ContainerEventServiceRegistrar {
     * @param eventTopicSubscriber the topic subscriber to register to the Container EventServer
     * @param topics the event topic names to register for
     */
-   public ContainerEventServiceRegistrar(JComponent jComp, EventTopicSubscriber eventTopicSubscriber, String[] topics) {
+   public ContainerEventServiceRegistrar(final JComponent jComp, final EventTopicSubscriber eventTopicSubscriber, final String[] topics) {
       this(jComp, null, null, eventTopicSubscriber, topics);
    }
 
@@ -110,8 +111,8 @@ public class ContainerEventServiceRegistrar {
     * @param eventTopicSubscriber the topic subscriber to keep registered to the topic(s)
     * @param topics the event topic names to register for
     */
-   public ContainerEventServiceRegistrar(JComponent jComp, EventSubscriber eventSubscriber, Class[] eventClasses,
-           EventTopicSubscriber eventTopicSubscriber, String[] topics) {
+   public ContainerEventServiceRegistrar(final JComponent jComp, final EventSubscriber eventSubscriber, final Class[] eventClasses,
+           final EventTopicSubscriber eventTopicSubscriber, final String[] topics) {
       this.jComp = jComp;
       this.eventSubscriber = eventSubscriber;
       this.eventClasses = eventClasses;
@@ -122,29 +123,35 @@ public class ContainerEventServiceRegistrar {
       }
       updateContainerEventService();
       jComp.addHierarchyListener(new HierarchyListener() {
-         public void hierarchyChanged(HierarchyEvent e) {
+         @Override
+		public void hierarchyChanged(final HierarchyEvent e) {
             updateContainerEventService();
          }
       });
       jComp.addContainerListener(new ContainerListener() {
-         public void componentAdded(ContainerEvent e) {
+         @Override
+		public void componentAdded(final ContainerEvent e) {
             updateContainerEventService();
          }
 
-         public void componentRemoved(ContainerEvent e) {
+         @Override
+		public void componentRemoved(final ContainerEvent e) {
             updateContainerEventService();
          }
       });
       jComp.addAncestorListener(new AncestorListener() {
-         public void ancestorAdded(AncestorEvent event) {
+         @Override
+		public void ancestorAdded(final AncestorEvent event) {
             updateContainerEventService();
          }
 
-         public void ancestorMoved(AncestorEvent event) {
+         @Override
+		public void ancestorMoved(final AncestorEvent event) {
              //ignore - not necessary to keep track of movement
          }
 
-         public void ancestorRemoved(AncestorEvent event) {
+         @Override
+		public void ancestorRemoved(final AncestorEvent event) {
             updateContainerEventService();
          }
       });
@@ -160,13 +167,13 @@ public class ContainerEventServiceRegistrar {
       if (containerEventService != null) {
          if (eventClasses != null) {
             for (int i = 0; i < eventClasses.length; i++) {
-               Class eventClass = eventClasses[i];
+               final Class eventClass = eventClasses[i];
                containerEventService.unsubscribe(eventClass, eventSubscriber);
             }
          }
          if (topics != null) {
             for (int i = 0; i < topics.length; i++) {
-               String topic = topics[i];
+               final String topic = topics[i];
                containerEventService.unsubscribe(topic, eventTopicSubscriber);
             }
          }
@@ -176,13 +183,13 @@ public class ContainerEventServiceRegistrar {
       if (containerEventService != null) {
          if (eventClasses != null) {
             for (int i = 0; i < eventClasses.length; i++) {
-               Class eventClass = eventClasses[i];
+               final Class eventClass = eventClasses[i];
                containerEventService.subscribe(eventClass, eventSubscriber);
             }
          }
          if (topics != null) {
             for (int i = 0; i < topics.length; i++) {
-               String topic = topics[i];
+               final String topic = topics[i];
                containerEventService.subscribe(topic, eventTopicSubscriber);
             }
          }

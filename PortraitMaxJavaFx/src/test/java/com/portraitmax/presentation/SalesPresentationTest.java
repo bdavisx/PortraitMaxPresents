@@ -25,7 +25,7 @@ public class SalesPresentationTest {
   }
   @Test
   public void itShouldSendPresentationCreatedEvent() throws Exception {
-    UUID presentationId = UUID.randomUUID();
+    final UUID presentationId = UUID.randomUUID();
 
     fixture.given()
       .when( new CreatePresentationCommand( presentationId ) )
@@ -38,7 +38,7 @@ public class SalesPresentationTest {
     final File file2 = PowerMockito.mock( File.class );
     final ArrayList<File> filesUserChose = new ArrayList<>( Arrays.asList( new File[]{ file1, file2 } ) );
 
-    UUID presentationId = UUID.randomUUID();
+    final UUID presentationId = UUID.randomUUID();
 
     fixture.given( new PresentationCreatedEvent( presentationId ) )
       .when( new AddFilesToPresentationCommand( presentationId, filesUserChose ) )

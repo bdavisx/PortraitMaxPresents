@@ -11,7 +11,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 public class FilesAddedToPresentationEvent extends AbstractPresentationEvent {
   private final List<File> filesToAdd;
 
-  public FilesAddedToPresentationEvent( UUID presentationId, List<File> filesToAdd ) {
+  public FilesAddedToPresentationEvent( final UUID presentationId, final List<File> filesToAdd ) {
     super( presentationId );
     checkNotNull( filesToAdd );
     this.filesToAdd = filesToAdd;
@@ -22,10 +22,10 @@ public class FilesAddedToPresentationEvent extends AbstractPresentationEvent {
   }
 
   @Override
-  public boolean equals( Object o ) {
+  public boolean equals( final Object o ) {
     if( this == o ) return true;
     if( o == null || getClass() != o.getClass() ) return false;
-    FilesAddedToPresentationEvent that = (FilesAddedToPresentationEvent) o;
+    final FilesAddedToPresentationEvent that = (FilesAddedToPresentationEvent) o;
     if( !getPresentationId().equals( that.getPresentationId() ) ||
       !filesToAdd.equals( that.filesToAdd ) ) {
       return false;

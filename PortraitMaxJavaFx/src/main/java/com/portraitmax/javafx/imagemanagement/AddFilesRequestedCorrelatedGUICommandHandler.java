@@ -26,9 +26,9 @@ public class AddFilesRequestedCorrelatedGUICommandHandler {
   private final EventService eventBus;
 
   @Inject
-  public AddFilesRequestedCorrelatedGUICommandHandler( FileChooserFactory fileChooserFactory,
-    FileExtensionFilterProvider extensionFilterProvider,
-    RememberedPresentationSettings remeberedSettings, EventService eventBus ) {
+  public AddFilesRequestedCorrelatedGUICommandHandler( final FileChooserFactory fileChooserFactory,
+    final FileExtensionFilterProvider extensionFilterProvider,
+    final RememberedPresentationSettings remeberedSettings, final EventService eventBus ) {
     this.fileChooserFactory = fileChooserFactory;
     this.extensionFilterProvider = extensionFilterProvider;
     this.remeberedSettings = remeberedSettings;
@@ -36,8 +36,8 @@ public class AddFilesRequestedCorrelatedGUICommandHandler {
   }
 
   @GUICommandHandler
-  public void handle( AddFilesRequestedCorrelatedGUICommand command ) {
-    FileChooser chooser = fileChooserFactory.create();
+  public void handle( final AddFilesRequestedCorrelatedGUICommand command ) {
+    final FileChooser chooser = fileChooserFactory.create();
     configureChooser( chooser );
 
     final List<File> files = chooser.showOpenMultipleDialog( command.getParentWindow() );
@@ -47,13 +47,13 @@ public class AddFilesRequestedCorrelatedGUICommandHandler {
     eventBus.publish( new AddFilesToPresentationCommand( command.getCorrelationIdentifier(), files ) );
   }
 
-  private void configureChooser( FileChooser chooser ) {
+  private void configureChooser( final FileChooser chooser ) {
     chooser.setTitle( "Select Files to Add to the Presentation" );
     chooser.getExtensionFilters().addAll( extensionFilterProvider.getExtensionFilters() );
     chooser.setInitialDirectory( remeberedSettings.getCurrentImageDirectory() );
   }
 
-  private void saveSettings( List<File> files ) {
+  private void saveSettings( final List<File> files ) {
     final Optional<File> firstFileOptional = FluentIterable.from( files ).first();
     if( firstFileOptional.isPresent() ) {
       remeberedSettings.setCurrentImageDirectory( firstFileOptional.get().getParentFile() );
