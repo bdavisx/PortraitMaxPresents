@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/LooseFX/LooseFX.iml" filepath="$PROJECT_DIR$/LooseFX/LooseFX.iml" />
+      <module fileurl="file://$PROJECT_DIR$/PortraitMaxJavaFx/PortraitMaxJavaFx.iml" filepath="$PROJECT_DIR$/PortraitMaxJavaFx/PortraitMaxJavaFx.iml" />
+      <module fileurl="file://$PROJECT_DIR$/PortraitMaxPresents.iml" filepath="$PROJECT_DIR$/PortraitMaxPresents.iml" />
+    </modules>
+  </component>
+</project>
+

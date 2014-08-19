@@ -20,7 +20,6 @@ ext {
     slf4jVersion='1.7.2'
     logbackVersion='1.0.9'
     powermockVersion='1.5.1'
-
 }
 
 allprojects {
@@ -41,7 +40,6 @@ allprojects {
             dirs "../repository"
         }
     }
-
 }
 
 subprojects {
@@ -83,7 +81,6 @@ project( ":LooseFX" ) {
 }
 
 project( ":PortraitMaxJavaFx" ) {
-
     dependencies {
         compile project( ":LooseFX" )
 
