@@ -1,0 +1,96 @@
+buildscript {
+    repositories {
+        maven { url "http://repo.spring.io/libs-release" }
+        mavenLocal()
+    }
+
+    dependencies {
+    }
+}
+
+def languageLevel = 1.8
+
+ext {
+    axonVersion = '2.0.8'
+    hamcrestVersion = '1.3'
+    springVersion = '4.0.0.RELEASE'
+    springSecurityVersion = '3.2.0.RELEASE'
+    guiceVersion='3.0'
+    apacheCommonsStandardVersion='2.5'
+    slf4jVersion='1.7.2'
+    logbackVersion='1.0.9'
+    powermockVersion='1.5.1'
+
+}
+
+allprojects {
+
+    apply plugin: 'idea'
+
+    group = 'com.portraitmax'
+    version = '0.1'
+
+    repositories {
+        mavenCentral()
+        maven { url "http://repo.spring.io/libs-release" }
+        maven { url "https://oss.sonatype.org/content/groups/public/" }
+        mavenLocal()
+
+        flatDir {
+            name "fileRepository"
+            dirs "../repository"
+        }
+    }
+
+}
+
+subprojects {
+    apply plugin: 'java'
+
+    dependencies {
+        compile group: "com.google.inject", name: "guice", version: guiceVersion
+        compile group: "com.google.guava", name: "guava", version: '14.0.1'
+        compile group: "com.google.guava", name: "guava", version: '14.0.1'
+        compile group: "org.reflections", name: "reflections", version: '0.9.9-RC1'
+        compile group: "commons-lang", name: "commons-lang", version: apacheCommonsStandardVersion
+        compile group: "org.slf4j", name: "slf4j-api", version: slf4jVersion
+        compile group: "ch.qos.logback", name: "logback-classic", version: logbackVersion
+        compile group: "ch.qos.logback", name: "logback-core", version: logbackVersion
+
+        testCompile group: 'junit', name: 'junit-dep', version:'4.11'
+        testCompile group: 'org.easytesting', name: 'fest-assert-core', version:'2.0M10'
+        testCompile group: 'org.hamcrest', name: 'hamcrest-all', version: hamcrestVersion
+        testCompile group: 'org.hsqldb', name: 'hsqldb', version:'2.3.0'
+        testCompile group: 'org.mockito', name: 'mockito-all', version:'1.9.5'
+        testCompile group: 'org.objenesis', name: 'objenesis', version:'1.3'
+        testCompile group: 'org.powermock', name: 'powermock-module-junit4', version: powermockVersion
+        testCompile group: 'org.powermock', name: 'powermock-api-mockito', version: powermockVersion
+        testCompile group: 'org.javassist', name: 'javassist', version: '3.18.0-GA'
+    }
+
+    uploadArchives {
+        repositories {
+            add project.repositories.fileRepository
+        }
+    }
+}
+
+project( ":LooseFX" ) {
+    dependencies {
+        compile group: "org.hibernate", name: "hibernate-validator", version: "5.1.0.Final"
+    }
+
+}
+
+project( ":PortraitMaxJavaFx" ) {
+
+    dependencies {
+        compile project( ":LooseFX" )
+
+        compile group: "com.fasterxml.jackson.core", name: "jackson-databind", version: '2.3.2'
+        compile group: "org.hibernate", name: "hibernate-validator", version: "5.1.0.Final"
+        compile group: "postgresql", name: "postgresql", version: "9.1-901.jdbc4"
+    }
+}
+
+

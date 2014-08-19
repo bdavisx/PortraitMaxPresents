@@ -113,7 +113,56 @@ public class MemoryEventStoreWithFileSaveTest {
   }
 
   @Test
+  public void itReturnsNoEventsIfAggregateIdentifierIsDifferent() throws Exception {
+    final Map<String, List<DomainEventMessage>> typeToEventListMap = new HashMap<>();
+    final Map<String, List<DomainEventMessage>> typeToSnapshotEventListMap = new HashMap<>();
+    final List<DomainEventMessage> existingEventList = new ArrayList<>();
+    typeToEventListMap.put( typeName, existingEventList );
+
+    final DomainEventMessage<StubDomainEvent> existingEvent = new GenericDomainEventMessage<>(
+      aggregateIdentifier, 0, new StubDomainEvent( 0 ));
+    existingEventList.add( existingEvent );
+    existingEventList.addAll( createRegularEvents( 1, 2 ) );
+
+    final MemoryEventStoreWithFileSave eventStore = new MemoryEventStoreWithFileSave( typeToEventListMap,
+      typeToSnapshotEventListMap) ;
+
+    final DomainEventStream domainEventStream = eventStore.readEvents( typeName, UUID.randomUUID() );
+    assertThat( domainEventStream.hasNext() ).isFalse();
+  }
+
+  @Test
   public void itReturnsRegularEventsAndSnapshot() throws Exception {
+    final Map<String, List<DomainEventMessage>> typeToEventListMap = new HashMap<>();
+    final Map<String, List<DomainEventMessage>> typeToSnapshotEventListMap = new HashMap<>();
+    final List<DomainEventMessage> existingEventList = new ArrayList<>();
+    final List<DomainEventMessage> existingSnapshotEventList = new ArrayList<>();
+    typeToEventListMap.put( typeName, existingEventList );
+    typeToSnapshotEventListMap.put( typeName, existingSnapshotEventList );
+
+    final DomainEventMessage<StubDomainEvent> existingEvent = new GenericDomainEventMessage<>(
+      aggregateIdentifier, 0, new StubDomainEvent( 0 ));
+    existingEventList.add( existingEvent );
+    existingEventList.addAll( createRegularEvents( 1, 2 ) );
+    final DomainEventMessage snapshotEvent = createSnapshotEvent( 3 );
+    existingSnapshotEventList.add( snapshotEvent );
+    final List<DomainEventMessage> regularEventsAfterSnapshot = createRegularEvents( 4, 5 );
+    existingEventList.addAll( regularEventsAfterSnapshot );
+
+    final MemoryEventStoreWithFileSave eventStore = new MemoryEventStoreWithFileSave( typeToEventListMap,
+      typeToSnapshotEventListMap) ;
+
+    final DomainEventStream domainEventStream = eventStore.readEvents( typeName, aggregateIdentifier );
+
+    final List<DomainEventMessage> eventsAfterSnapshotIncludingSnapshot = new ArrayList<>();
+    eventsAfterSnapshotIncludingSnapshot.add( snapshotEvent );
+    eventsAfterSnapshotIncludingSnapshot.addAll( regularEventsAfterSnapshot );
+
+    makeSureListContainsEvents( eventsAfterSnapshotIncludingSnapshot, domainEventStream );
+  }
+
+  @Test
+  public void itShouldSerializeRegularAndSnapshotEvents() throws Exception {
     final Map<String, List<DomainEventMessage>> typeToEventListMap = new HashMap<>();
     final Map<String, List<DomainEventMessage>> typeToSnapshotEventListMap = new HashMap<>();
     final List<DomainEventMessage> existingEventList = new ArrayList<>();

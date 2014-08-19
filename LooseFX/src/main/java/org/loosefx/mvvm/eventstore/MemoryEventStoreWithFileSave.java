@@ -5,6 +5,8 @@ import org.axonframework.domain.DomainEventStream;
 import org.axonframework.domain.SimpleDomainEventStream;
 import org.axonframework.eventstore.EventStore;
 import org.axonframework.eventstore.SnapshotEventStore;
+import org.axonframework.serializer.Serializer;
+import org.axonframework.serializer.xml.XStreamSerializer;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -17,19 +19,33 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class MemoryEventStoreWithFileSave implements EventStore, SnapshotEventStore {
+  private final Serializer eventSerializer;
   private final Comparator<DomainEventMessage> comparator = new DomainEventMessageReverseSequenceNumberComparator();
 
   private final Map<String, List<DomainEventMessage>> typeToRegularEventsListMap;
   private final Map<String, List<DomainEventMessage>> typeToSnapshotEventsListMap;
 
-  public MemoryEventStoreWithFileSave( final Map<String, List<DomainEventMessage>> typeToRegularEventsListMap,
-    final Map<String, List<DomainEventMessage>> typeToSnapshotEventsListMap ) {
-    this.typeToRegularEventsListMap = typeToRegularEventsListMap;
-    this.typeToSnapshotEventsListMap = typeToSnapshotEventsListMap;
+  /** Creates a default set of maps using HashMap. */
+  public MemoryEventStoreWithFileSave( final Serializer eventSerializer ) {
+    this( new HashMap<>(), new HashMap<>(), eventSerializer );
   }
 
-  /** Creates a default set of maps using HashMap. */
-  public MemoryEventStoreWithFileSave() { this( new HashMap<>(), new HashMap<>() ); }
+  /*  if there are any more parameters, probably need to split up class; otherwise need to combine the map
+      initialization into a factory. */
+  public MemoryEventStoreWithFileSave( final Map<String, List<DomainEventMessage>> typeToRegularEventsListMap,
+    final Map<String, List<DomainEventMessage>> typeToSnapshotEventsListMap, final Serializer eventSerializer ) {
+    this.typeToRegularEventsListMap = typeToRegularEventsListMap;
+    this.typeToSnapshotEventsListMap = typeToSnapshotEventsListMap;
+    this.eventSerializer = eventSerializer;
+  }
+
+  public MemoryEventStoreWithFileSave( final Map<String, List<DomainEventMessage>> typeToRegularEventsListMap,
+    final Map<String, List<DomainEventMessage>> typeToSnapshotEventsListMap ) {
+    this( typeToRegularEventsListMap, typeToSnapshotEventsListMap, new XStreamSerializer() );
+  }
+
+  /** Creates a default set of maps using HashMap and XStreamSerializer. */
+  public MemoryEventStoreWithFileSave() { this( new XStreamSerializer() ); }
 
   @Override
   public void appendEvents( final String type, final DomainEventStream events ) {
@@ -52,8 +68,6 @@ public class MemoryEventStoreWithFileSave implements EventStore, SnapshotEventSt
     return new SimpleDomainEventStream( buildEventsList( type, identifier ) );
   }
 
-  // TODO: need tests for snapshots and reads****************************************
-
   private List<DomainEventMessage> buildEventsList( final String type, final Object identifier ) {
     final List<DomainEventMessage> eventsForStream = new ArrayList<DomainEventMessage>();
 
@@ -65,6 +79,7 @@ public class MemoryEventStoreWithFileSave implements EventStore, SnapshotEventSt
       identifier, snapshotEventListForType );
     final long startingSequenceNumber = lastSnapshotEventOptional.isPresent() ?
       lastSnapshotEventOptional.get().getSequenceNumber() : -1;
+    if( lastSnapshotEventOptional.isPresent() ) { eventsForStream.add( lastSnapshotEventOptional.get() ); }
 
     Stream<DomainEventMessage> domainEventsAfterSnapshot = null;
     if( regularEventListForType != null ) {
@@ -73,7 +88,6 @@ public class MemoryEventStoreWithFileSave implements EventStore, SnapshotEventSt
           .filter( eventMessage -> eventMessage.getSequenceNumber() > startingSequenceNumber );
     }
 
-    if( lastSnapshotEventOptional.isPresent() ) { eventsForStream.add( lastSnapshotEventOptional.get() ); }
     eventsForStream.addAll( domainEventsAfterSnapshot.collect( Collectors.toList() ) );
     return eventsForStream;
   }
