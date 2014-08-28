@@ -16,47 +16,49 @@
 package org.bushe.swing.event;
 
 /**
- * Published when the ThreadSafeEventService cleans up stale subscribers.
- * @author Michael Bushe
- */
+ Published when the ThreadSafeEventService cleans up stale subscribers.
+
+ @author Michael Bushe */
 public class CleanupEvent {
 
-   /** The status of the cleanup.*/
-   public enum Status {
-      /** Timer has started the cleanup task. Will be followed by at least one more CleanupEvent.*/
-      STARTING,
-      /** Task has determined there's cleanup to do.*/
-      OVER_STOP_THRESHOLD_CLEANING_BEGUN,
-      /** Task has determined there's no cleanup to do.*/
-      UNDER_STOP_THRESHOLD_CLEANING_CANCELLED,
-      /** Finished cleaning up task.*/
-      FINISHED_CLEANING;
-   }
+    /** The status of the cleanup. */
+    public enum Status {
+        /** Timer has started the cleanup task. Will be followed by at least one more CleanupEvent. */
+        STARTING,
+        /** Task has determined there's cleanup to do. */
+        OVER_STOP_THRESHOLD_CLEANING_BEGUN,
+        /** Task has determined there's no cleanup to do. */
+        UNDER_STOP_THRESHOLD_CLEANING_CANCELLED,
+        /** Finished cleaning up task. */
+        FINISHED_CLEANING;
+    }
 
-   private final Status status;
-   private final int totalWeakRefsAndProxies;
-   private final Integer numStaleSubscribersCleaned;
+    private final Status status;
+    private final int totalWeakRefsAndProxies;
+    private final Integer numStaleSubscribersCleaned;
 
-   public CleanupEvent(final Status status, final int totalWeakRefsAndProxies, final Integer numStaleSubscribersCleaned) {
-      this.status = status;
-      this.totalWeakRefsAndProxies = totalWeakRefsAndProxies;
-      this.numStaleSubscribersCleaned = numStaleSubscribersCleaned;
-   }
+    public CleanupEvent( final Status status, final int totalWeakRefsAndProxies,
+        final Integer numStaleSubscribersCleaned ) {
+        this.status = status;
+        this.totalWeakRefsAndProxies = totalWeakRefsAndProxies;
+        this.numStaleSubscribersCleaned = numStaleSubscribersCleaned;
+    }
 
-   public Status getStatus() {
-      return status;
-   }
+    public Status getStatus() {
+        return status;
+    }
 
-   /** Total weak refs and ProxySubscribers subscribed. */
-   public int getTotalWeakRefsAndProxies() {
-      return totalWeakRefsAndProxies;
-   }
+    /** Total weak refs and ProxySubscribers subscribed. */
+    public int getTotalWeakRefsAndProxies() {
+        return totalWeakRefsAndProxies;
+    }
 
-   /**
-    * Null unless status is FINISHED_CLEANING.
-    * @return the number of stale subscribers cleaned during the cleanup run.
-    */
-   public Integer getNumStaleSubscribersCleaned() {
-      return numStaleSubscribersCleaned;
-   }
+    /**
+     Null unless status is FINISHED_CLEANING.
+
+     @return the number of stale subscribers cleaned during the cleanup run.
+     */
+    public Integer getNumStaleSubscribersCleaned() {
+        return numStaleSubscribersCleaned;
+    }
 }

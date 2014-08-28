@@ -16,27 +16,26 @@
 package org.bushe.swing.event;
 
 /**
- * A simple event that delivers an untyped object with a source object.
- * <p/>
- * Usage: EventBus.publish(new ObjectEvent(this, objectOfInterest);
- *
- * @author Michael Bushe michael@bushe.com
- */
+ A simple event that delivers an untyped object with a source object.
+ <p/>
+ Usage: EventBus.publish(new ObjectEvent(this, objectOfInterest);
+
+ @author Michael Bushe michael@bushe.com */
 public class ObjectEvent extends AbstractEventServiceEvent {
-   private final Object eventObject;
+    private final Object eventObject;
 
-   /**
-    * Constructor
-    *
-    * @param sourceObject the source of the event
-    * @param payload the payload or eventObject of the event
-    */
-   public ObjectEvent(final Object sourceObject, final Object payload) {
-      super(sourceObject);
-      this.eventObject = payload;
-   }
+    /**
+     Constructor
 
-   public Object getEventObject() {
-      return eventObject;
-   }
+     @param sourceObject the source of the event
+     @param payload the payload or eventObject of the event
+     */
+    public ObjectEvent( final Object sourceObject, final Object payload ) {
+        super( sourceObject );
+        this.eventObject = payload;
+    }
+
+    public Object getEventObject() {
+        return eventObject;
+    }
 }

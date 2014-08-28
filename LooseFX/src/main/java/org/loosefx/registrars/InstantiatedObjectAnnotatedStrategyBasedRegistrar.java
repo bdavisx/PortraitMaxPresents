@@ -36,70 +36,70 @@ import java.util.function.Consumer;
 
 
 public class InstantiatedObjectAnnotatedStrategyBasedRegistrar {
-  private final Class<? extends Annotation> annotationClass;
+    private final Class<? extends Annotation> annotationClass;
 
-  public InstantiatedObjectAnnotatedStrategyBasedRegistrar( final Class<? extends Annotation> annotationClass ) {
-    this.annotationClass = annotationClass;
-  }
-
-  public void registerAnnotatedHandlers( final Object objectToRegister,
-    final BiConsumer<Class, Consumer> methodThatDoesRegistration ) {
-
-    final Set<Method> methodsToRegister = findMethodsToRegister( objectToRegister );
-    registerMethods( objectToRegister, methodThatDoesRegistration, methodsToRegister );
-  }
-
-  private Set<Method> findMethodsToRegister( final Object objectToRegister ) {
-    final Set<Method> methodsToRegister = new HashSet<>();
-    methodsToRegister.addAll( findAnnotatedMethods( objectToRegister ) );
-    return methodsToRegister;
-  }
-
-  private Set<Method> findAnnotatedMethods( final Object objectToRegister ) {
-    final Method[] declaredMethods = objectToRegister.getClass().getDeclaredMethods();
-    Set<Method> methodsWithAnnotation = new HashSet<>();
-    for( final Method method : declaredMethods ) {
-      if( method.isAnnotationPresent( annotationClass ) ) {
-        methodsWithAnnotation.add( method );
-      }
-    }
-    return methodsWithAnnotation;
-  }
-
-  private void registerMethods( final Object objectToRegister,
-    final BiConsumer<Class, Consumer> methodThatDoesRegistration, final Set<Method> methodsToRegister ) {
-
-    for( final Method handlerMethod : methodsToRegister ) {
-      registerMethod( objectToRegister, methodThatDoesRegistration, handlerMethod );
-    }
-  }
-
-  private void registerMethod( final Object objectToRegister,
-    final BiConsumer<Class, Consumer> methodThatDoesRegistration, final Method handlerMethod ) {
-
-    final Class messageType = handlerMethod.getParameterTypes()[0];
-    final HandlerHolder holder = new HandlerHolder( handlerMethod, objectToRegister );
-    methodThatDoesRegistration.accept( messageType, holder.createSubscriber() );
-  }
-
-  private class HandlerHolder {
-    private final Method handlerMethod;
-    private final Object handlerObject;
-
-    public HandlerHolder( final Method handlerMethod, final Object handlerObject ) {
-      this.handlerMethod = handlerMethod;
-      this.handlerObject = handlerObject;
+    public InstantiatedObjectAnnotatedStrategyBasedRegistrar( final Class<? extends Annotation> annotationClass ) {
+        this.annotationClass = annotationClass;
     }
 
-    private Consumer createSubscriber() {
-      return o -> {
-        try {
-          handlerMethod.setAccessible( true );
-          handlerMethod.invoke( handlerObject, o );
-        } catch( IllegalAccessException | InvocationTargetException ex ) {
-          throw new UnableToInvokeAutoRegisteredMethodException( handlerMethod, handlerObject, ex );
+    public void registerAnnotatedHandlers( final Object objectToRegister,
+        final BiConsumer<Class, Consumer> methodThatDoesRegistration ) {
+
+        final Set<Method> methodsToRegister = findMethodsToRegister( objectToRegister );
+        registerMethods( objectToRegister, methodThatDoesRegistration, methodsToRegister );
+    }
+
+    private Set<Method> findMethodsToRegister( final Object objectToRegister ) {
+        final Set<Method> methodsToRegister = new HashSet<>();
+        methodsToRegister.addAll( findAnnotatedMethods( objectToRegister ) );
+        return methodsToRegister;
+    }
+
+    private Set<Method> findAnnotatedMethods( final Object objectToRegister ) {
+        final Method[] declaredMethods = objectToRegister.getClass().getDeclaredMethods();
+        Set<Method> methodsWithAnnotation = new HashSet<>();
+        for( final Method method : declaredMethods ) {
+            if( method.isAnnotationPresent( annotationClass ) ) {
+                methodsWithAnnotation.add( method );
+            }
         }
-      };
+        return methodsWithAnnotation;
     }
-  }
+
+    private void registerMethods( final Object objectToRegister,
+        final BiConsumer<Class, Consumer> methodThatDoesRegistration, final Set<Method> methodsToRegister ) {
+
+        for( final Method handlerMethod : methodsToRegister ) {
+            registerMethod( objectToRegister, methodThatDoesRegistration, handlerMethod );
+        }
+    }
+
+    private void registerMethod( final Object objectToRegister,
+        final BiConsumer<Class, Consumer> methodThatDoesRegistration, final Method handlerMethod ) {
+
+        final Class messageType = handlerMethod.getParameterTypes()[0];
+        final HandlerHolder holder = new HandlerHolder( handlerMethod, objectToRegister );
+        methodThatDoesRegistration.accept( messageType, holder.createSubscriber() );
+    }
+
+    private class HandlerHolder {
+        private final Method handlerMethod;
+        private final Object handlerObject;
+
+        public HandlerHolder( final Method handlerMethod, final Object handlerObject ) {
+            this.handlerMethod = handlerMethod;
+            this.handlerObject = handlerObject;
+        }
+
+        private Consumer createSubscriber() {
+            return o -> {
+                try {
+                    handlerMethod.setAccessible( true );
+                    handlerMethod.invoke( handlerObject, o );
+                } catch( IllegalAccessException | InvocationTargetException ex ) {
+                    throw new UnableToInvokeAutoRegisteredMethodException( handlerMethod, handlerObject, ex );
+                }
+            };
+        }
+    }
 }

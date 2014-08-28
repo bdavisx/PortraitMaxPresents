@@ -6,7 +6,7 @@ import org.loosefx.eventsourcing.Memento;
 import java.util.UUID;
 
 public interface SnapShot {
-  Memento getMemento();
-  UUID getEventProviderId();
-  AggregateVersion getVersion();
+    Memento getMemento();
+    UUID getEventProviderId();
+    AggregateVersion getVersion();
 }

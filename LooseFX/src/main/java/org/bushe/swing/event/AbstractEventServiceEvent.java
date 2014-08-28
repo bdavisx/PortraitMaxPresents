@@ -16,44 +16,42 @@
 package org.bushe.swing.event;
 
 /**
- * Convenience base class for EventServiceEvents in the application. Provides the convenience of
- * holding the event source publication and event status.  It is not necessary to use this event class when
- * using an EventService.
- *
- * @author Michael Bushe michael@bushe.com
- */
+ Convenience base class for EventServiceEvents in the application. Provides the convenience of holding the event
+ source publication and event status.  It is not necessary to use this event class when using an EventService.
+
+ @author Michael Bushe michael@bushe.com */
 public abstract class AbstractEventServiceEvent implements EventServiceEvent, PublicationStatusTracker {
 
-   private Object source = null;
-   protected final Object stateLock = new Object();
-   private PublicationStatus publicationStatus = PublicationStatus.Unpublished;
+    private Object source = null;
+    protected final Object stateLock = new Object();
+    private PublicationStatus publicationStatus = PublicationStatus.Unpublished;
 
-   /**
-    * Default constructor
-    *
-    * @param source the source of the event
-    */
-   public AbstractEventServiceEvent(final Object source) {
-      this.source = source;
-   }
+    /**
+     Default constructor
 
-   /** @return the source of this event */
-   @Override
-public Object getSource() {
-      return source;
-   }
+     @param source the source of the event
+     */
+    public AbstractEventServiceEvent( final Object source ) {
+        this.source = source;
+    }
 
-   @Override
-public PublicationStatus getPublicationStatus() {
-      synchronized (stateLock) {
-         return publicationStatus;
-      }
-   }
+    /** @return the source of this event */
+    @Override
+    public Object getSource() {
+        return source;
+    }
 
-   @Override
-public void setPublicationStatus(final PublicationStatus status) {
-      synchronized (stateLock) {
-         publicationStatus = status;
-      }
-   }
+    @Override
+    public PublicationStatus getPublicationStatus() {
+        synchronized( stateLock ) {
+            return publicationStatus;
+        }
+    }
+
+    @Override
+    public void setPublicationStatus( final PublicationStatus status ) {
+        synchronized( stateLock ) {
+            publicationStatus = status;
+        }
+    }
 }

@@ -15,29 +15,27 @@
  */
 package org.bushe.swing.event;
 
+import javax.swing.*;
 import java.awt.event.ActionEvent;
 
-import javax.swing.ImageIcon;
-
 /**
- * When fired, this action publishes events on the EventBus.
- * <p/>
- *
- * @author Michael Bushe michael@bushe.com
- * @see EventServiceAction
- */
+ When fired, this action publishes events on the EventBus.
+ <p/>
+
+ @author Michael Bushe michael@bushe.com
+ @see EventServiceAction */
 public class EventBusAction extends EventServiceAction {
-   public EventBusAction() {
-      this(null, null);
-   }
+    public EventBusAction() {
+        this( null, null );
+    }
 
-   public EventBusAction(final String actionName, final ImageIcon icon) {
-      super(actionName, icon);
-   }
+    public EventBusAction( final String actionName, final ImageIcon icon ) {
+        super( actionName, icon );
+    }
 
-   @Override
-protected EventService getEventService(final ActionEvent event) {
-      return EventBus.getGlobalEventService();
-   }
+    @Override
+    protected EventService getEventService( final ActionEvent event ) {
+        return EventBus.getGlobalEventService();
+    }
 }
 
