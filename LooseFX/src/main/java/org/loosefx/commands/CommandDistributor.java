@@ -1,7 +1,7 @@
 package org.loosefx.commands;
 
-import org.bushe.swing.event.EventService;
-import org.bushe.swing.event.EventSubscriber;
+import org.loosefx.eventbus.EventService;
+import org.loosefx.eventbus.EventSubscriber;
 
 public class CommandDistributor {
     private final EventService eventService;

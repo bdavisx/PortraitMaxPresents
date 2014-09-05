@@ -3,7 +3,7 @@ package org.loosefx.commands;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Provider;
-import org.bushe.swing.event.EventSubscriber;
+import org.loosefx.eventbus.EventSubscriber;
 import org.loosefx.domain.commands.ApplicationCommandHandler;
 import org.loosefx.mvvm.guicommands.GUICommandHandler;
 import org.reflections.Reflections;

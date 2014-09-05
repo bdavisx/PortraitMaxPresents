@@ -48,12 +48,13 @@ subprojects {
     dependencies {
         compile group: "com.google.inject", name: "guice", version: guiceVersion
         compile group: "com.google.guava", name: "guava", version: '14.0.1'
-        compile group: "com.google.guava", name: "guava", version: '14.0.1'
         compile group: "org.reflections", name: "reflections", version: '0.9.9-RC1'
         compile group: "commons-lang", name: "commons-lang", version: apacheCommonsStandardVersion
         compile group: "org.slf4j", name: "slf4j-api", version: slf4jVersion
         compile group: "ch.qos.logback", name: "logback-classic", version: logbackVersion
         compile group: "ch.qos.logback", name: "logback-core", version: logbackVersion
+        compile group: "org.axonframework", name: "axon-core", version: axonVersion
+
 
         testCompile group: 'junit', name: 'junit-dep', version:'4.11'
         testCompile group: 'org.easytesting', name: 'fest-assert-core', version:'2.0M10'

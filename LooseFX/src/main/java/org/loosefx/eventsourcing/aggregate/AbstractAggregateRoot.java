@@ -1,6 +1,6 @@
 package org.loosefx.eventsourcing.aggregate;
 
-import org.bushe.swing.event.EventService;
+import org.loosefx.eventbus.EventService;
 import org.loosefx.eventsourcing.AggregateVersion;
 import org.loosefx.eventsourcing.DomainEvent;
 import org.loosefx.eventsourcing.DomainEventVersionComparator;

@@ -1,9 +1,7 @@
 package org.loosefx.events;
 
-import com.google.common.eventbus.EventBus;
-import com.google.common.eventbus.Subscribe;
-import org.bushe.swing.event.EventSubscriber;
-import org.bushe.swing.event.ThreadSafeEventService;
+import org.loosefx.eventbus.EventSubscriber;
+import org.loosefx.eventbus.ThreadSafeEventService;
 import org.junit.Assert;
 import org.junit.Test;
 

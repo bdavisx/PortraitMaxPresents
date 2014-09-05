@@ -1,7 +1,7 @@
 package org.loosefx.events;
 
 import com.google.inject.Inject;
-import org.bushe.swing.event.EventService;
+import org.loosefx.eventbus.EventService;
 
 public class EventContainer {
     private final EventService eventService;

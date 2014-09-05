@@ -4,13 +4,12 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Singleton;
-import org.bushe.swing.event.EventService;
-import org.bushe.swing.event.EventSubscriber;
-import org.bushe.swing.event.ThreadSafeEventService;
-import org.bushe.swing.exception.EventBusException;
+import org.loosefx.eventbus.EventService;
+import org.loosefx.eventbus.EventSubscriber;
+import org.loosefx.eventbus.ThreadSafeEventService;
+import org.loosefx.eventbus.exception.EventBusException;
 import org.loosefx.domain.commands.ApplicationCommand;
 import org.loosefx.domain.commands.ApplicationCommandHandler;
-import org.loosefx.eventsourcing.AggregateVersion;
 import org.loosefx.mvvm.guicommands.AbstractCorrelatedGUICommand;
 import org.loosefx.mvvm.guicommands.GUICommandHandler;
 import org.junit.Test;
@@ -20,7 +19,6 @@ import org.reflections.util.ClasspathHelper;
 import org.reflections.util.ConfigurationBuilder;
 
 import java.util.UUID;
-import java.util.function.Consumer;
 
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;

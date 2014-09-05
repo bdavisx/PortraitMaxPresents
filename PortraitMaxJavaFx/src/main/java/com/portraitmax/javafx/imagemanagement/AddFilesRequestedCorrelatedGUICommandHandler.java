@@ -6,12 +6,11 @@ import com.google.inject.Inject;
 import com.portraitmax.presentation.AddFilesToPresentationCommand;
 import com.portraitmax.presentation.RememberedPresentationSettings;
 import javafx.stage.FileChooser;
-import org.bushe.swing.event.EventService;
+import org.loosefx.eventbus.EventService;
 import org.loosefx.mvvm.guicommands.GUICommandHandler;
 
 import java.io.File;
 import java.util.List;
-import java.util.UUID;
 
 /**
  * Scenario: Fire off correlated message with AddFilesRequestedCorrelatedGUICommand,

@@ -1,13 +1,11 @@
 package org.loosefx.eventsourcing.aggregate;
 
-import org.bushe.swing.event.EventSubscriber;
-import org.bushe.swing.event.ThreadSafeEventService;
+import org.loosefx.eventbus.EventSubscriber;
+import org.loosefx.eventbus.ThreadSafeEventService;
 import org.junit.Assert;
 import org.junit.Test;
-import org.loosefx.domain.commands.ApplicationCommandHandler;
 import org.loosefx.events.AbstractDomainEvent;
 import org.loosefx.events.ApplicationEventHandler;
-import org.loosefx.events.EventContainer;
 import org.loosefx.eventsourcing.DomainEvent;
 
 import java.util.UUID;

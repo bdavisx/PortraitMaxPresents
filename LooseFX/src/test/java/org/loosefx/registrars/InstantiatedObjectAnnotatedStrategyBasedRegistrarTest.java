@@ -1,7 +1,11 @@
 package org.loosefx.registrars;
 
+import org.axonframework.domain.AbstractAggregateRoot;
 import org.junit.Assert;
 import org.junit.Test;
+import org.loosefx.events.ApplicationEventHandler;
+import org.loosefx.eventsourcing.AggregateVersion;
+import org.loosefx.eventsourcing.DomainEvent;
 
 import java.util.ArrayList;
 import java.util.List;

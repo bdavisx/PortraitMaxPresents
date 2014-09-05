@@ -1,12 +1,10 @@
 package org.loosefx.commands;
 
-import org.bushe.swing.event.EventService;
-import org.bushe.swing.event.EventSubscriber;
-import org.bushe.swing.event.ThreadSafeEventService;
+import org.loosefx.eventbus.EventService;
+import org.loosefx.eventbus.EventSubscriber;
+import org.loosefx.eventbus.ThreadSafeEventService;
 import org.junit.Assert;
 import org.junit.Test;
-
-import java.util.function.Consumer;
 
 import static org.mockito.Mockito.*;
 
